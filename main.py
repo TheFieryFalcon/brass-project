@@ -1,5 +1,5 @@
 from manim import *
-
+# manim -pql [file] [method]
 class crucible(Scene):
     def construct(self):
         crucible_points = [
