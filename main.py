@@ -24,3 +24,24 @@ class crucible(Scene):
         self.play(shcrucible_tin.animate.rotate(90, X_AXIS, crucible_tin.center()), tin_fill.animate.rotate(90, X_AXIS, crucible_tin.center()))
         self.play(ReplacementTransform(tin_fill, tin_fill_in))
         self.play(tin_fill_in.animate.set_color(interpolate_color(ORANGE, LIGHT_GRAY)), copper_fill.animate.set_color(interpolate_color(ORANGE, LIGHT_GRAY)))
+
+        ziggurat_points = [
+            [-3,0,0],
+            [-3,1,0],
+            [-2,1,0],
+            [-2,2,0],
+            [-1,2,0],
+            [-2,0,0],
+            [-1,2,0],
+            [-1,3,0],
+            [0,3,0],
+            [0,2,0],
+            [1,2,0],
+            [1,1,0],
+            [2,1,0],
+            [2,0,0],
+            
+
+        ]
+        ziggurat = Polygon(*ziggurat_points, fill_color=ManimColor.from_hex('#EDC9AF'),fill_opacity=0.5)
+        self.play(Create(ziggurat))
