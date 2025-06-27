@@ -12,7 +12,24 @@ class crucible(Scene):
             [-2, -2, 0],
             [-2, 3, 0]
         ]
-        crucible = Polygon(*crucible_points, fill_color=ManimColor.from_hex('#03dbfc'), fill_opacity=0.5)
-        circle = Circle()
-        self.play(Create(circle))
-        self.play(Transform(circle, crucible))
+
+        ziggurat_points = [
+            [-3,0,0],
+            [-3,1,0],
+            [-2,1,0],
+            [-2,2,0],
+            [-1,2,0],
+            [-2,0,0],
+            [-1,2,0],
+            [-1,3,0],
+            [0,3,0],
+            [0,2,0],
+            [1,2,0],
+            [1,1,0],
+            [2,1,0],
+            [2,0,0],
+            
+
+        ]
+        ziggurat = Polygon(*ziggurat_points, fill_color=ManimColor.from_hex('#EDC9AF'),fill_opacity=0.5)
+        self.play(Create(ziggurat))
