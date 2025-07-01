@@ -1,9 +1,16 @@
 from manim import *
 # manim -pql [file] [method]
+def fade_out(scene: Scene):
+    animations = []
+    for mobject in scene.mobjects:
+        animations.append(FadeOut(mobject))
+    scene.play(*animations)
 class main(Scene):
     def construct(self):
-        crucible.construct()
-        ziggurat.construct()
+        scene_order = [crucible, ziggurat]
+        for scene in scene_order:
+            scene.construct(self)
+            fade_out(scene)
 class crucible(Scene):
     def construct(self):
         crucible_points = [
@@ -46,8 +53,6 @@ class ziggurat(Scene):
             [1,1,0],
             [2,1,0],
             [2,0,0],
-            
-
         ]
         ziggurat = Polygon(*ziggurat_points, fill_color=ManimColor.from_hex('#EDC9AF'),fill_opacity=0.5)
         self.play(Create(ziggurat))
