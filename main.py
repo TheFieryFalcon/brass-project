@@ -16,8 +16,8 @@ class crucible(Scene):
             [-2, -2, 0],
             [-2, 3, 0]
         ]
-        shcrucible_copper = Polygon(*crucible_points, fill_color=ManimColor.from_hex('#03dbfc'), fill_opacity=1).scale(0.8).move_to([-2, 0, 0])
-        shcrucible_tin = Polygon(*crucible_points, fill_color=ManimColor.from_hex('#03dbfc'), fill_opacity=1).scale(0.3).next_to(shcrucible_copper, RIGHT, buff=1)
+        shcrucible_copper = Polygon(*crucible_points, fill_color=ManimColor.from_hex('#41424C'),stroke_color=ManimColor.from_hex('#41424C'), fill_opacity=1).scale(0.8).move_to([-2, 0, 0])
+        shcrucible_tin = Polygon(*crucible_points, fill_color=ManimColor.from_hex('#41424C'), stroke_color=ManimColor.from_hex('#41424C'), fill_opacity=1).scale(0.3).next_to(shcrucible_copper, RIGHT, buff=1)
         copper_fill = Rectangle(ORANGE, 3.2, 3.2, fill_color=ORANGE, fill_opacity=1).move_to([shcrucible_copper.get_x(), shcrucible_copper.get_y(), 0])
         tin_fill = Rectangle(LIGHT_GRAY, 1.2, 1.2, fill_color=GRAY, fill_opacity=1).move_to([shcrucible_tin.get_x(), shcrucible_tin.get_y(), 0])
         self.play(Create(shcrucible_copper), Create(shcrucible_tin), Create(copper_fill), Create(tin_fill))
@@ -49,5 +49,5 @@ class ziggurat(Scene):
             
 
         ]
-        ziggurat = Polygon(*ziggurat_points, fill_color=ManimColor.from_hex('#EDC9AF'),fill_opacity=0.5)
+        ziggurat = Polygon(*ziggurat_points, fill_color=ManimColor.from_hex('#EDC9AF'), stroke_color=ManimColor.from_hex('#edc9af'),fill_opacity=0.5)
         self.play(Create(ziggurat))
