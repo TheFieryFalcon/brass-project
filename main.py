@@ -57,6 +57,11 @@ class crucible(Scene):
         ]
         ziggurat = Polygon(*ziggurat_points, fill_color=ManimColor.from_hex('#EDC9AF'),fill_opacity=0.5)
         self.play(Create(ziggurat))
+        self.wait(5)
+class stainless_steel_skyscraper(Scene):
+    def construct(self):
+        stainless_pipe = Circle(radius=0.6, stroke_color=ManimColor.from_hex('#b4bdc7'), fill_opacity=0, stroke_width=0.1)
+        sp2 = stainless_pipe.copy()
 
         skyscraper_points = [
             [-2,-3,0]
@@ -65,10 +70,4 @@ class crucible(Scene):
             [-1.5,3,0]
         ]
         skyscraper = Polygon(*skyscraper_points, fill_color=ManimColor.from_hex('#CED2D7'), fill_opacity=0.75)
-        self.play(create(skyscraper))
-
-        self.wait(5)
-class stainless_steel_skyscraper(Scene):
-    def construct(self):
-        stainless_pipe = Circle(radius=0.6, stroke_color=ManimColor.from_hex('#b4bdc7'), fill_opacity=0, stroke_width=0.1)
-        sp2 = stainless_pipe.copy()
+        self.play(Create(skyscraper))
