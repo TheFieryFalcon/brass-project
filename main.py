@@ -2,15 +2,16 @@ from manim import *
 # manim -pql [file] [method]
 def fade_out(scene: Scene):
     animations = []
-    for mobject in scene.mobjects:
+    for mobject in scene.get_top_level_mobjects():
         animations.append(FadeOut(mobject))
     scene.play(*animations)
 class main(Scene):
     def construct(self):
         scene_order = [crucible, ziggurat]
         for scene in scene_order:
-            scene.construct(self)
-            fade_out(scene)
+            iscene = scene()
+            iscene.construct()
+            fade_out(iscene)
 class crucible(Scene):
     def construct(self):
         crucible_points = [
@@ -27,9 +28,9 @@ class crucible(Scene):
         shcrucible_tin = Polygon(*crucible_points, fill_color=ManimColor.from_hex('#41424C'), stroke_color=ManimColor.from_hex('#41424C'), fill_opacity=1).scale(0.3).next_to(shcrucible_copper, RIGHT, buff=1)
         copper_fill = Rectangle(ORANGE, 3.2, 3.2, fill_color=ORANGE, fill_opacity=1).move_to([shcrucible_copper.get_x(), shcrucible_copper.get_y(), 0])
         tin_fill = Rectangle(LIGHT_GRAY, 1.2, 1.2, fill_color=GRAY, fill_opacity=1).move_to([shcrucible_tin.get_x(), shcrucible_tin.get_y(), 0])
+        tin_fill_in = Rectangle(LIGHT_GRAY, 0.3, 3.2, fill_color=LIGHT_GRAY, fill_opacity=1).next_to(copper_fill, UP, buff=0)
         self.play(Create(shcrucible_copper), Create(shcrucible_tin), Create(copper_fill), Create(tin_fill))
         crucible_tin = Group(shcrucible_tin, tin_fill)
-        tin_fill_in = Rectangle(LIGHT_GRAY, 0.3, 3.2, fill_color=LIGHT_GRAY, fill_opacity=1).next_to(copper_fill, UP, buff=0)
         self.wait(3)
         self.play(crucible_tin.animate.move_to([shcrucible_tin.get_x()-1, 4, 0]))
         self.play(Rotate(crucible_tin, PI*0.5, Z_AXIS, shcrucible_tin.get_center(), rate_func=linear))
@@ -56,3 +57,4 @@ class ziggurat(Scene):
         ]
         ziggurat = Polygon(*ziggurat_points, fill_color=ManimColor.from_hex('#EDC9AF'), stroke_color=ManimColor.from_hex('#edc9af'),fill_opacity=0.5)
         self.play(Create(ziggurat))
+        self.wait(5)
