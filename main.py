@@ -52,7 +52,7 @@ class ziggurat(Scene):
             [1,2,0],
             [1,1,0],
             [2,1,0],
-            [2,0,0],
+            [2,0,0]
         ]
         ziggurat = Polygon(*ziggurat_points, fill_color=ManimColor.from_hex('#EDC9AF'), stroke_color=ManimColor.from_hex('#edc9af'),fill_opacity=0.5)
         self.play(Create(ziggurat))
