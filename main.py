@@ -7,7 +7,7 @@ def fade_out(scene: Scene):
     scene.play(*animations)
 class main(Scene):
     def construct(self):
-        scene_order = [crucible, ziggurat]
+        scene_order = [crucible, ziggurat, stainless_steel_skyscraper]
         for scene in scene_order:
             iscene = scene()
             iscene.construct()
@@ -58,3 +58,7 @@ class ziggurat(Scene):
         ziggurat = Polygon(*ziggurat_points, fill_color=ManimColor.from_hex('#EDC9AF'), stroke_color=ManimColor.from_hex('#edc9af'),fill_opacity=0.5)
         self.play(Create(ziggurat))
         self.wait(5)
+class stainless_steel_skyscraper(Scene):
+    def construct(self):
+        stainless_pipe = Circle(radius=0.6, stroke_color=ManimColor.from_hex('#b4bdc7'), fill_opacity=0, stroke_width=0.1)
+        sp2 = stainless_pipe.copy()
