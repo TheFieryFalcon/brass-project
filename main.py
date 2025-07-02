@@ -50,6 +50,8 @@ class ziggurat(Scene):
             [-1,3,0],
             [0,3,0],
             [0,2,0],
+            [1,0,0],
+            [0,2,0],
             [1,2,0],
             [1,1,0],
             [2,1,0],
@@ -57,4 +59,32 @@ class ziggurat(Scene):
         ]
         ziggurat = Polygon(*ziggurat_points, fill_color=ManimColor.from_hex('#EDC9AF'), stroke_color=ManimColor.from_hex('#edc9af'),fill_opacity=0.5)
         self.play(Create(ziggurat))
+        self.wait(5)
+class bighole(Scene):
+    def construct(self):
+        hole=Ellipse(width=8.0,height=4.0, color=ManimColor.from_hex('#e0cdb9'))
+        self.play(Create(hole))
+        self.wait(.5)
+        excavator_points= [
+            [-2,0,0],
+            [-3,1,0],
+            [-2,2,0],
+            [-3,4,0],
+            [-2,5,0],
+            [0,3,0],
+            [0,4,0],
+            [2,4,0],
+            [2,2,0],
+            [3,2,0],
+            [4,1,0],
+            [3,0,0],
+            [0,0,0],
+            [-1,1,0],
+            [0,2,0],
+            [-1,2,0],
+            [-1.75,1.5,0]
+
+        ]
+        excavator=Polygon(*excavator_points,fill_color=ManimColor.from_hex('#8b5620'),fill_opacity=0.5).scale(0.3)
+        self.play(Create(excavator))
         self.wait(5)
