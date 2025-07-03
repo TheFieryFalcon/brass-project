@@ -57,8 +57,9 @@ class ziggurat(Scene):
             [2,1,0],
             [2,0,0],
         ]
+        text1 = Text("Ziggurat: an ancient place of worship \nused by some Bronze Age cultures.", 0.5, 0.05, ManimColor.from_hex("#A7C7E7"), 400).set_x(4.5).set_y(3.5).scale(0.05) #scale is needed to fix Pango kerning issues
         ziggurat = Polygon(*ziggurat_points, fill_color=ManimColor.from_hex('#EDC9AF'), stroke_color=ManimColor.from_hex('#c9ae74'),fill_opacity=1)
-        self.play(Create(ziggurat))
+        self.play(Create(ziggurat), FadeIn(text1))
         self.wait(5)
 class stainless_steel_skyscraper(Scene):
     def construct(self):
@@ -78,11 +79,12 @@ class stainless_steel_skyscraper(Scene):
         sp8 = sp2.copy().next_to(sp4, DOWN, 0)
         sp9 = sp2.copy().next_to(sp4, DL, 0)
         spall = Group(stainless_pipe, sp2, sp3, sp4, sp5, sp6, sp7, sp8, sp9)
-        self.play(Create(spall))
+        text2 = Text("Stainless Steel: In 1796, chromium was discovered and found to have\n anti-oxidant properties when added to metals. It was\n used throughout the 19th century, but the modern stainless\n steel was invented by Harry Brearley in 1913 and greatly aided\n the Allies in fighting World War I. Today, it is used in pretty much everything.", 0.5, 0.05, ManimColor.from_hex("#A7C7E7"), 200).set_x(2).set_y(3).scale(0.08)
+        self.play(Create(spall), FadeIn(text2))
         self.wait(4)
         skyscraper_body = Polygon(*skyscraper_points, fill_color=ManimColor.from_hex('#CED2D7'), fill_opacity=0.75)
         skyscraper = Group(skyscraper_body) # add all parts to this group
-        self.play(ReplacementTransform(stainless_pipe, skyscraper), FadeOut(sp2, sp3, sp4, sp5, sp6, sp7, sp8, sp9))
+        self.play(ReplacementTransform(stainless_pipe, skyscraper_body), FadeOut(sp2, sp3, sp4, sp5, sp6, sp7, sp8, sp9, text2))
         self.wait(2)
 class bighole(Scene):
     def construct(self):
@@ -111,3 +113,22 @@ class bighole(Scene):
         excavator=Polygon(*excavator_points,fill_color=ManimColor.from_hex('#8b5620'),fill_opacity=0.5).scale(0.3)
         self.play(Create(excavator))
         self.wait(5)
+        truck_head_points= [
+            [2, 1, 0],
+            [2, 2, 0],
+            [3, 4, 0],
+            [5, 4, 0],
+            [5, 1, 0],
+        ]
+        truck_window_points=[
+            [2.5, 3, 0],
+            [3.5, 3, 0],
+            [3.5, 2, 0],
+            [2, 2, 0],
+        ]
+        truck_head = Polygon(*truck_head_points, color=LIGHT_GRAY, fill_opacity=0.6)
+        truck_window = Polygon(*truck_window_points, color=BLUE_C, fill_opacity=0.6)
+        trailer = Rectangle(WHITE, 3, 4, fill_opacity=0.6).next_to(truck_head, buff=0)
+        truck = Group(trailer, truck_head, truck_window).scale(0.3)
+        self.add(truck)
+        self.wait(3)
