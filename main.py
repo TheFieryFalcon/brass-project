@@ -106,7 +106,6 @@ class bighole(Scene):
             [0,2,0],
             [-1,2,0],
             [-1.75,1.5,0]
-
         ]
         excavator=Polygon(*excavator_points,fill_color=ManimColor.from_hex('#8b5620'),fill_opacity=0.5).scale(0.3)
         self.play(Create(excavator))
