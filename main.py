@@ -60,14 +60,24 @@ class crucible(Scene):
         self.wait(5)
 class stainless_steel_skyscraper(Scene):
     def construct(self):
-        stainless_pipe = Circle(radius=0.6, stroke_color=ManimColor.from_hex('#b4bdc7'), fill_opacity=0, stroke_width=0.1)
-        sp2 = stainless_pipe.copy()
-
         skyscraper_points = [
-            [-2,-3,0]
-            [2,-3,0]
-            [1.5,3,0]
+            [-2,-3,0],
+            [2,-3,0],
+            [1.5,3,0],
             [-1.5,3,0]
         ]
+        stainless_pipe = Circle(radius=0.6, stroke_color=ManimColor.from_hex('#b4bdc7'), fill_opacity=0, stroke_width=1)
+        sp2 = stainless_pipe.copy().next_to(stainless_pipe, DR, 0)
+        sp3 = sp2.copy().next_to(sp2, LEFT, 0)
+        sp4 = sp3.copy().next_to(sp3, LEFT, 0)
+        sp5 = sp2.copy().next_to(sp2, DR, 0)
+        sp6 = sp2.copy().next_to(sp2, DOWN, 0)
+        sp7 = sp2.copy().next_to(sp2, DL, 0)
+        sp8 = sp2.copy().next_to(sp4, DOWN, 0)
+        sp9 = sp2.copy().next_to(sp4, DL, 0)
+        spall = Group(stainless_pipe, sp2, sp3, sp4, sp5, sp6, sp7, sp8, sp9)
+        self.play(Create(spall))
+        self.wait(4)
         skyscraper = Polygon(*skyscraper_points, fill_color=ManimColor.from_hex('#CED2D7'), fill_opacity=0.75)
-        self.play(Create(skyscraper))
+        self.play(Transform(spall, skyscraper))
+        self.wait(2)
