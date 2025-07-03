@@ -65,9 +65,26 @@ class stainless_steel_skyscraper(Scene):
         skyscraper_points = [
             [-2,-3,0],
             [2,-3,0],
-            [1.5,3,0],
-            [-1.5,3,0]
+            [2,3,0],
+            [-2,3,0]
         ]
+        window1 = Rectangle(height=0.23, width=0.20, stroke_color=ManimColor.from_hex("#aeb2b8"), stroke_width=0.01, fill_color=ManimColor.from_hex("#C7E3E1"), fill_opacity=0.8).set_x(-1.25).set_y(2.25)
+        w2 = window1.copy().next_to(window1, RIGHT, buff=0.05)
+        w3 = w2.copy().next_to(w2, RIGHT, buff=0.05)
+        w4 = w3.copy().next_to(w3, RIGHT, buff=0.05)
+        w5 = w4.copy().next_to(w4, RIGHT, buff=0.05)
+        w6 = w5.copy().next_to(w5, RIGHT, buff=0.05)
+        warray = Group(window1, w2, w3, w4, w5, w6)
+        warray2 = warray.copy().next_to(warray, DOWN, buff=0.02)
+        warray3 = warray2.copy().next_to(warray2, DOWN, buff=0.02)
+        warray4 = warray3.copy().next_to(warray3, DOWN, buff=0.02)
+        warray5 = warray4.copy().next_to(warray4, DOWN, buff=0.02)
+        warray6 = warray5.copy().next_to(warray5, DOWN, buff=0.02)
+        warray7 = warray6.copy().next_to(warray6, DOWN, buff=0.02)
+        warray8 = warray7.copy().next_to(warray7, DOWN, buff=0.02)
+        warray9 = warray8.copy().next_to(warray8, DOWN, buff=0.02)
+        warray10 = warray9.copy().next_to(warray9, DOWN, buff=0.02)
+        fullwindowarray = Group(warray, warray2, warray3, warray4, warray5, warray6, warray7, warray8, warray9, warray10)
         stainless_pipe = Circle(radius=0.6, stroke_color=ManimColor.from_hex('#b4bdc7'), fill_opacity=0, stroke_width=1)
         sp2 = stainless_pipe.copy().next_to(stainless_pipe, DR, 0)
         sp3 = sp2.copy().next_to(sp2, LEFT, 0)
@@ -81,7 +98,7 @@ class stainless_steel_skyscraper(Scene):
         self.play(Create(spall))
         self.wait(4)
         skyscraper = Polygon(*skyscraper_points, fill_color=ManimColor.from_hex('#CED2D7'), fill_opacity=0.75)
-        self.play(Transform(spall, skyscraper))
+        self.play(Transform(spall, skyscraper), Create(fullwindowarray))
         self.wait(2)
 class bighole(Scene):
     def construct(self):
