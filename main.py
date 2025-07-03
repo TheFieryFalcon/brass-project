@@ -45,20 +45,52 @@ class ziggurat(Scene):
             [-2,1,0],
             [-2,2,0],
             [-1,2,0],
-            [-2,0,0],
+            [-2,0,0],#Frame of left side steps
             [-1,2,0],
             [-1,3,0],
             [0,3,0],
             [0,2,0],
-            [1,0,0],
+            [1,0,0], #Frame of right side steps
             [0,2,0],
             [1,2,0],
             [1,1,0],
             [2,1,0],
             [2,0,0],
         ]
+        ziggurat_step_points = [
+            [-1.8,0,0],
+            [-1.8,0.4,0],
+            [-1.6,0.4,0],
+            [-1.6,0.8,0],
+            [-1.4,0.8,0],
+            [-1.4,1.2,0],
+            [-1.2,1.2,0],
+            [-1.2,1.6,0],
+            [-1,1.6,0],
+            [-1,2,0],
+            [-0.77,2,0],
+            [-0.77,2.77,0],
+            [-0.22,2.77,0],
+            [-0.22,2,0],
+            [0,2,0],
+            [-1,2,0],
+            [0,2,0],
+            [0,1.6,0],
+            [-1,1.6,0], # top step divider
+            [0,1.6,0],
+            [0.2,1.6,0],
+            [0.2,1.2,0],
+            [-1.2,1.2,0], #second step divider
+            [0.4,1.2,0],
+            [0.4,0.8,0],
+            [0.6,0.8,0],
+            [0.6,0.4,0],
+            [0.8,0.4,0],
+            [0.8,0,0],
+        ]
         ziggurat = Polygon(*ziggurat_points, fill_color=ManimColor.from_hex('#EDC9AF'), stroke_color=ManimColor.from_hex('#edc9af'),fill_opacity=0.5)
-        self.play(Create(ziggurat))
+        ziggurat_steps = Polygon(*ziggurat_step_points, fill_color=ManimColor.from_hex('#EDC9AF'), stroke_color=ManimColor.from_hex('#edc9af'),fill_opacity=0.5)
+        self.play(Create(ziggurat),Create(ziggurat_steps))
         self.wait(5)
 class stainless_steel_skyscraper(Scene):
     def construct(self):
@@ -105,7 +137,8 @@ class bighole(Scene):
             [-1,1,0],
             [0,2,0],
             [-1,2,0],
-            [-1.75,1.5,0]
+            [-2,4,0]
+            
         ]
         excavator=Polygon(*excavator_points,fill_color=ManimColor.from_hex('#8b5620'),fill_opacity=0.5).scale(0.3)
         self.play(Create(excavator))
