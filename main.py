@@ -57,7 +57,7 @@ class ziggurat(Scene):
             [2,1,0],
             [2,0,0],
         ]
-        ziggurat = Polygon(*ziggurat_points, fill_color=ManimColor.from_hex('#EDC9AF'), stroke_color=ManimColor.from_hex('#edc9af'),fill_opacity=0.5)
+        ziggurat = Polygon(*ziggurat_points, fill_color=ManimColor.from_hex('#EDC9AF'), stroke_color=ManimColor.from_hex('#c9ae74'),fill_opacity=1)
         self.play(Create(ziggurat))
         self.wait(5)
 class stainless_steel_skyscraper(Scene):
@@ -68,7 +68,7 @@ class stainless_steel_skyscraper(Scene):
             [1.5,3,0],
             [-1.5,3,0]
         ]
-        stainless_pipe = Circle(radius=0.6, stroke_color=ManimColor.from_hex('#b4bdc7'), fill_opacity=0, stroke_width=1)
+        stainless_pipe = Circle(radius=0.6, stroke_color=ManimColor.from_hex('#b4bdc7'), fill_opacity=0, stroke_width=4)
         sp2 = stainless_pipe.copy().next_to(stainless_pipe, DR, 0)
         sp3 = sp2.copy().next_to(sp2, LEFT, 0)
         sp4 = sp3.copy().next_to(sp3, LEFT, 0)
