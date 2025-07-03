@@ -80,8 +80,9 @@ class stainless_steel_skyscraper(Scene):
         spall = Group(stainless_pipe, sp2, sp3, sp4, sp5, sp6, sp7, sp8, sp9)
         self.play(Create(spall))
         self.wait(4)
-        skyscraper = Polygon(*skyscraper_points, fill_color=ManimColor.from_hex('#CED2D7'), fill_opacity=0.75)
-        self.play(Transform(spall, skyscraper))
+        skyscraper_body = Polygon(*skyscraper_points, fill_color=ManimColor.from_hex('#CED2D7'), fill_opacity=0.75)
+        skyscraper = Group(skyscraper_body) # add all parts to this group
+        self.play(ReplacementTransform(stainless_pipe, skyscraper), FadeOut(sp2, sp3, sp4, sp5, sp6, sp7, sp8, sp9))
         self.wait(2)
 class bighole(Scene):
     def construct(self):
