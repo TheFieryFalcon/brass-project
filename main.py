@@ -57,8 +57,42 @@ class ziggurat(Scene):
             [2,1,0],
             [2,0,0],
         ]
-        ziggurat = Polygon(*ziggurat_points, fill_color=ManimColor.from_hex('#EDC9AF'), stroke_color=ManimColor.from_hex('#edc9af'),fill_opacity=0.5)
-        self.play(Create(ziggurat))
+        ziggurat_step_points = [
+            [-1.8,0,0],
+            [-1.8,0.4,0],
+            [-1.6,0.4,0],
+            [-1.6,0.8,0],
+            [-1.4,0.8,0],
+            [-1.4,1.2,0],
+            [-1.2,1.2,0],
+            [-1.2,1.6,0],
+            [-1,1.6,0],
+            [-1,2,0],
+            [-0.77,2,0],
+            [-0.77,2.77,0],
+            [-0.22,2.77,0],
+            [-0.22,2,0],
+            [0,2,0],
+            [-1,2,0],
+            [0,2,0],
+            [0,1.6,0],
+            [-1,1.6,0], # top step divider
+            [0,1.6,0],
+            [0.2,1.6,0],
+            [0.2,1.2,0],
+            [-1.2,1.2,0], #second step divider
+            [0.4,1.2,0],
+            [0.4,0.8,0],
+            [-1.6,.8,0], #third step divider
+            [0.6,0.8,0],
+            [0.6,0.4,0],
+            [-1.8,0.4,0], #bottom step divider
+            [0.8,0.4,0],
+            [0.8,0,0],
+        ]
+        ziggurat = Polygon(*ziggurat_points, fill_color=ManimColor.from_hex('#EDC9AF'), stroke_color=ManimColor.from_hex('#c9ae74'),fill_opacity=0.5)
+        ziggurat_steps = Polygon(*ziggurat_step_points, fill_color=ManimColor.from_hex('#EDC9AF'), stroke_color=ManimColor.from_hex('#c9ae74'),fill_opacity=0.5)
+        self.play(Create(ziggurat),Create(ziggurat_steps))
         self.wait(5)
 class stainless_steel_skyscraper(Scene):
     def construct(self):
@@ -78,7 +112,7 @@ class stainless_steel_skyscraper(Scene):
         sp8 = sp2.copy().next_to(sp4, DOWN, 0)
         sp9 = sp2.copy().next_to(sp4, DL, 0)
         spall = Group(stainless_pipe, sp2, sp3, sp4, sp5, sp6, sp7, sp8, sp9)
-        text2 = Text("Stainless Steel: In 1796, chromium was discovered and found to have\n anti-oxidant properties when added to metals. It was\n used throughout the 19th century, but the modern stainless\n steel was invented by Harry Brearley in 1913 and greatly aided\n the Allies in fighting World War I. Today, it is used in pretty much everything.", 0.5, 0.05, ManimColor.from_hex("#A7C7E7"), 200).set_x(2).set_y(3).scale(0.08)
+        text2 = Text("Stainless Steel: In 1796, chromium was discovered and found to have\n anti-oxidant properties when added to metals. It was\n used throughout the 19th century, but the modern stainless\n steel was invented by Harry Brearley in 1913 and greatly aided\n the Allies in fighting World War I. Today, it is used in pretty much everything.", 0.5, 0.05, ManimColor.from_hex("#A7C7E7"), line_spacing=1.5).set_x(2).set_y(3).scale(0.25)
         self.play(Create(spall), FadeIn(text2))
         self.wait(4)
         skyscraper_body = Polygon(*skyscraper_points, fill_color=ManimColor.from_hex('#CED2D7'), fill_opacity=0.75)
@@ -88,30 +122,25 @@ class stainless_steel_skyscraper(Scene):
 class bighole(Scene):
     def construct(self):
         hole=Ellipse(width=8.0,height=4.0, color=ManimColor.from_hex('#e0cdb9'))
-        self.play(Create(hole))
-        self.wait(.5)
-        excavator_points= [
-            [-2,0,0],
-            [-3,1,0],
+        excavator_cabin_points= [
+            [-3,1.5,0],
+            [-3,2.5,0],
+            [-2,2.5,0],
             [-2,2,0],
-            [-3,4,0],
-            [-2,5,0],
-            [0,3,0],
-            [0,4,0],
-            [2,4,0],
-            [2,2,0],
-            [3,2,0],
-            [4,1,0],
-            [3,0,0],
-            [0,0,0],
-            [-1,1,0],
             [0,2,0],
-            [-1,2,0],
-            [-2,4,0]
-            
+            [0,1.5,0],
         ]
-        excavator=Polygon(*excavator_points,fill_color=ManimColor.from_hex('#8b5620'),fill_opacity=0.5).scale(0.3)
-        self.play(Create(excavator))
+        excavator_tread_points= [
+            [0,2,0],
+            [1,1.5,0],
+            [0,1,0],
+            [-3,1,0],
+            [-4,1.5,0],
+            [-3,2,0],
+        ]
+        excavator_cabin=Polygon(*excavator_cabin_points,fill_color=ManimColor.from_hex('#ad8b44'),fill_opacity=0.45).scale(0.5)
+        excavator_tread=Polygon(*excavator_tread_points,fill_color=ManimColor.from_hex('#2c2a27'),fill_opacity=0.5).scale(0.3)
+        self.play(Create(excavator_cabin),Create(excavator_tread),Create(hole))
         self.wait(5)
         truck_head_points= [
             [2, 1, 0],
