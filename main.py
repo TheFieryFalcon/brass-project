@@ -199,20 +199,22 @@ class bighole(Scene):
             [2, 2, 0],
             [3, 4, 0],
             [5, 4, 0],
-            [5, 1, 0],
+            [5, 1, 0]
         ]
         truck_window_points=[
             [2.5, 3, 0],
             [3.5, 3, 0],
             [3.5, 2, 0],
-            [2, 2, 0],
+            [2, 2, 0]
         ]
         truck_head = Polygon(*truck_head_points, color=LIGHT_GRAY, fill_opacity=0.6)
         truck_window = Polygon(*truck_window_points, color=BLUE_C, fill_opacity=0.6)
         trailer = Rectangle(WHITE, 3, 4, fill_opacity=0.6).next_to(truck_head, buff=0)
-        wheel1 = Circle(1, GRAY, fill_opacity=0.6).next_to(trailer, DOWN, 0)
-        wheel1.move_to(wheel1.get_x() - 0.2)
-        wheel2 = wheel1.copy().move_to(wheel1.get_x() + 0.4)
-        truck = Group(trailer, truck_head, truck_window, wheel1, wheel2).scale(0.3)
+        truck_body = Group(truck_head, truck_window, trailer).scale(0.3)
+        basewheel = Circle(1, GRAY, fill_opacity=0.6).scale(0.18)
+        wheel1 = basewheel.copy().set_x(basewheel.get_x() - 1) 
+        wheel2 = basewheel.copy().set_x(basewheel.get_x() + 2).set_color(BLUE)
+        wheels = Group(wheel1, wheel2).next_to(truck_body, DOWN)
+        truck = Group(trailer, truck_head, truck_window, wheels)
         self.add(truck)
         self.wait(3)
