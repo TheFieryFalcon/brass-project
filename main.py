@@ -102,7 +102,6 @@ class stainless_steel_skyscraper(Scene):
             [2,3,0],
             [-2,3,0]
         ]
-<<<<<<< HEAD
         window1 = Rectangle(height=0.23, width=0.20, stroke_color=ManimColor.from_hex("#aeb2b8"), stroke_width=0.01, fill_color=ManimColor.from_hex("#C7E3E1"), fill_opacity=0.8).set_x(-1.25).set_y(2.25)
         w2 = window1.copy().next_to(window1, RIGHT, buff=0.05)
         w3 = w2.copy().next_to(w2, RIGHT, buff=0.05)
@@ -121,9 +120,6 @@ class stainless_steel_skyscraper(Scene):
         warray10 = warray9.copy().next_to(warray9, DOWN, buff=0.02)
         fullwindowarray = Group(warray, warray2, warray3, warray4, warray5, warray6, warray7, warray8, warray9, warray10)
         stainless_pipe = Circle(radius=0.6, stroke_color=ManimColor.from_hex('#b4bdc7'), fill_opacity=0, stroke_width=1)
-=======
-        stainless_pipe = Circle(radius=0.6, stroke_color=ManimColor.from_hex('#b4bdc7'), fill_opacity=0, stroke_width=4)
->>>>>>> 7767895b499f3fa0451d36b0387834e23a48f3a2
         sp2 = stainless_pipe.copy().next_to(stainless_pipe, DR, 0)
         sp3 = sp2.copy().next_to(sp2, LEFT, 0)
         sp4 = sp3.copy().next_to(sp3, LEFT, 0)
@@ -136,14 +132,9 @@ class stainless_steel_skyscraper(Scene):
         text2 = Text("Stainless Steel: In 1796, chromium was discovered and found to have\n anti-oxidant properties when added to metals. It was\n used throughout the 19th century, but the modern stainless\n steel was invented by Harry Brearley in 1913 and greatly aided\n the Allies in fighting World War I. Today, it is used in pretty much everything.", 0.5, 0.05, ManimColor.from_hex("#A7C7E7"), line_spacing=1.5).set_x(2).set_y(3).scale(0.25)
         self.play(Create(spall), FadeIn(text2))
         self.wait(4)
-<<<<<<< HEAD
-        skyscraper = Polygon(*skyscraper_points, fill_color=ManimColor.from_hex('#CED2D7'), fill_opacity=0.75)
-        self.play(Transform(spall, skyscraper), Create(fullwindowarray))
-=======
         skyscraper_body = Polygon(*skyscraper_points, fill_color=ManimColor.from_hex('#CED2D7'), fill_opacity=0.75)
         skyscraper = Group(skyscraper_body) # add all parts to this group
         self.play(ReplacementTransform(stainless_pipe, skyscraper_body), FadeOut(sp2, sp3, sp4, sp5, sp6, sp7, sp8, sp9, text2))
->>>>>>> 7767895b499f3fa0451d36b0387834e23a48f3a2
         self.wait(2)
 class bighole(Scene):
     def construct(self):
