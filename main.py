@@ -133,7 +133,7 @@ class stainless_steel_skyscraper(Scene):
         self.play(Create(spall), FadeIn(text2))
         self.wait(4)
         skyscraper_body = Polygon(*skyscraper_points, fill_color=ManimColor.from_hex('#CED2D7'), fill_opacity=0.75)
-        skyscraper = Group(skyscraper_body) # add all parts to this group
+        skyscraper = Group(skyscraper_body, fullwindowarray) # add all parts to this group
         self.play(ReplacementTransform(stainless_pipe, skyscraper_body), FadeOut(sp2, sp3, sp4, sp5, sp6, sp7, sp8, sp9, text2))
         self.wait(2)
 class bighole(Scene):
