@@ -151,31 +151,24 @@ class bighole(Scene):
             [-1.33,-0.33,0],
             [-1,0,0],
         ]
-        excavator_arm_points=[
+        excavator_arm_points1=[
             [0,0,0],
-            [-1.5,1.5,0],
-            [-3,0,0],
-            [-2,-2,0],
-            [-1,-2,0], #point of connection w/ scoop
-            [-2,0,0],
-            [-1.5,0.5,0],
-            [-1,0,0]
+            [0,0,0],
+        ]
+        excavator_arm_points2=[
+            [0,0,0],
         ]
         excavator_scoop_points=[ # needs improvements
-            [0,0,0], # point of connection w/ arm
-            [1,-0.5,0],
-            [0.5,-1,0],
-            [-0.5,-1,0],
-            [-1,0,0],
+            [0,0,0],
         ]
         excavator_cabin=Polygon(*excavator_cabin_points,fill_color=ManimColor.from_hex('#ffc400'),stroke_color=ManimColor.from_hex('#ffffff'),fill_opacity=0.45)
         excavator_window=Polygon(*excavator_window_points,color=BLUE_C,fill_opacity=0.5)
         excavator_base=Group(excavator_cabin,excavator_window).move_to([3.5,2.5,0]).scale(0.5)
         excavator_tread=Polygon(*excavator_tread_points,fill_color=ManimColor.from_hex('#2c2a27'),stroke_color=ManimColor.from_hex('#ffffff'),fill_opacity=0.5).scale(0.3).next_to(excavator_base,DOWN,0)
-        excavator_arm=Polygon(*excavator_arm_points,fill_color=ManimColor.from_hex('#ffc400'),stroke_color=ManimColor.from_hex('#ffffff'),fill_opacity=0.45).scale(0.5)
+        excavator_arm1=RoundedRectangle(corner_radius=0.5,width=4.0,height=1.0,set_color=ManimColor.from_hex('#ffc400'),fill_opacity=1.0,stroke_color=ManimColor.from_hex('#ffffff'))
+        excavator_arm2=Polygon(*excavator_arm_points2,fill_color=ManimColor.from_hex('#ffc400'),stroke_color=ManimColor.from_hex('#ffffff'),fill_opacity=0.45).scale(0.5)
         excavator_scoop=Polygon(*excavator_scoop_points,fill_color=ManimColor.from_hex("#6f6f6e"),stroke_color=ManimColor.from_hex('#ffffff'),fill_opacity=0.45).scale(0.5).move_to([-1.25,-1.4,0])
-        excavator_armscoop=Group(excavator_arm,excavator_scoop).move_to([3,2.5,0]).scale(0.99)
-        self.play(Create(excavator_base),Create(excavator_tread),Create(excavator_arm),Create(excavator_scoop),Create(hole))
+        self.play(Create(excavator_base),Create(excavator_tread),Create(excavator_arm1),Create(excavator_scoop),Create(hole))
         self.wait(5)
         truck_head_points= [
             [2, 1, 0],
