@@ -179,7 +179,7 @@ class bighole(Scene):
         excavator_base=Group(excavator_cabin,excavator_window).move_to([3.5,2.5,0]).scale(0.5)
         excavator_tread=Polygon(*excavator_tread_points,fill_color=ManimColor.from_hex('#2c2a27'),stroke_color=ManimColor.from_hex('#ffffff'),fill_opacity=1).scale(0.3).next_to(excavator_base,DOWN,0)
         excavator_arm_base=Polygon(*excavator_arm_points,fill_color=ManimColor.from_hex('#ffc400'),fill_opacity=1,stroke_color=ManimColor.from_hex('#ffffff'))
-        arm_joint=Circle(radius=1,fill_color=ManimColor.from_hex('#ffc400'))
+        arm_joint=Circle(radius=1,fill_color=ManimColor.from_hex('#ffc400'),stroke_color=ManimColor.from_hex('#ffffff'),opacity=1)
         excavator_arm_1=Group(excavator_arm_base,arm_joint)
         excavator_arm_2=excavator_arm_1.copy().move_to([0,-1,0])
         excavator_scoop=Polygon(*excavator_scoop_points,fill_color=ManimColor.from_hex("#6f6f6e"),stroke_color=ManimColor.from_hex('#ffffff'),fill_opacity=1).scale(0.5).move_to([-1.25,-1.4,0])
