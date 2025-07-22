@@ -193,7 +193,7 @@ class bighole(Scene):
         excavator_scoop=Polygon(*excavator_scoop_points,fill_color=ManimColor.from_hex("#6f6f6e"),stroke_color=ManimColor.from_hex('#ffffff'),fill_opacity=0.45).scale(0.5).move_to([-1.25,-1.4,0])
         excavator_armscoop=Group(excavator_arm,excavator_scoop).move_to([3,2.5,0]).scale(0.99)
         self.play(Create(excavator_base),Create(excavator_tread),Create(excavator_arm),Create(excavator_scoop),Create(hole))
-        self.wait(5)
+        #self.wait(5)
         truck_head_points= [
             [2, 1, 0],
             [2, 2, 0],
@@ -210,6 +210,9 @@ class bighole(Scene):
         truck_head = Polygon(*truck_head_points, color=LIGHT_GRAY, fill_opacity=0.6)
         truck_window = Polygon(*truck_window_points, color=BLUE_C, fill_opacity=0.6)
         trailer = Rectangle(WHITE, 3, 4, fill_opacity=0.6).next_to(truck_head, buff=0)
-        truck = Group(trailer, truck_head, truck_window).scale(0.3)
+        wheel1 = Circle(1, GRAY, fill_opacity=0.6).next_to(trailer, DOWN, 0)
+        wheel1.move_to(wheel1.get_x() - 0.2)
+        wheel2 = wheel1.copy().move_to(wheel1.get_x() + 0.4)
+        truck = Group(trailer, truck_head, truck_window, wheel1, wheel2).scale(0.3)
         self.add(truck)
         self.wait(3)
