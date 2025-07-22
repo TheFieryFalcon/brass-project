@@ -99,10 +99,27 @@ class stainless_steel_skyscraper(Scene):
         skyscraper_points = [
             [-2,-3,0],
             [2,-3,0],
-            [1.5,3,0],
-            [-1.5,3,0]
+            [2,3,0],
+            [-2,3,0]
         ]
-        stainless_pipe = Circle(radius=0.6, stroke_color=ManimColor.from_hex('#b4bdc7'), fill_opacity=0, stroke_width=4)
+        window1 = Rectangle(height=0.23, width=0.20, stroke_color=ManimColor.from_hex("#aeb2b8"), stroke_width=0.01, fill_color=ManimColor.from_hex("#C7E3E1"), fill_opacity=0.8).set_x(-1.25).set_y(2.25)
+        w2 = window1.copy().next_to(window1, RIGHT, buff=0.05)
+        w3 = w2.copy().next_to(w2, RIGHT, buff=0.05)
+        w4 = w3.copy().next_to(w3, RIGHT, buff=0.05)
+        w5 = w4.copy().next_to(w4, RIGHT, buff=0.05)
+        w6 = w5.copy().next_to(w5, RIGHT, buff=0.05)
+        warray = Group(window1, w2, w3, w4, w5, w6)
+        warray2 = warray.copy().next_to(warray, DOWN, buff=0.02)
+        warray3 = warray2.copy().next_to(warray2, DOWN, buff=0.02)
+        warray4 = warray3.copy().next_to(warray3, DOWN, buff=0.02)
+        warray5 = warray4.copy().next_to(warray4, DOWN, buff=0.02)
+        warray6 = warray5.copy().next_to(warray5, DOWN, buff=0.02)
+        warray7 = warray6.copy().next_to(warray6, DOWN, buff=0.02)
+        warray8 = warray7.copy().next_to(warray7, DOWN, buff=0.02)
+        warray9 = warray8.copy().next_to(warray8, DOWN, buff=0.02)
+        warray10 = warray9.copy().next_to(warray9, DOWN, buff=0.02)
+        fullwindowarray = Group(warray, warray2, warray3, warray4, warray5, warray6, warray7, warray8, warray9, warray10)
+        stainless_pipe = Circle(radius=0.6, stroke_color=ManimColor.from_hex('#b4bdc7'), fill_opacity=0, stroke_width=1)
         sp2 = stainless_pipe.copy().next_to(stainless_pipe, DR, 0)
         sp3 = sp2.copy().next_to(sp2, LEFT, 0)
         sp4 = sp3.copy().next_to(sp3, LEFT, 0)
@@ -168,8 +185,9 @@ class bighole(Scene):
         excavator_arm1=RoundedRectangle(corner_radius=0.5,width=4.0,height=1.0,set_color=ManimColor.from_hex('#ffc400'),fill_opacity=1.0,stroke_color=ManimColor.from_hex('#ffffff'))
         excavator_arm2=Polygon(*excavator_arm_points2,fill_color=ManimColor.from_hex('#ffc400'),stroke_color=ManimColor.from_hex('#ffffff'),fill_opacity=0.45).scale(0.5)
         excavator_scoop=Polygon(*excavator_scoop_points,fill_color=ManimColor.from_hex("#6f6f6e"),stroke_color=ManimColor.from_hex('#ffffff'),fill_opacity=0.45).scale(0.5).move_to([-1.25,-1.4,0])
-        self.play(Create(excavator_base),Create(excavator_tread),Create(excavator_arm1),Create(excavator_scoop),Create(hole))
-        self.wait(5)
+        excavator_armscoop=Group(excavator_arm,excavator_scoop).move_to([3,2.5,0]).scale(0.99)
+        self.play(Create(excavator_base),Create(excavator_tread),Create(excavator_arm),Create(excavator_scoop),Create(hole))
+        #self.wait(5)
         truck_head_points= [
             [2, 1, 0],
             [2, 2, 0],
@@ -186,6 +204,9 @@ class bighole(Scene):
         truck_head = Polygon(*truck_head_points, color=LIGHT_GRAY, fill_opacity=0.6)
         truck_window = Polygon(*truck_window_points, color=BLUE_C, fill_opacity=0.6)
         trailer = Rectangle(WHITE, 3, 4, fill_opacity=0.6).next_to(truck_head, buff=0)
-        truck = Group(trailer, truck_head, truck_window).scale(0.3)
+        wheel1 = Circle(1, GRAY, fill_opacity=0.6).next_to(trailer, DOWN, 0)
+        wheel1.move_to(wheel1.get_x() - 0.2)
+        wheel2 = wheel1.copy().move_to(wheel1.get_x() + 0.4)
+        truck = Group(trailer, truck_head, truck_window, wheel1, wheel2).scale(0.3)
         self.add(truck)
         self.wait(3)
