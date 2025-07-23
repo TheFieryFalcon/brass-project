@@ -183,27 +183,27 @@ class bighole(Scene):
             [4,1,0],
             [4,0,0],
         ]
-        excavator_scoop_points=[ # needs improvements
+        excavator_scoop_points=[
             [0,0,0],
             [-1,-1,0],
             [0,-3,0],
             [2,-3,0],
             [3,-2,0],
-            [0,0,0],
             
         ]
         excavator_cabin=Polygon(*excavator_cabin_points,fill_color=ManimColor.from_hex('#ffc400'),stroke_color=ManimColor.from_hex('#ffffff'),fill_opacity=1)
-        excavator_window=Polygon(*excavator_window_points,color=BLUE_C,fill_opacity=1)
+        excavator_window=Polygon(*excavator_window_points,color=BLUE_C,fill_opacity=1,stroke_color='#ffffff')
         excavator_base=Group(excavator_cabin,excavator_window).move_to([3.5,2.5,0]).scale(0.5)
         excavator_tread=Polygon(*excavator_tread_points,fill_color=ManimColor.from_hex('#2c2a27'),stroke_color=ManimColor.from_hex('#ffffff'),fill_opacity=1).scale(0.3).next_to(excavator_base,DOWN,0)
         excavator_arm_base=Polygon(*excavator_arm_points,fill_color=ManimColor.from_hex('#ffc400'),fill_opacity=1,stroke_color=ManimColor.from_hex('#ffffff'))
-        arm_joint=Circle(radius=0.5,stroke_color='#ffc400').set_fill('#ffc400',opacity=1).next_to(excavator_arm_base,LEFT,buff=-0.5)
+        arm_joint=Circle(radius=0.5,stroke_color='#ffffff').set_fill('#ffc400',opacity=1).next_to(excavator_arm_base,LEFT,buff=-0.5)
         scoop_joint=Circle(radius=0.5,stroke_color='#ffffff').set_fill('#6f6f6e',opacity=1)
-        excavator_arm_1=Group(excavator_arm_base,arm_joint).scale(0.25).move_to([3.5,2.5,0])
-        excavator_arm_2=excavator_arm_1.copy().move_to([0,-1,0])
-        excavator_arm_1.rotate(PI*11/12)
-        excavator_scoop_base=Polygon(*excavator_scoop_points,stroke_color=ManimColor.from_hex('#ffffff')).set_fill("#6f6f6e",opacity=1).scale(0.5).move_to([-1.25,-1.4,0])
-        excavator_scoop=Group(excavator_scoop_base,scoop_joint)
+        excavator_arm_1=Group(excavator_arm_base,arm_joint).scale(0.25).move_to([3,2.75,0])
+        excavator_arm_2=excavator_arm_1.copy().move_to([2.2,2.9,0])
+        excavator_arm_1.rotate(PI*280/360)
+        excavator_arm_2.rotate(PI*435/360)
+        excavator_scoop_base=Polygon(*excavator_scoop_points, fill_color=ManimColor.from_hex('#6f6f6e'), stroke_color=ManimColor.from_hex('#ffffff'),fill_opacity=1).scale(0.5).align_to(scoop_joint,UP).align_to(scoop_joint,LEFT)
+        excavator_scoop=Group(excavator_scoop_base,scoop_joint).scale(0.35).move_to([2,2.5,0])
         self.play(Create(excavator_arm_1),Create(excavator_arm_2),Create(excavator_scoop),Create(excavator_base),Create(excavator_tread),Create(hole))
         #self.wait(5)
         truck_head_points= [
