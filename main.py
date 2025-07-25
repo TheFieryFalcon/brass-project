@@ -147,7 +147,14 @@ class stainless_steel_skyscraper(Scene):
         self.wait(2)
 class bighole(Scene):
     def construct(self):
-        hole=Ellipse(width=8.0,height=4.0, color=ManimColor.from_hex('#e0cdb9'))
+        hole1=Ellipse(width=8.0,height=4.0,stroke_color=("#000000")).set_fill("#d5682e",opacity=1)
+        hole2=hole1.copy().scale(0.9).set_fill("#c05d28").align_to(hole1,DOWN)
+        hole3=hole2.copy().scale(0.9).set_fill("#aa5425").align_to(hole1,DOWN)
+        hole4=hole3.copy().scale(0.9).set_fill("#813f1b").align_to(hole1,DOWN)
+        hole5=hole4.copy().scale(0.9).set_fill("#5d2c12").align_to(hole1,DOWN)
+        hole6=hole5.copy().set_fill("#06bee4").scale(0.2).move_to([0,-1.5,0])
+        holecut=Rectangle(width=4,height=1).set_color("#000000",opacity=1).move_to([0,-2.1,0])
+        pit=Group(hole1,hole2,hole3,hole4,hole5,hole6,holecut)
         excavator_cabin_points= [
             [0,1.5,0],
             [0,2,0],
@@ -180,8 +187,8 @@ class bighole(Scene):
         excavator_arm_points=[
             [0,0,0],
             [0,1,0],
-            [4,1,0],
-            [4,0,0],
+            [2.5,1,0],
+            [2.5,0,0],
         ]
         excavator_scoop_points=[
             [0,0,0],
@@ -196,15 +203,15 @@ class bighole(Scene):
         excavator_base=Group(excavator_cabin,excavator_window).move_to([3.5,2.5,0]).scale(0.5)
         excavator_tread=Polygon(*excavator_tread_points,fill_color=ManimColor.from_hex('#2c2a27'),stroke_color=ManimColor.from_hex('#ffffff'),fill_opacity=1).scale(0.3).next_to(excavator_base,DOWN,0)
         excavator_arm_base=Polygon(*excavator_arm_points,fill_color=ManimColor.from_hex('#ffc400'),fill_opacity=1,stroke_color=ManimColor.from_hex('#ffffff'))
-        arm_joint=Circle(radius=0.5,stroke_color='#ffffff').set_fill('#ffc400',opacity=1).next_to(excavator_arm_base,LEFT,buff=-0.5)
-        scoop_joint=Circle(radius=0.5,stroke_color='#ffffff').set_fill('#6f6f6e',opacity=1)
-        excavator_arm_1=Group(excavator_arm_base,arm_joint).scale(0.25).move_to([3,2.75,0])
-        excavator_arm_2=excavator_arm_1.copy().move_to([2.2,2.9,0])
+        arm_joint=Circle(radius=0.6,stroke_color='#ffffff').set_fill('#ffc400',opacity=1).next_to(excavator_arm_base,LEFT,buff=-0.5)
+        scoop_joint=Circle(radius=0.4,stroke_color='#ffffff').set_fill('#6f6f6e',opacity=1)
+        excavator_arm_1=Group(excavator_arm_base,arm_joint).scale(0.25).move_to([3.1,2.75,0])
+        excavator_arm_2=excavator_arm_1.copy().move_to([2.6,2.8,0])
         excavator_arm_1.rotate(PI*280/360)
         excavator_arm_2.rotate(PI*435/360)
-        excavator_scoop_base=Polygon(*excavator_scoop_points, fill_color=ManimColor.from_hex('#6f6f6e'), stroke_color=ManimColor.from_hex('#ffffff'),fill_opacity=1).scale(0.5).align_to(scoop_joint,UP).align_to(scoop_joint,LEFT)
-        excavator_scoop=Group(excavator_scoop_base,scoop_joint).scale(0.35).move_to([2,2.5,0])
-        self.play(Create(excavator_arm_1),Create(excavator_arm_2),Create(excavator_scoop),Create(excavator_base),Create(excavator_tread),Create(hole))
+        excavator_scoop_base=Polygon(*excavator_scoop_points, fill_color=ManimColor.from_hex('#6f6f6e'), stroke_color=ManimColor.from_hex('#ffffff'),fill_opacity=1).scale(0.4).align_to(scoop_joint,UP).align_to(scoop_joint,LEFT)
+        excavator_scoop=Group(excavator_scoop_base,scoop_joint).scale(0.4).move_to([2.5,2.5,0])
+        self.play(Create(excavator_arm_1),Create(excavator_arm_2),Create(excavator_scoop),Create(excavator_base),Create(excavator_tread),Create(pit))
         #self.wait(5)
         truck_head_points= [
             [2, 1, 0],
@@ -219,17 +226,23 @@ class bighole(Scene):
             [3.5, 2, 0],
             [2, 2, 0]
         ]
-        truck_head = Polygon(*truck_head_points, color=LIGHT_GRAY, fill_opacity=0.6)
-        truck_window = Polygon(*truck_window_points, color=BLUE_C, fill_opacity=0.6)
-        trailer = Rectangle(WHITE, 3, 4, fill_opacity=0.6).next_to(truck_head, buff=0)
-        truck_body = Group(truck_head, truck_window, trailer).scale(0.3)
-        basewheel = Circle(1, GRAY, fill_opacity=0.6).scale(0.18)
-        wheel1 = basewheel.copy().set_x(basewheel.get_x() - 1) 
-        wheel2 = basewheel.copy().set_x(basewheel.get_x() + 2).set_color(BLUE)
-        wheels = Group(wheel1, wheel2).next_to(truck_body, DOWN)
-        truck = Group(trailer, truck_head, truck_window, wheels)
+        truck_head = Polygon(*truck_head_points, color=LIGHT_GRAY, fill_opacity=1)
+        truck_window = Polygon(*truck_window_points, color=BLUE_C, fill_opacity=1)
+        trailer = Rectangle(WHITE, 3, 4, fill_opacity=1).next_to(truck_head, buff=0)
+        truck_body = Group(truck_head, truck_window, trailer).scale(0.3).move_to([0,0,0]).flip(Y_AXIS)
+        truck_back = Rectangle(WHITE, 3, 0.2, fill_opacity=1).scale(0.3).next_to(truck_body,LEFT,0)
+        basewheel = Circle(1, GRAY, fill_opacity=1).scale(0.18)
+        wheel1 = basewheel.copy().set_x(basewheel.get_x() - 0.85)
+        wheel2 = basewheel.copy().set_x(basewheel.get_x() + 0.75)
+        wheel3 = basewheel.copy().next_to(wheel1, RIGHT, 0.05)
+        wheels = Group(wheel1, wheel2, wheel3).next_to(truck_body, DOWN, -0.05)
+        truck = Group(truck_body, truck_back)
+        fulltruck = Group(truck, wheels)
+        self.add(wheels)
         self.add(truck)
         self.wait(3)
+        self.play(Rotate(truck_back, 0.5*PI, Z_AXIS, truck_back.get_corner(DR)))
+        self.play(AnimationGroup(*[fulltruck.animate.move_to([10, 0, 0])]))
 class sorting(Scene):
     def construct(self):
         conveyerbelt1 = RoundedRectangle(corner_radius=0.15, height=0.3, width=3).set_x(-1).set_y(-1)
