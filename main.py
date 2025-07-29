@@ -211,7 +211,8 @@ class bighole(Scene):
         excavator_arm_2.rotate(PI*435/360)
         excavator_scoop_base=Polygon(*excavator_scoop_points, fill_color=ManimColor.from_hex('#6f6f6e'), stroke_color=ManimColor.from_hex('#ffffff'),fill_opacity=1).scale(0.4).align_to(scoop_joint,UP).align_to(scoop_joint,LEFT)
         excavator_scoop=Group(excavator_scoop_base,scoop_joint).scale(0.4).move_to([2.5,2.5,0])
-        self.play(Create(excavator_arm_1),Create(excavator_arm_2),Create(excavator_scoop),Create(excavator_base),Create(excavator_tread),Create(pit))
+        self.play(Create(excavator_arm_1),Create(excavator_arm_2),Create(excavator_scoop),Create(excavator_base),Create(excavator_tread))
+        self.add(pit)
         #self.wait(5)
         truck_head_points= [
             [2, 1, 0],
