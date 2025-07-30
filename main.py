@@ -355,22 +355,32 @@ class comminution(Scene):
         print('todo')
 class flotation(Scene):
     #ID: 07 (see doc for more info)
+    #01 - Container + Water
+    #02 - Agitator, Slurry, and Stirring
     def construct(self):
         print('todo')
 class smelting(Scene):
     #ID: 08 (see doc for more info)
+    #01 - The flash furnace
+    #02 - Literally everything else
     def construct(self):
         print('todo')
 class oxidizing(Scene):
     #ID: 09 (see doc for more info)
+    #The machine is called a 'Peirce-Smith Converter'
     def construct(self):
         print('todo')
 class refining(Scene):
     #ID: 10 (see doc for more info)
+    #01 - Anode Furnace
+    #02 - Anode Casting Wheel
+    #03 - Electrowinning (known as IsaKidd Technology for copper)
     def construct(self):
         print('todo')
 class alloying(Scene):
     #ID: 11 (see doc for more info)
+    #01: Alloyer (just reuse the flash furnace tbh)
+    #02: Casting (we will use ingot casting because it's easier to animate)
     def construct(self):
         print('todo')
 class annealing(Scene):
