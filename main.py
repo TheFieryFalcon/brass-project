@@ -7,7 +7,7 @@ def fade_out(scene: Scene):
     scene.play(*animations)
 class main(Scene):
     def construct(self):
-        scene_order = [crucible, ziggurat, stainless_steel_skyscraper, bighole]
+        scene_order = [crucible, ziggurat, stainless_steel_skyscraper, bighole, sorting, comminution, flotation, smelting, oxidizing, refining, alloying, annealing]
         for scene in scene_order:
             iscene = scene()
             iscene.construct()
@@ -349,3 +349,31 @@ class sorting(Scene):
         #    print(f"Playing animation {anim}")
         #   self.play(anim)
         self.play(LaggedStart(*pathanims, lag_ratio=0.05, run_time=5))
+class comminution(Scene):
+    #ID: 06 (see doc for more info)
+    def construct(self):
+        print('todo')
+class flotation(Scene):
+    #ID: 07 (see doc for more info)
+    def construct(self):
+        print('todo')
+class smelting(Scene):
+    #ID: 08 (see doc for more info)
+    def construct(self):
+        print('todo')
+class oxidizing(Scene):
+    #ID: 09 (see doc for more info)
+    def construct(self):
+        print('todo')
+class refining(Scene):
+    #ID: 10 (see doc for more info)
+    def construct(self):
+        print('todo')
+class alloying(Scene):
+    #ID: 11 (see doc for more info)
+    def construct(self):
+        print('todo')
+class annealing(Scene):
+    #ID: 12 (see doc for more info)
+    def construct(self):
+        print('todo')
