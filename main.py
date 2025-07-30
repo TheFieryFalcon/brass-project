@@ -337,7 +337,7 @@ class sorting(Scene):
             if i > 2:
                 oredict[i] = oredict[index].copy()
             pathanims.append(Create(oredict[i], run_time=0.1))
-            pathanims.append(MoveAlongPath(oredict[i], pathdict[index], run_time=1))
+            pathanims.append(MoveAlongPath(oredict[i], pathdict[index], run_time=1, rate_func=rate_functions.linear))
             #print(f'Number of points for ore number {i}: {len(oredict[i].get_all_points())}')
             #print(f'Number of points for path number {index}: {len(pathdict[index].get_all_points())}')
         self.add(conveyora, conveyor1, conveyor2, conveyor3, sorter)
@@ -348,5 +348,4 @@ class sorting(Scene):
         #for anim in pathanims:
         #    print(f"Playing animation {anim}")
         #   self.play(anim)
-        self.play(LaggedStart(*pathanims, lag_ratio=0.02, run_time=5))
-        self.wait(4)
+        self.play(LaggedStart(*pathanims, lag_ratio=0.05, run_time=5))
