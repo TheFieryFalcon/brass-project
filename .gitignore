@@ -6,6 +6,7 @@ dist/
 wheels/
 *.egg-info
 media/*
-
 # Virtual environments
 .venv
+# Changes per-user
+uv.lock
