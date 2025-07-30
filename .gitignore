@@ -10,3 +10,4 @@ media/*
 .venv
 # Changes per-user
 uv.lock
+.DS_Store
