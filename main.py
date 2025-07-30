@@ -246,11 +246,50 @@ class bighole(Scene):
         self.add(wheels)
         self.add(truck)
         self.wait(3)
-        self.play(Rotate(truck_back, 0.5*PI, Z_AXIS, truck_back.get_corner(DR)))
         self.play(AnimationGroup(*[fulltruck.animate.move_to([10, 0, 0])]))
 class sorting(Scene):
     def construct(self):
-        conveyerbelt1 = RoundedRectangle(corner_radius=0.15, height=0.3, width=3).set_x(-1).set_y(-1)
+        ore_points= [
+            [8,10,0],
+            [10,8,0],
+            [9,5,0],
+            [8,3,0],
+            [6,0,0],
+            [4,0.5,0],
+            [2,0,0],
+            [0,2,0],
+            [0,5,0],
+            [1,9,0]
+        ]
+        #truck needs to be redefined
+        truck_head_points= [
+            [2, 1, 0],
+            [2, 2, 0],
+            [3, 4, 0],
+            [5, 4, 0],
+            [5, 1, 0]
+        ]
+        truck_window_points=[
+            [2.5, 3, 0],
+            [3.5, 3, 0],
+            [3.5, 2, 0],
+            [2, 2, 0]
+        ]
+        truck_head = Polygon(*truck_head_points, color=LIGHT_GRAY, fill_opacity=1)
+        truck_window = Polygon(*truck_window_points, color=BLUE_C, fill_opacity=1)
+        trailer = Rectangle(WHITE, 3, 4, fill_opacity=1).next_to(truck_head, buff=0)
+        truck_body = Group(truck_head, truck_window, trailer).scale(0.3).move_to([0,0,0]).flip(Y_AXIS)
+        truck_back = Rectangle(WHITE, 3, 0.2, fill_opacity=1).scale(0.3).next_to(truck_body,LEFT,0)
+        basewheel = Circle(1, GRAY, fill_opacity=1).scale(0.18)
+        wheel1 = basewheel.copy().set_x(basewheel.get_x() - 0.85)
+        wheel2 = basewheel.copy().set_x(basewheel.get_x() + 0.75)
+        wheel3 = basewheel.copy().next_to(wheel1, RIGHT, 0.05)
+        wheels = Group(wheel1, wheel2, wheel3).next_to(truck_body, DOWN, -0.05)
+        truck = Group(truck_body, truck_back)
+        fulltruck = Group(truck, wheels)
+        fulltruck.set_x(-10).set_y(-0.7)
+
+        conveyorbelt1 = RoundedRectangle(corner_radius=0.15, height=0.3, width=3).set_x(-1).set_y(-1)
         cbw1 = Circle(radius=0.13, stroke_width=3).set_x(-2.355).set_y(-1)
         cbw2 = cbw1.copy().next_to(cbw1, RIGHT, buff=0)
         cbw3 = cbw2.copy().next_to(cbw2, RIGHT, buff=0) 
@@ -262,6 +301,52 @@ class sorting(Scene):
         cbw9 = cbw8.copy().next_to(cbw8, RIGHT, buff=0)
         cbw10 = cbw9.copy().next_to(cbw9, RIGHT, buff=0)
         cbw11 = cbw10.copy().next_to(cbw10, RIGHT, buff=0)
-        conveyer1 = Group(conveyerbelt1, cbw1, cbw2, cbw3, cbw4, cbw5, cbw6, cbw7, cbw8, cbw9, cbw10, cbw11)
-        self.add(conveyer1)
+        conveyora = Group(conveyorbelt1, cbw1, cbw2, cbw3, cbw4, cbw5, cbw6, cbw7, cbw8, cbw9, cbw10, cbw11)
+        sorter = Square(2, color='#FFFFFF', fill_opacity=0.2, stroke_width=6).next_to(conveyora, RIGHT, 0.1)
+        conveyor1 = conveyora.copy().next_to(sorter, RIGHT, 0.1).set_y(0)
+        conveyor2 = conveyor1.copy().set_y(-1)
+        conveyor3 = conveyor2.copy().set_y(-2)
+
+        ore0 = Polygon(*ore_points, color='#b5a642', fill_opacity=0.6).scale(0.03)
+        ore1 = ore0.copy().set_color('#EFBF04')
+        ore2 = ore1.copy().set_color('#0BDA51')
+        oredict = {
+            0 : ore0,
+            1 : ore1,
+            2 : ore2
+        }
+        pathastart = [-2.5, -0.7,0]
+        pathaend = [0.5, -0.7,0]
+        path1start = [2.7, 0.3,0]
+        path2start = [2.7, -0.7,0]
+        path3start = [2.7, -1.7,0]
+        path1end = [5.7, 0.3,0]
+        path2end = [5.7, -0.7,0]
+        path3end = [5.7, -1.7,0]
+        fpath1 = VMobject().set_points_as_corners([pathastart, pathaend, path1start, path1end])
+        fpath2 = VMobject().set_points_as_corners([pathastart, pathaend, path2start, path2end])
+        fpath3 = VMobject().set_points_as_corners([pathastart, pathaend, path3start, path3end])
+        pathdict = {
+            0 : fpath1,
+            1 : fpath2,
+            2 : fpath3
+        }
+        pathanims = []
+        for i in range(18):
+            index = i % 3
+            if i > 2:
+                oredict[i] = oredict[index].copy()
+            pathanims.append(Create(oredict[i], run_time=0.1))
+            pathanims.append(MoveAlongPath(oredict[i], pathdict[index], run_time=1))
+            print(f'Number of points for ore number {i}: {len(oredict[i].get_all_points())}')
+            print(f'Number of points for path number {index}: {len(pathdict[index].get_all_points())}')
+        self.add(conveyora, conveyor1, conveyor2, conveyor3, sorter)
+        self.play(AnimationGroup(*[fulltruck.animate.move_to([-5, 0, 0])]))
+        self.play(fulltruck.animate.flip(Y_AXIS))
+        self.play(Rotate(truck_back, -0.5*PI, Z_AXIS, truck_back.get_corner(DL)))
+        #debug only
+        #for anim in pathanims:
+        #    print(f"Playing animation {anim}")
+        #   self.play(anim)
+        self.play(LaggedStart(*pathanims, lag_ratio=0.02, run_time=5))
         self.wait(4)
