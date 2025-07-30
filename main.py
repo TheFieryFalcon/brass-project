@@ -145,6 +145,7 @@ class stainless_steel_skyscraper(Scene):
         self.play(ReplacementTransform(stainless_pipe, skyscraper_body), FadeOut(sp2, sp3, sp4, sp5, sp6, sp7, sp8, sp9, text2))
         self.add(fullwindowarray)
         self.wait(2)
+        self.remove(fullwindowarray)
 class bighole(Scene):
     def construct(self):
         hole=Ellipse(width=8.0,height=4.0, color=ManimColor.from_hex('#e0cdb9'))
