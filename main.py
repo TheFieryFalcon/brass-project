@@ -216,7 +216,7 @@ class bighole(Scene):
         excavator_scoop=Group(excavator_scoop_base,scoop_joint).scale(0.4).move_to([2.5,2.5,0])
         self.play(Create(excavator_arm_1),Create(excavator_arm_2),Create(excavator_scoop),Create(excavator_base),Create(excavator_tread))
         self.add(pit)
-        self.play(Rotate(excavator_arm_1,angle=PI*45/360,about_point=([3.1,2.5,0])))
+        self.play(Rotate(excavator_arm_2,angle=-360/360,about_point=([2.8,3,0])))
         #self.wait(5)
         truck_head_points= [
             [2, 1, 0],
