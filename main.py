@@ -224,14 +224,14 @@ class bighole(Scene):
         self.play(AnimationGroup(*[fulltruck.animate.move_to([10, 0, 0])]))
 class sorting(Scene):
     def construct(self):
-        from shared import fulltruck, conveyora, truck_back, ore_points
+        from shared import fulltruck, conveyora, truck_back, ore_points, ccolor
         fulltruck.set_x(-10).set_y(-0.7)
         sorter = Square(2, color='#FFFFFF', fill_opacity=0.2, stroke_width=6).next_to(conveyora, RIGHT, 0.1)
         conveyor1 = conveyora.copy().next_to(sorter, RIGHT, 0.1).set_y(0)
         conveyor2 = conveyor1.copy().set_y(-1)
         conveyor3 = conveyor2.copy().set_y(-2)
 
-        ore0 = Polygon(*ore_points, color='#b5a642', fill_opacity=0.6).scale(0.03)
+        ore0 = Polygon(*ore_points, color=ccolor, fill_opacity=0.6).scale(0.03)
         ore1 = ore0.copy().set_color('#EFBF04')
         ore2 = ore1.copy().set_color('#0BDA51')
         oredict = {
@@ -276,13 +276,34 @@ class sorting(Scene):
 class comminution(Scene):
     #ID: 06 (see doc for more info)
     def construct(self):
-        from shared import conveyora
+        from shared import conveyora, ore_points, chalcopyriteslurry, slurry_vupdater, ccolor
         generic_trapezoid = [[-1,1,0], [1,1,0], [2,-1,0], [-2,-1,0]]
-        funnel = Polygon(*generic_trapezoid, color=WHITE, fill_opacity=0.6).stretch(0.5, 1).flip(X_AXIS)
-        conveyor1 = conveyora.copy().scale(1.5).rotate(135, Z_AXIS).next_to(funnel, UL, 0.5)
-        grinder = Rectangle(fill_opacity=0.6).next_to(funnel, DOWN, 0)
-        self.add(funnel, grinder, conveyor1)
-        self.wait(3)
+        funnel = Polygon(*generic_trapezoid, color=WHITE, fill_opacity=0.7).stretch(0.5, 1).flip(X_AXIS)
+        conveyor1 = conveyora.copy().scale(1.5).next_to(funnel, UL, 0.5)
+        conveyor1.rotate(135, Z_AXIS)
+        conveyor2 = conveyora.copy().set_y(-3.2).set_x(0)
+        conveyor3 = conveyor2.copy().set_x(3)
+        conveyor4 = conveyor2.copy().set_x(6)
+        conveyor5 = conveyor2.copy().set_x(9)
+        grinder = Rectangle(fill_opacity=1, color=GRAY).next_to(funnel, DOWN, 0)
+        ore0 = Polygon(*ore_points, color=ccolor, fill_opacity=1).scale(0.1)
+        oredict = {0: ore0}
+        slurrydict = []
+        debugpoint1 = Circle(0.05, YELLOW).move_to([0, 0, 0])
+        path = VMobject().set_points_as_corners([[-6.8, 2.1, 0], [-2.6,1.8,0], [-2, 1, 0], [0, 0, 0]])
+        sequence = []
+        for i in range(6):
+            if (i > 0):
+                oredict[i] = oredict[0].copy()
+            slurrydict.append(chalcopyriteslurry.copy().move_to([0, -1, 0]))
+            slurrydict[i].add_updater(slurry_vupdater(-3, slurrydict[i]))    
+            sequence.append(Succession(Create(oredict[i], runtime=0.1), MoveAlongPath(oredict[i], path, runtime=2, rate_func=rate_functions.linear), FadeOut(oredict[i], runtime=0.1)))
+        self.add(grinder, funnel, conveyor1, conveyor2, conveyor3, conveyor4, conveyor5, debugpoint1)
+        self.play(LaggedStart(*sequence, lag_ratio=0.20, runtime=5))
+        for obj in slurrydict:
+            self.add(obj)
+            self.bring_to_front(grinder)
+        self.wait(1)
 class flotation(Scene):
     #ID: 07 (see doc for more info)
     #01 - Container + Water
@@ -317,3 +338,4 @@ class annealing(Scene):
     #ID: 12 (see doc for more info)
     def construct(self):
         print('todo')
+

@@ -2,6 +2,8 @@
 # If you need to use any of these, just add a "from shared import " and then the name of the thing you want
 
 from manim import *
+import numpy
+ccolor = ManimColor.from_hex('#b5a642') # c stands for chalcopyrite, this is the standard color we're using for all end products
 truck_head_points= [
     [2, 1, 0],
     [2, 2, 0],
@@ -55,3 +57,34 @@ ore_points= [
     [0,5,0],
     [1,9,0]
 ]
+
+# this just makes the slurry fall one point at a time and then start moving horizontally at v after it's hit something
+def slurry_vupdater(trgy, mobject:PMobject): # the : is just type annotation
+    velocities = numpy.zeros(mobject.points.shape) # mobject.points.shape is a two-dimensional Nx3 matrix, this is the first derivative of that
+    velocities[:, 1] = numpy.random.uniform(-0.2, -0.4, mobject.points.shape[0]) # : means "every point in this dimension"
+    def actual_updater(mobject:PMobject, dt): # this is a closure; https://en.wikipedia.org/wiki/Closure_(computer_programming)
+            mobject.points += velocities # applies the matrix to the points
+            below_floor_points = mobject.points[:, 1] < trgy # for some reason this returns the indices??? I am going insane
+            velocities[below_floor_points, 1] = 0
+            velocities[below_floor_points, 0] = 0.5
+            mobject.points[below_floor_points, 1] = trgy
+            
+                 
+
+    return actual_updater # god I hope this works IT WORKS WTF
+
+# variant of the above but it moves horizontally first and then falls after the thing below it disappears
+def slurry_hupdater(v, max, min, trgx, mobject:PMobject):
+    velocities = numpy.zeros(mobject.points.shape)
+    velocities[:, 0] = numpy.full(mobject.points.shape(), v)
+
+    def actual_updater(mobject:PMobject, dt): 
+        mobject.points += velocities
+        below_floor_points = mobject.points[:, 0] < trgx
+        velocities[below_floor_points, 0] = 0
+        velocities[below_floor_points, 1] = numpy.random.randint(min, max)
+        mobject.points[below_floor_points, 0] = trgx
+
+    return actual_updater
+chalcopyriteslurry = DotCloud(radius=0.5, density=15, color=ccolor)
+chalcopyriteslurry.add_updater(slurry_vupdater(-3, chalcopyriteslurry))
