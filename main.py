@@ -148,6 +148,7 @@ class stainless_steel_skyscraper(Scene):
         self.remove(fullwindowarray)
 class bighole(Scene):
     def construct(self):
+        from shared import fulltruck
         hole1=Ellipse(width=8.0,height=4.0,stroke_color=("#000000")).set_fill("#d5682e",opacity=1)
         hole2=hole1.copy().scale(0.9).set_fill("#c05d28").align_to(hole1,DOWN)
         hole3=hole2.copy().scale(0.9).set_fill("#aa5425").align_to(hole1,DOWN)
@@ -218,90 +219,13 @@ class bighole(Scene):
         self.add(pit)
         self.play(Rotate(excavator_arm_2,angle=-360/360,about_point=([2.8,3,0])))
         #self.wait(5)
-        truck_head_points= [
-            [2, 1, 0],
-            [2, 2, 0],
-            [3, 4, 0],
-            [5, 4, 0],
-            [5, 1, 0]
-        ]
-        truck_window_points=[
-            [2.5, 3, 0],
-            [3.5, 3, 0],
-            [3.5, 2, 0],
-            [2, 2, 0]
-        ]
-        truck_head = Polygon(*truck_head_points, color=LIGHT_GRAY, fill_opacity=1)
-        truck_window = Polygon(*truck_window_points, color=BLUE_C, fill_opacity=1)
-        trailer = Rectangle(WHITE, 3, 4, fill_opacity=1).next_to(truck_head, buff=0)
-        truck_body = Group(truck_head, truck_window, trailer).scale(0.3).move_to([0,0,0]).flip(Y_AXIS)
-        truck_back = Rectangle(WHITE, 3, 0.2, fill_opacity=1).scale(0.3).next_to(truck_body,LEFT,0)
-        basewheel = Circle(1, GRAY, fill_opacity=1).scale(0.18)
-        wheel1 = basewheel.copy().set_x(basewheel.get_x() - 0.85)
-        wheel2 = basewheel.copy().set_x(basewheel.get_x() + 0.75)
-        wheel3 = basewheel.copy().next_to(wheel1, RIGHT, 0.05)
-        wheels = Group(wheel1, wheel2, wheel3).next_to(truck_body, DOWN, -0.05)
-        truck = Group(truck_body, truck_back)
-        fulltruck = Group(truck, wheels)
-        self.add(wheels)
-        self.add(truck)
+        self.add(fulltruck)
         self.wait(3)
         self.play(AnimationGroup(*[fulltruck.animate.move_to([10, 0, 0])]))
 class sorting(Scene):
     def construct(self):
-        ore_points= [
-            [8,10,0],
-            [10,8,0],
-            [9,5,0],
-            [8,3,0],
-            [6,0,0],
-            [4,0.5,0],
-            [2,0,0],
-            [0,2,0],
-            [0,5,0],
-            [1,9,0]
-        ]
-        #truck needs to be redefined
-        truck_head_points= [
-            [2, 1, 0],
-            [2, 2, 0],
-            [3, 4, 0],
-            [5, 4, 0],
-            [5, 1, 0]
-        ]
-        truck_window_points=[
-            [2.5, 3, 0],
-            [3.5, 3, 0],
-            [3.5, 2, 0],
-            [2, 2, 0]
-        ]
-        truck_head = Polygon(*truck_head_points, color=LIGHT_GRAY, fill_opacity=1)
-        truck_window = Polygon(*truck_window_points, color=BLUE_C, fill_opacity=1)
-        trailer = Rectangle(WHITE, 3, 4, fill_opacity=1).next_to(truck_head, buff=0)
-        truck_body = Group(truck_head, truck_window, trailer).scale(0.3).move_to([0,0,0]).flip(Y_AXIS)
-        truck_back = Rectangle(WHITE, 3, 0.2, fill_opacity=1).scale(0.3).next_to(truck_body,LEFT,0)
-        basewheel = Circle(1, GRAY, fill_opacity=1).scale(0.18)
-        wheel1 = basewheel.copy().set_x(basewheel.get_x() - 0.85)
-        wheel2 = basewheel.copy().set_x(basewheel.get_x() + 0.75)
-        wheel3 = basewheel.copy().next_to(wheel1, RIGHT, 0.05)
-        wheels = Group(wheel1, wheel2, wheel3).next_to(truck_body, DOWN, -0.05)
-        truck = Group(truck_body, truck_back)
-        fulltruck = Group(truck, wheels)
+        from shared import fulltruck, conveyora, truck_back, ore_points
         fulltruck.set_x(-10).set_y(-0.7)
-
-        conveyorbelt1 = RoundedRectangle(corner_radius=0.15, height=0.3, width=3).set_x(-1).set_y(-1)
-        cbw1 = Circle(radius=0.13, stroke_width=3).set_x(-2.355).set_y(-1)
-        cbw2 = cbw1.copy().next_to(cbw1, RIGHT, buff=0)
-        cbw3 = cbw2.copy().next_to(cbw2, RIGHT, buff=0) 
-        cbw4 = cbw3.copy().next_to(cbw3, RIGHT, buff=0)
-        cbw5 = cbw4.copy().next_to(cbw4, RIGHT, buff=0)
-        cbw6 = cbw5.copy().next_to(cbw5, RIGHT, buff=0)
-        cbw7 = cbw6.copy().next_to(cbw6, RIGHT, buff=0)
-        cbw8 = cbw7.copy().next_to(cbw7, RIGHT, buff=0)
-        cbw9 = cbw8.copy().next_to(cbw8, RIGHT, buff=0)
-        cbw10 = cbw9.copy().next_to(cbw9, RIGHT, buff=0)
-        cbw11 = cbw10.copy().next_to(cbw10, RIGHT, buff=0)
-        conveyora = Group(conveyorbelt1, cbw1, cbw2, cbw3, cbw4, cbw5, cbw6, cbw7, cbw8, cbw9, cbw10, cbw11)
         sorter = Square(2, color='#FFFFFF', fill_opacity=0.2, stroke_width=6).next_to(conveyora, RIGHT, 0.1)
         conveyor1 = conveyora.copy().next_to(sorter, RIGHT, 0.1).set_y(0)
         conveyor2 = conveyor1.copy().set_y(-1)
@@ -352,7 +276,13 @@ class sorting(Scene):
 class comminution(Scene):
     #ID: 06 (see doc for more info)
     def construct(self):
-        print('todo')
+        from shared import conveyora
+        generic_trapezoid = [[-1,1,0], [1,1,0], [2,-1,0], [-2,-1,0]]
+        funnel = Polygon(*generic_trapezoid, color=WHITE, fill_opacity=0.6).stretch(0.5, 1).flip(X_AXIS)
+        conveyor1 = conveyora.copy().scale(1.5).rotate(135, Z_AXIS).next_to(funnel, UL, 0.5)
+        grinder = Rectangle(fill_opacity=0.6).next_to(funnel, DOWN, 0)
+        self.add(funnel, grinder, conveyor1)
+        self.wait(3)
 class flotation(Scene):
     #ID: 07 (see doc for more info)
     #01 - Container + Water
