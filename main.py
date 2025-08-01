@@ -140,7 +140,6 @@ class stainless_steel_skyscraper(Scene):
         spall = Group(stainless_pipe, sp2, sp3, sp4, sp5, sp6, sp7, sp8, sp9)
         text2 = Text("Stainless Steel: In 1796, chromium was discovered and found to have\n anti-oxidant properties when added to metals. It was\n used throughout the 19th century, but the modern stainless\n steel was invented by Harry Brearley in 1913 and greatly aided\n the Allies in fighting World War I. Today, it is used in pretty much everything.", 0.5, 0.05, ManimColor.from_hex("#A7C7E7"), line_spacing=1.5).set_x(2).set_y(3).scale(0.25)
         self.play(Create(spall), FadeIn(text2))
-        self.wait(4)
         skyscraper_body = Polygon(*skyscraper_points, fill_color=ManimColor.from_hex('#CED2D7'), fill_opacity=0.75)
         self.play(ReplacementTransform(stainless_pipe, skyscraper_body), FadeOut(sp2, sp3, sp4, sp5, sp6, sp7, sp8, sp9, text2))
         self.add(fullwindowarray)
@@ -289,7 +288,7 @@ class comminution(Scene):
         ore0 = Polygon(*ore_points, color=ccolor, fill_opacity=1).scale(0.1)
         oredict = {0: ore0}
         slurrydict = []
-        debugpoint1 = Circle(0.05, YELLOW).move_to([0, 0, 0])
+        # debugpoint1 = Circle(0.05, YELLOW).move_to([0, 0, 0])
         path = VMobject().set_points_as_corners([[-6.8, 2.1, 0], [-2.6,1.8,0], [-2, 1, 0], [0, 0, 0]])
         sequence = []
         for i in range(6):
@@ -298,7 +297,7 @@ class comminution(Scene):
             slurrydict.append(chalcopyriteslurry.copy().move_to([0, -1, 0]))
             slurrydict[i].add_updater(slurry_vupdater(-3, slurrydict[i]))    
             sequence.append(Succession(Create(oredict[i], runtime=0.1), MoveAlongPath(oredict[i], path, runtime=2, rate_func=rate_functions.linear), FadeOut(oredict[i], runtime=0.1)))
-        self.add(grinder, funnel, conveyor1, conveyor2, conveyor3, conveyor4, conveyor5, debugpoint1)
+        self.add(grinder, funnel, conveyor1, conveyor2, conveyor3, conveyor4, conveyor5)
         self.play(LaggedStart(*sequence, lag_ratio=0.20, runtime=5))
         for obj in slurrydict:
             self.add(obj)
@@ -314,7 +313,7 @@ class smelting(Scene):
     #ID: 08 (see doc for more info)
     #01 - The flash furnace
     #02 - Literally everything else
-    def construct(self):
+    def construct(self):    
         print('todo')
 class oxidizing(Scene):
     #ID: 09 (see doc for more info)
