@@ -206,28 +206,26 @@ class bighole(Scene):
         excavator_tread=Polygon(*excavator_tread_points,fill_color=ManimColor.from_hex('#2c2a27'),stroke_color=ManimColor.from_hex('#ffffff'),fill_opacity=1).scale(0.3).next_to(excavator_base,DOWN,0)
         excavator_arm_base1=Polygon(*excavator_arm_points,fill_color=ManimColor.from_hex('#ffc400'),fill_opacity=1,stroke_color=ManimColor.from_hex('#ffffff'))
         excavator_arm_base2=Polygon(*excavator_arm_points,fill_color=ManimColor.from_hex('#ffc400'),fill_opacity=1,stroke_color=ManimColor.from_hex('#ffffff'))
-        arm_joint1=Circle(radius=0.6,stroke_color='#ffffff').set_fill('#ffc400',opacity=1).next_to(excavator_arm_base1,RIGHT,buff=-0.5)
-        arm_joint2=Circle(radius=0.6,stroke_color='#ffffff').set_fill('#ffc400',opacity=1).next_to(excavator_arm_base2,RIGHT,buff=-0.5)
+        arm_joint1=Circle(radius=0.6,stroke_color='#ffffff').set_fill('#ffc400',opacity=1).next_to(excavator_arm_base1,LEFT)
+        arm_joint2=Circle(radius=0.6,stroke_color='#ffffff').set_fill('#ffc400',opacity=1).next_to(excavator_arm_base2,LEFT)
         scoop_joint=Circle(radius=0.4,stroke_color='#ffffff').set_fill('#6f6f6e',opacity=1)
-        excavator_arm_1=Group(excavator_arm_base1,arm_joint1).scale(0.25).move_to([3.1,2.7,0])
-        excavator_arm_2=Group(excavator_arm_base2,arm_joint2).scale(0.25).move_to([2.6,2.7,0])
-        Arm1Originx,Arm1Originy=3.4,2.7#Arm 1 pivot point
-        Arm2Originx,Arm2Originy=2.9,2.7
+        excavator_arm_1=Group(excavator_arm_base1,arm_joint1).scale(0.25).move_to([0,0,0])#.move_to([3.1,2.7,0])
+        excavator_arm_2=Group(excavator_arm_base2,arm_joint2).set_color('#ffffff').scale(0.25).move_to([-1,0,0])#([2.6,2.7,0])
+        Arm1Originx,Arm1Originy=0,0#3.4,2.7#Arm 1 pivot point
+        
         
         excavator_scoop_base=Polygon(*excavator_scoop_points, fill_color=ManimColor.from_hex('#6f6f6e'), stroke_color=ManimColor.from_hex('#ffffff'),fill_opacity=1).scale(0.4).align_to(scoop_joint,UP).align_to(scoop_joint,LEFT)
-        excavator_scoop=Group(excavator_scoop_base,scoop_joint).scale(0.4).move_to([2.5,2.65,0]).rotate(20*PI/180)
-        excavator_arm_1.rotate(-45*PI/180,about_point=([Arm1Originx,Arm1Originy,0]))
-        excavator_arm_2.rotate(-45*PI/180,about_point=([Arm1Originx,Arm1Originy,0]))
-        excavator_scoop.rotate(-45*PI/180,about_point=([Arm1Originx,Arm1Originy,0]))
-        excavator_arm_2.rotate(45*PI/180,about_point=([3.1*math.cos(-45*PI/180),3.1*math.sin(-45*PI/180),0]))
-        excavator_scoop.rotate(45*PI/180,about_point=([3.1*math.cos(-45*PI/180),2.1*math.sin(-45*PI/180),0]))
+        excavator_scoop=Group(excavator_scoop_base,scoop_joint).scale(0.4).move_to([1,0,0]).rotate(20*PI/180)
+        excavator_arm_1.rotate(135*PI/180,about_point=([Arm1Originx,Arm1Originy,0]))
+        excavator_arm_2.rotate(135*PI/180,about_point=([Arm1Originx,Arm1Originy,0]))
+        excavator_scoop.rotate(135*PI/180,about_point=([Arm1Originx,Arm1Originy,0]))
         
         self.play(Create(excavator_arm_1),Create(excavator_arm_2),Create(excavator_scoop),Create(excavator_base),Create(excavator_tread))
         self.add(pit)
         
         self.play(Rotate(excavator_arm_1,angle=45*PI/180,about_point=([Arm1Originx,Arm1Originy,0])),Rotate(excavator_arm_2,angle=45*PI/180,about_point=([Arm1Originx,Arm1Originy,0])),Rotate(excavator_scoop,angle=45*PI/180,about_point=([Arm1Originx,Arm1Originy,0])))#Arm 1 pivot point is (3.4,2.7,0)
         
-        #self.wait(5)
+        self.wait(5)
         self.add(fulltruck)
         self.wait(3)
         self.play(AnimationGroup(*[fulltruck.animate.move_to([10, 0, 0])]))
