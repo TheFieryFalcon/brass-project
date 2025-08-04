@@ -1,5 +1,5 @@
 from manim import *
-import math
+import numpy
 # manim -pql [file] [method]
 def fade_out(scene: Scene):
     animations = []
@@ -209,16 +209,13 @@ class bighole(Scene):
         arm_joint1=Circle(radius=0.6,stroke_color='#ffffff').set_fill('#ffc400',opacity=1).next_to(excavator_arm_base1,LEFT)
         arm_joint2=Circle(radius=0.6,stroke_color='#ffffff').set_fill('#ffc400',opacity=1).next_to(excavator_arm_base2,LEFT)
         scoop_joint=Circle(radius=0.4,stroke_color='#ffffff').set_fill('#6f6f6e',opacity=1)
-        excavator_arm_1=Group(excavator_arm_base1,arm_joint1).scale(0.25).move_to([0,0,0])#.move_to([3.1,2.7,0])
-        excavator_arm_2=Group(excavator_arm_base2,arm_joint2).set_color('#ffffff').scale(0.25).move_to([-1,0,0])#([2.6,2.7,0])
-        Arm1Originx,Arm1Originy=0,0#3.4,2.7#Arm 1 pivot point
-        
-        
+        excavator_arm_1=Group(excavator_arm_base1,arm_joint1).scale(0.25).move_to([3.1,2.7,0])
+        excavator_arm_2=Group(excavator_arm_base2,arm_joint2).set_color('#ffffff').scale(0.25).move_to([2.6,2.7,0])     
         excavator_scoop_base=Polygon(*excavator_scoop_points, fill_color=ManimColor.from_hex('#6f6f6e'), stroke_color=ManimColor.from_hex('#ffffff'),fill_opacity=1).scale(0.4).align_to(scoop_joint,UP).align_to(scoop_joint,LEFT)
         excavator_scoop=Group(excavator_scoop_base,scoop_joint).scale(0.4).move_to([1,0,0]).rotate(20*PI/180)
-        excavator_arm_1.rotate(135*PI/180,about_point=([Arm1Originx,Arm1Originy,0]))
-        excavator_arm_2.rotate(135*PI/180,about_point=([Arm1Originx,Arm1Originy,0]))
-        excavator_scoop.rotate(135*PI/180,about_point=([Arm1Originx,Arm1Originy,0]))
+        excavator_arm_1.rotate(135*PI/180)
+        excavator_arm_2.rotate(135*PI/180)
+        excavator_scoop.rotate(135*PI/180)
         
         self.play(Create(excavator_arm_1),Create(excavator_arm_2),Create(excavator_scoop),Create(excavator_base),Create(excavator_tread))
         self.add(pit)
