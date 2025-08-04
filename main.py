@@ -206,25 +206,22 @@ class bighole(Scene):
         excavator_tread=Polygon(*excavator_tread_points,fill_color=ManimColor.from_hex('#2c2a27'),stroke_color=ManimColor.from_hex('#ffffff'),fill_opacity=1).scale(0.3).next_to(excavator_base,DOWN,0)
         excavator_arm_base1=Polygon(*excavator_arm_points,fill_color=ManimColor.from_hex('#ffc400'),fill_opacity=1,stroke_color=ManimColor.from_hex('#ffffff'))
         excavator_arm_base2=Polygon(*excavator_arm_points,fill_color=ManimColor.from_hex('#ffc400'),fill_opacity=1,stroke_color=ManimColor.from_hex('#ffffff'))
-        arm_joint1=Circle(radius=0.6,stroke_color='#ffffff').set_fill('#ffc400',opacity=1).next_to(excavator_arm_base1,LEFT)
-        arm_joint2=Circle(radius=0.6,stroke_color='#ffffff').set_fill('#ffc400',opacity=1).next_to(excavator_arm_base2,LEFT)
+        arm_joint1=Circle(radius=0.6,stroke_color='#ffffff').set_fill('#ffc400',opacity=1).next_to(excavator_arm_base1,LEFT,buff=-0.5)
+        arm_joint2=Circle(radius=0.6,stroke_color='#ffffff').set_fill('#ffc400',opacity=1).next_to(excavator_arm_base2,LEFT,buff=-0.5)
         scoop_joint=Circle(radius=0.4,stroke_color='#ffffff').set_fill('#6f6f6e',opacity=1)
         excavator_arm_1=Group(excavator_arm_base1,arm_joint1).scale(0.25).move_to([3.1,2.7,0])
-        excavator_arm_2=Group(excavator_arm_base2,arm_joint2).set_color('#ffffff').scale(0.25).move_to([2.6,2.7,0])     
+        excavator_arm_2=Group(excavator_arm_base2,arm_joint2).scale(0.25).move_to([2.7,2.8,0])     
         excavator_scoop_base=Polygon(*excavator_scoop_points, fill_color=ManimColor.from_hex('#6f6f6e'), stroke_color=ManimColor.from_hex('#ffffff'),fill_opacity=1).scale(0.4).align_to(scoop_joint,UP).align_to(scoop_joint,LEFT)
-        excavator_scoop=Group(excavator_scoop_base,scoop_joint).scale(0.4).move_to([1,0,0]).rotate(20*PI/180)
+        excavator_scoop=Group(excavator_scoop_base,scoop_joint).scale(0.4).move_to([2.55,2.5,0]).rotate(20*PI/180)
         excavator_arm_1.rotate(135*PI/180)
-        excavator_arm_2.rotate(135*PI/180)
-        excavator_scoop.rotate(135*PI/180)
+        excavator_arm_2.rotate(225*PI/180)
+        excavator_scoop.rotate(315*PI/180)
         
         self.play(Create(excavator_arm_1),Create(excavator_arm_2),Create(excavator_scoop),Create(excavator_base),Create(excavator_tread))
-        self.add(pit)
-        
-        self.play(Rotate(excavator_arm_1,angle=45*PI/180,about_point=([Arm1Originx,Arm1Originy,0])),Rotate(excavator_arm_2,angle=45*PI/180,about_point=([Arm1Originx,Arm1Originy,0])),Rotate(excavator_scoop,angle=45*PI/180,about_point=([Arm1Originx,Arm1Originy,0])))#Arm 1 pivot point is (3.4,2.7,0)
-        
-        self.wait(5)
+        self.add(pit)       
+        #self.wait(5)
         self.add(fulltruck)
-        self.wait(3)
+        #self.wait(3)
         self.play(AnimationGroup(*[fulltruck.animate.move_to([10, 0, 0])]))
 class sorting(Scene):
     def construct(self):
@@ -313,7 +310,40 @@ class flotation(Scene):
     #01 - Container + Water
     #02 - Agitator, Slurry, and Stirring
     def construct(self):
-        print('todo')
+        Flotation_points = [
+            [4,-3,0],
+            [3,-3,0],
+            [3,0,0],
+            [0,0,0],
+            [0,-3,0],
+            [-1,-3,0],
+            [-1,-4,0],
+            [0,-4,0],
+            [0,-5,0],
+            [3,-5,0],
+            [3,-4,0],
+            [4,-4,0],
+        ]
+        agitate_points = [
+            [0,0,0],
+            [-1,0,0],
+            [-1,-0.5,0],
+            [1,-0.5,0],
+            [1,0,0],
+            [0,0,0],
+            [0,0,1],
+            [0,-0.5,1],
+            [0,-0.5,-1],
+            [0,0,-1],
+            [0,0,0],
+            [0,4,0],
+        ]
+        Flotation=Polygon(*Flotation_points).move_to([0,0.5,0])
+        FloatAgitate=Polygon(*agitate_points).move_to([0,0.5,0])
+        Water=Rectangle(height=1,width=3).move_to([0,-1.5,0]).set_color("#558cdf",opacity=1)
+        self.play(Create(Flotation),Create(Water),Create(FloatAgitate))
+
+        self.play(Rotate(FloatAgitate,axis=[0,1,0],angle=360*PI/180,run_time=2))
 class smelting(Scene):
     #ID: 08 (see doc for more info)
     #01 - The flash furnace
