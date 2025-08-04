@@ -1,5 +1,5 @@
 from manim import *
-import math
+import numpy
 # manim -pql [file] [method]
 def fade_out(scene: Scene):
     animations = []
@@ -219,8 +219,8 @@ class bighole(Scene):
         excavator_arm_1.rotate(-45*PI/180,about_point=([Arm1Originx,Arm1Originy,0]))
         excavator_arm_2.rotate(-45*PI/180,about_point=([Arm1Originx,Arm1Originy,0]))
         excavator_scoop.rotate(-45*PI/180,about_point=([Arm1Originx,Arm1Originy,0]))
-        excavator_arm_2.rotate(45*PI/180,about_point=([3.1*math.cos(-45*PI/180),3.1*math.sin(-45*PI/180),0]))
-        excavator_scoop.rotate(45*PI/180,about_point=([3.1*math.cos(-45*PI/180),2.1*math.sin(-45*PI/180),0]))
+        excavator_arm_2.rotate(45*PI/180,about_point=([3.1*numpy.cos(-45*PI/180),3.1*numpy.sin(-45*PI/180),0]))
+        excavator_scoop.rotate(45*PI/180,about_point=([3.1*numpy.cos(-45*PI/180),2.1*numpy.sin(-45*PI/180),0]))
         
         self.play(Create(excavator_arm_1),Create(excavator_arm_2),Create(excavator_scoop),Create(excavator_base),Create(excavator_tread))
         self.add(pit)
