@@ -310,8 +310,7 @@ class flotation(Scene):
     #01 - Container + Water
     #02 - Agitator, Slurry, and Stirring
     def construct(self):
-        from shared import chalcopyriteslurry, slurry_hupdater
-
+        from shared import chalcopyriteslurry, slurry_hupdater, conveyora
         Flotation_points = [
             [4,-3,0],
             [3,-3,0],
@@ -340,14 +339,19 @@ class flotation(Scene):
             [0,0,0],
             [0,4,0],
         ]
-        hmoving_slurry = chalcopyriteslurry.copy().move_to([-5, -2, 0]) #temp value
+        hmoving_copper_slurry = chalcopyriteslurry.copy()
+        hmoving_gangue_slurry = chalcopyriteslurry.copy().set_color('#262112')
         Flotation=Polygon(*Flotation_points).move_to([0,0.5,0])
-        FloatAgitate=Polygon(*agitate_points).move_to([0,0.5,0])
-        Water=Rectangle(height=1,width=3).move_to([0,-1.5,0]).set_color("#558cdf",opacity=1)
-        self.play(Create(Flotation),Create(Water),Create(FloatAgitate))
-        self.add(hmoving_slurry)
-        hmoving_slurry.add_updater(slurry_hupdater(0.1, 0.1, 0.2, 4, chalcopyriteslurry)) #temp values
-        self.play(Rotate(FloatAgitate,axis=[0,1,0],angle=360*PI/180,run_time=5)) #temp value
+        FloatAgitate=Polygon(*agitate_points).move_to([0,0.5,0]) 
+        Water=Rectangle(height=4.5,width=3).move_to([0,0,0]).set_color("#558cdf",opacity=1)
+        conveyor1=conveyora.copy().scale(1.75).move_to([-5,-1,0])
+        self.play(Create(Flotation),Create(Water),Create(FloatAgitate),Create(conveyor1))
+        self.add(hmoving_copper_slurry, hmoving_gangue_slurry)
+        hmoving_copper_slurry.add_updater(slurry_hupdater([-5, -0.7, 0], 0.3, 0.2, 0, 4, hmoving_copper_slurry)) # feel free to tweak parameters as needed, definitions are in shared.py
+        hmoving_gangue_slurry.add_updater(slurry_hupdater([-5, -0.7, 0], 0.3, 0.2, 10, -0.5, hmoving_gangue_slurry))
+        print(hmoving_copper_slurry.get_updaters())
+        print(hmoving_gangue_slurry.get_updaters())
+        self.play(Rotate(FloatAgitate,axis=[0,1,0],angle=360*PI/180,run_time=5))
 class smelting(Scene):
     #ID: 08 (see doc for more info)
     #01 - The flash furnace
@@ -377,3 +381,7 @@ class annealing(Scene):
     def construct(self):
         print('todo')
 
+# DEBUG ONLY
+#with tempconfig({"quality": "medium_quality", "disable_caching": True, "renderer": "opengl"}):
+#    scene = flotation()
+#    scene.render()

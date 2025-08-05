@@ -63,6 +63,8 @@ def slurry_vupdater(trgy, mobject:PMobject): # the : is just type annotation
     velocities = numpy.zeros(mobject.points.shape) # mobject.points.shape is a two-dimensional Nx3 matrix, this is the first derivative of that
     velocities[:, 1] = numpy.random.uniform(-0.2, -0.4, mobject.points.shape[0]) # : means "every point in this dimension"
     def actual_updater(mobject:PMobject, dt): # this is a closure; https://en.wikipedia.org/wiki/Closure_(computer_programming)
+            if len(mobject.get_updaters()) > 1:
+                 mobject.remove_updater(actual_updater)
             mobject.points += velocities # applies the matrix to the points
             below_floor_points = mobject.points[:, 1] < trgy # for some reason this returns the indices??? I am going insane
             velocities[below_floor_points, 1] = 0
@@ -74,22 +76,24 @@ def slurry_vupdater(trgy, mobject:PMobject): # the : is just type annotation
     return actual_updater # god I hope this works IT WORKS WTF
 
 # variant of the above but it only moves horizontally and then vertically until a certain point is reached after which it removes itself
-def slurry_hupdater(vx, vy, trgx, trgy, mobject:PMobject):
+# spos = starting position, vx = x velocity, vy = y velocity, trg = target
+def slurry_hupdater(spos, vx, vy, trgx, trgy, mobject:PMobject):
     velocities = numpy.zeros(mobject.points.shape)
-    velocities[:, 0] = numpy.full(mobject.points.shape[0], vx)
-
+    velocities[:, 0] = numpy.random.uniform(vx/1.5, vx, mobject.points.shape[0])
     def actual_updater2(mobject:PMobject, dt): 
-        mobject.points += velocities * dt
-        below_floor_points = mobject.points[:, 0] < trgx
+        if dt == 0:
+            mobject.points[:, 0] = numpy.random.uniform(spos[0], spos[0] + 0.1, mobject.points.shape[0])
+            mobject.points[:, 1] = numpy.random.uniform(spos[1], spos[1] + 0.1, mobject.points.shape[0])
+        mobject.points += velocities
+        below_floor_points = mobject.points[:, 0] > trgx
         velocities[below_floor_points, 0] = 0
-        velocities[below_floor_points, 1] = vy
+        velocities[below_floor_points, 1] = numpy.random.uniform(vy/1.5, vy, numpy.sum(below_floor_points))
         mobject.points[below_floor_points, 0] = trgx
-        above_ceiling_points = mobject.points[:, 1] <trgy
+        above_ceiling_points = mobject.points[:, 1] > trgy # note to self: do not write code when tired
         velocities[above_ceiling_points, 1] = 0
-        mobject.points[below_floor_points, 1] = trgy
+        mobject.points[above_ceiling_points, 1] = trgy
         if above_ceiling_points.all() == mobject.points[:, 1].all():
             mobject.remove_updater(actual_updater2)
 
     return actual_updater2
 chalcopyriteslurry = DotCloud(radius=0.5, density=15, color=ccolor)
-chalcopyriteslurry.add_updater(slurry_vupdater(-3, chalcopyriteslurry))
