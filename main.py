@@ -310,6 +310,8 @@ class flotation(Scene):
     #01 - Container + Water
     #02 - Agitator, Slurry, and Stirring
     def construct(self):
+        from shared import chalcopyriteslurry, slurry_hupdater
+
         Flotation_points = [
             [4,-3,0],
             [3,-3,0],
@@ -338,12 +340,14 @@ class flotation(Scene):
             [0,0,0],
             [0,4,0],
         ]
+        hmoving_slurry = chalcopyriteslurry.copy().move_to([-5, -2, 0]) #temp value
         Flotation=Polygon(*Flotation_points).move_to([0,0.5,0])
         FloatAgitate=Polygon(*agitate_points).move_to([0,0.5,0])
         Water=Rectangle(height=1,width=3).move_to([0,-1.5,0]).set_color("#558cdf",opacity=1)
         self.play(Create(Flotation),Create(Water),Create(FloatAgitate))
-
-        self.play(Rotate(FloatAgitate,axis=[0,1,0],angle=360*PI/180,run_time=2))
+        self.add(hmoving_slurry)
+        hmoving_slurry.add_updater(slurry_hupdater(0.1, 0.1, 0.2, 4, chalcopyriteslurry)) #temp values
+        self.play(Rotate(FloatAgitate,axis=[0,1,0],angle=360*PI/180,run_time=5)) #temp value
 class smelting(Scene):
     #ID: 08 (see doc for more info)
     #01 - The flash furnace

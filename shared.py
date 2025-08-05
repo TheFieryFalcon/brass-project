@@ -73,18 +73,23 @@ def slurry_vupdater(trgy, mobject:PMobject): # the : is just type annotation
 
     return actual_updater # god I hope this works IT WORKS WTF
 
-# variant of the above but it moves horizontally first and then falls after the thing below it disappears
-def slurry_hupdater(v, max, min, trgx, mobject:PMobject):
+# variant of the above but it only moves horizontally and then vertically until a certain point is reached after which it removes itself
+def slurry_hupdater(vx, vy, trgx, trgy, mobject:PMobject):
     velocities = numpy.zeros(mobject.points.shape)
-    velocities[:, 0] = numpy.full(mobject.points.shape(), v)
+    velocities[:, 0] = numpy.full(mobject.points.shape[0], vx)
 
-    def actual_updater(mobject:PMobject, dt): 
-        mobject.points += velocities
+    def actual_updater2(mobject:PMobject, dt): 
+        mobject.points += velocities * dt
         below_floor_points = mobject.points[:, 0] < trgx
         velocities[below_floor_points, 0] = 0
-        velocities[below_floor_points, 1] = numpy.random.randint(min, max)
+        velocities[below_floor_points, 1] = vy
         mobject.points[below_floor_points, 0] = trgx
+        above_ceiling_points = mobject.points[:, 1] <trgy
+        velocities[above_ceiling_points, 1] = 0
+        mobject.points[below_floor_points, 1] = trgy
+        if above_ceiling_points.all() == mobject.points[:, 1].all():
+            mobject.remove_updater(actual_updater2)
 
-    return actual_updater
+    return actual_updater2
 chalcopyriteslurry = DotCloud(radius=0.5, density=15, color=ccolor)
 chalcopyriteslurry.add_updater(slurry_vupdater(-3, chalcopyriteslurry))
