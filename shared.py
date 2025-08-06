@@ -96,4 +96,4 @@ def slurry_hupdater(spos, vx, vy, trgx, trgy, mobject:PMobject):
             mobject.remove_updater(actual_updater2)
 
     return actual_updater2
-chalcopyriteslurry = DotCloud(radius=0.5, density=15, color=ccolor)
+chalcopyriteslurry = DotCloud(radius=1.5, density=15, color=ccolor)

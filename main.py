@@ -297,6 +297,8 @@ class comminution(Scene):
             if (i > 0):
                 oredict[i] = oredict[0].copy()
             slurrydict.append(chalcopyriteslurry.copy().move_to([0, -1, 0]))
+            if i % 2 == 1:
+                slurrydict[i].set_color('#262112')
             slurrydict[i].add_updater(slurry_vupdater(-3, slurrydict[i]))    
             sequence.append(Succession(Create(oredict[i], runtime=0.1), MoveAlongPath(oredict[i], path, runtime=2, rate_func=rate_functions.linear), FadeOut(oredict[i], runtime=0.1)))
         self.add(grinder, funnel, conveyor1, conveyor2, conveyor3, conveyor4, conveyor5)
