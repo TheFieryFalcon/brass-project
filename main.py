@@ -353,7 +353,7 @@ class flotation(Scene):
         hmoving_gangue_slurry.add_updater(slurry_hupdater([-5, -0.7, 0], 0.3, 0.2, 10, -0.5, hmoving_gangue_slurry))
         print(hmoving_copper_slurry.get_updaters())
         print(hmoving_gangue_slurry.get_updaters())
-        self.play(Rotate(FloatAgitate,axis=[0,1,0],angle=360*PI/180,run_time=5))
+        self.play(Rotate(FloatAgitate,axis=[0,1,0],angle=360*PI/180,run_time=5, rate_func=rate_functions.ease_in_quad))
 class smelting(Scene):
     #ID: 08 (see doc for more info)
     #01 - The flash furnace
