@@ -341,25 +341,45 @@ class flotation(Scene):
             [0,0,0],
             [0,4,0],
         ]
+        generic_trapezoid = [
+            [-1,1,0],
+            [1,1,0],
+            [2,-1,0],
+            [-2,-1,0]
+            ]
         hmoving_copper_slurry = chalcopyriteslurry.copy()
         hmoving_gangue_slurry = chalcopyriteslurry.copy().set_color('#262112')
-        Flotation=Polygon(*Flotation_points).move_to([0,0.5,0])
-        FloatAgitate=Polygon(*agitate_points).move_to([0,0.5,0]) 
-        Water=Rectangle(height=4.5,width=3).move_to([0,0,0]).set_color("#558cdf",opacity=1)
+        Flotation=Polygon(*Flotation_points,stroke_color='#a2aab7').move_to([0,0.5,0])
+        FloatAgitate=Polygon(*agitate_points,stroke_color="#384650").move_to([0,0.5,0]) 
+        Water=Rectangle(height=4.5,width=3).move_to([0,0.25,0]).set_color("#558cdf",opacity=1)
         conveyor1=conveyora.copy().scale(1.75).move_to([-5,-1,0])
-        self.play(Create(Flotation),Create(Water),Create(FloatAgitate),Create(conveyor1))
+        conveyor2=conveyor1.copy().move_to([5,-1,0])
+        self.play(Create(Water),Create(Flotation),Create(FloatAgitate),Create(conveyor1),Create(conveyor2))
         self.add(hmoving_copper_slurry, hmoving_gangue_slurry)
         hmoving_copper_slurry.add_updater(slurry_hupdater([-5, -0.7, 0], 0.3, 0.2, 1.5, 2.25, hmoving_copper_slurry)) # feel free to tweak parameters as needed, definitions are in shared.py
         hmoving_gangue_slurry.add_updater(slurry_hupdater([-5, -0.7, 0], 0.3, 0.2, 10, -0.5, hmoving_gangue_slurry))
-        print(hmoving_copper_slurry.get_updaters())
-        print(hmoving_gangue_slurry.get_updaters())
-        self.play(Rotate(FloatAgitate,axis=[0,1,0],angle=360*PI/180,run_time=5, rate_func=rate_functions.ease_in_quad))
+        #print(hmoving_copper_slurry.get_updaters())
+        #print(hmoving_gangue_slurry.get_updaters())
+        self.play(Rotate(FloatAgitate,axis=[0,1,0],angle=7200*PI/180,run_time=5, rate_func=rate_functions.ease_in_quad))
 class smelting(Scene):
     #ID: 08 (see doc for more info)
     #01 - The flash furnace
     #02 - Literally everything else
-    def construct(self):    
-        print('todo')
+    def construct(self):
+        from shared import chalcopyriteslurry, slurry_hupdater
+        Furnaceexpoint=[
+            [0,3,0],
+            [0,0,0],
+            [3,0,0],
+            [3,2.75,0],
+            [3.25,3,0]
+        ]
+        FurnaceEx=Polygon(*Furnaceexpoint,fill_color="#8e8e8e",stroke_color="#4f4f4f",stroke_width=30).to_edge(DOWN)
+        FurnaceInt=Rectangle(width=2.75,height=0.25).move_to([1.5,-3,0]).set_color("#d8331d",1)
+        smelts=chalcopyriteslurry.copy()
+        self.add(FurnaceEx,FurnaceInt)
+        self.play(smelts.animate.move_to([0,-1,0]))
+        self.wait(5)
 class oxidizing(Scene):
     #ID: 09 (see doc for more info)
     #The machine is called a 'Peirce-Smith Converter'
