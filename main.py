@@ -347,7 +347,7 @@ class flotation(Scene):
         conveyor1=conveyora.copy().scale(1.75).move_to([-5,-1,0])
         self.play(Create(Flotation),Create(Water),Create(FloatAgitate),Create(conveyor1))
         self.add(hmoving_copper_slurry, hmoving_gangue_slurry)
-        hmoving_copper_slurry.add_updater(slurry_hupdater([-5, -0.7, 0], 0.3, 0.2, 0, 2, hmoving_copper_slurry)) # feel free to tweak parameters as needed, definitions are in shared.py
+        hmoving_copper_slurry.add_updater(slurry_hupdater([-5, -0.7, 0], 0.3, 0.2, 1.5, 2.25, hmoving_copper_slurry)) # feel free to tweak parameters as needed, definitions are in shared.py
         hmoving_gangue_slurry.add_updater(slurry_hupdater([-5, -0.7, 0], 0.3, 0.2, 10, -0.5, hmoving_gangue_slurry))
         print(hmoving_copper_slurry.get_updaters())
         print(hmoving_gangue_slurry.get_updaters())

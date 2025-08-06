@@ -86,11 +86,11 @@ def slurry_hupdater(spos, vx, vy, trgx, trgy, mobject:PMobject):
             mobject.points[:, 1] = numpy.random.uniform(spos[1], spos[1] + 0.1, mobject.points.shape[0])
         mobject.points += velocities
         below_floor_points = mobject.points[:, 0] > trgx
-        velocities[below_floor_points, 0] = 0
+        velocities[below_floor_points, 0] = numpy.random.uniform(-0.13, 0, numpy.sum(below_floor_points))
         velocities[below_floor_points, 1] = numpy.random.uniform(vy/1.5, vy, numpy.sum(below_floor_points))
         mobject.points[below_floor_points, 0] = trgx
         above_ceiling_points = mobject.points[:, 1] > trgy # note to self: do not write code when tired
-        velocities[above_ceiling_points, 1] = 0
+        velocities[above_ceiling_points] = [0, 0, 0]
         mobject.points[above_ceiling_points, 1] = trgy
         if above_ceiling_points.all() == mobject.points[:, 1].all():
             mobject.remove_updater(actual_updater2)
