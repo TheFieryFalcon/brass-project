@@ -341,12 +341,6 @@ class flotation(Scene):
             [0,0,0],
             [0,4,0],
         ]
-        generic_trapezoid = [
-            [-1,1,0],
-            [1,1,0],
-            [2,-1,0],
-            [-2,-1,0]
-            ]
         hmoving_copper_slurry = chalcopyriteslurry.copy()
         hmoving_gangue_slurry = chalcopyriteslurry.copy().set_color('#262112')
         Flotation=Polygon(*Flotation_points,stroke_color='#a2aab7').move_to([0,0.5,0])
@@ -360,7 +354,7 @@ class flotation(Scene):
         hmoving_gangue_slurry.add_updater(slurry_hupdater([-5, -0.7, 0], 0.3, 0.2, 10, -0.5, hmoving_gangue_slurry))
         #print(hmoving_copper_slurry.get_updaters())
         #print(hmoving_gangue_slurry.get_updaters())
-        self.play(Rotate(FloatAgitate,axis=[0,1,0],angle=7200*PI/180,run_time=5, rate_func=rate_functions.ease_in_quad))
+        self.play(Rotate(FloatAgitate,axis=[0,1,0],angle=720*PI/180,run_time=5, rate_func=rate_functions.ease_in_quad))
 class smelting(Scene):
     #ID: 08 (see doc for more info)
     #01 - The flash furnace
@@ -374,12 +368,30 @@ class smelting(Scene):
             [3,2.75,0],
             [3.25,3,0]
         ]
-        FurnaceEx=Polygon(*Furnaceexpoint,fill_color="#8e8e8e",stroke_color="#4f4f4f",stroke_width=30).to_edge(DOWN)
-        FurnaceInt=Rectangle(width=2.75,height=0.25).move_to([1.5,-3,0]).set_color("#d8331d",1)
+        Firepoint=[
+            [0,0,0],
+            [-1,1,0],
+            [-1,2,0],
+            [0,1,0],
+            [0,2,0],
+            [1,1,0],
+        ]
+        FurnaceEx=Polygon(*Furnaceexpoint,fill_color="#8e8e8e",stroke_color="#4f4f4f",stroke_width=30).move_to([0,1,0])
+        FurnaceInt1=Rectangle(width=2.75,height=0.01).move_to([-0.1,-0.5,0]).set_color("#b82500",1)
+        FurnaceInt2=Rectangle(width=2.75,height=2.5).move_to([-0.1,0.9,0]).set_color("#b82500",1)
         smelts=chalcopyriteslurry.copy()
-        self.add(FurnaceEx,FurnaceInt)
-        self.play(smelts.animate.move_to([0,-1,0]))
-        self.wait(5)
+        fire1=Polygon(*Firepoint,stroke_color="#000000").set_fill("#fe4b20",1)
+        fire2=fire1.copy().set_fill("#ffa034",1).scale(0.75)
+        fire3=fire2.copy().set_fill("#ffdd58",1).scale(0.75)
+        fire4=fire3.copy().set_fill("#fcfbcb",1).scale(0.75)
+        fire=Group(fire1,fire2,fire3,fire4).to_edge(DOWN)
+        self.add(FurnaceEx,FurnaceInt1,smelts)
+        self.play(Transform(FurnaceInt1,FurnaceInt2))
+        self.wait(1)
+        self.play(GrowFromEdge(fire,DOWN,point_color="#3fc6f3"))
+        self.play(FadeToColor(FurnaceInt2,color="#e97705"))
+        self.play(FadeToColor(FurnaceInt2,color="#ffd711"))
+        self.play(FadeToColor(FurnaceInt2,color="#ffffff"))
 class oxidizing(Scene):
     #ID: 09 (see doc for more info)
     #The machine is called a 'Peirce-Smith Converter'
