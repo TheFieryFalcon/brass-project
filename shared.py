@@ -59,7 +59,7 @@ ore_points= [
 ]
 
 # this just makes the slurry fall one point at a time and then start moving horizontally at v after it's hit something
-def slurry_vupdater(trgy, mobject:PMobject): # the : is just type annotation
+def slurry_vupdater(trgy, moveh, mobject:PMobject): # the : is just type annotation
     velocities = numpy.zeros(mobject.points.shape) # mobject.points.shape is a two-dimensional Nx3 matrix, this is the first derivative of that
     velocities[:, 1] = numpy.random.uniform(-0.2, -0.4, mobject.points.shape[0]) # : means "every point in this dimension"
     def actual_updater(mobject:PMobject, dt): # this is a closure; https://en.wikipedia.org/wiki/Closure_(computer_programming)
@@ -68,7 +68,8 @@ def slurry_vupdater(trgy, mobject:PMobject): # the : is just type annotation
             mobject.points += velocities # applies the matrix to the points
             below_floor_points = mobject.points[:, 1] < trgy # for some reason this returns the indices??? I am going insane
             velocities[below_floor_points, 1] = 0
-            velocities[below_floor_points, 0] = 0.5
+            if (moveh == True):
+                velocities[below_floor_points, 0] = 0.5
             mobject.points[below_floor_points, 1] = trgy
             
                  

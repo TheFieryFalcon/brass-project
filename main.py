@@ -290,7 +290,6 @@ class comminution(Scene):
         ore0 = Polygon(*ore_points, color=ccolor, fill_opacity=1).scale(0.1)
         oredict = {0: ore0}
         slurrydict = []
-        # debugpoint1 = Circle(0.05, YELLOW).move_to([0, 0, 0])
         path = VMobject().set_points_as_corners([[-6.8, 2.1, 0], [-2.6,1.8,0], [-2, 1, 0], [0, 0, 0]])
         sequence = []
         for i in range(6):
@@ -299,7 +298,7 @@ class comminution(Scene):
             slurrydict.append(chalcopyriteslurry.copy().move_to([0, -1, 0]))
             if i % 2 == 1:
                 slurrydict[i].set_color('#262112')
-            slurrydict[i].add_updater(slurry_vupdater(-3, slurrydict[i]))    
+            slurrydict[i].add_updater(slurry_vupdater(-3, True, slurrydict[i]))    
             sequence.append(Succession(Create(oredict[i], runtime=0.1), MoveAlongPath(oredict[i], path, runtime=2, rate_func=rate_functions.linear), FadeOut(oredict[i], runtime=0.1)))
         self.add(grinder, funnel, conveyor1, conveyor2, conveyor3, conveyor4, conveyor5)
         self.play(LaggedStart(*sequence, lag_ratio=0.20, runtime=5))
