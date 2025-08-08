@@ -358,7 +358,7 @@ class flotation(Scene):
 class smelting(Scene):
     #ID: 08 (see doc for more info)
     #01 - The flash furnace
-    #02 - Literally everything else
+    #02 - Input, oxygen tank, some sort of visualization of oxygen flow, slag separation (ideally of a different color than below)
     def construct(self):
         from shared import chalcopyriteslurry, slurry_vupdater
         Furnaceexpoint=[
@@ -389,6 +389,7 @@ class smelting(Scene):
         self.play(Transform(FurnaceInt1,FurnaceInt2))
         self.wait(1)
         #self.play(GrowFromEdge(fire,DOWN,point_color="#3fc6f3"))
+        # uh this is not how a flash furnace works, at least add an oxygen tank and intake - uno
         self.play(FadeToColor(FurnaceInt2,color="#e97705"))
         self.play(FadeToColor(FurnaceInt2,color="#ffd711"))
         self.play(FadeToColor(FurnaceInt2,color="#ffffff"))
