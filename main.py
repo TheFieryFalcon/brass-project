@@ -129,7 +129,7 @@ class stainless_steel_skyscraper(Scene):
         warray14 = warray13.copy().next_to(warray13, DOWN, buff=0.14)
         warray15 = warray14.copy().next_to(warray14, DOWN, buff=0.14)
         fullwindowarray = Group(warray, warray2, warray3, warray4, warray5, warray6, warray7, warray8, warray9, warray10, warray11, warray12, warray13, warray14, warray15)
-        stainless_pipe = Circle(radius=0.6, stroke_color=ManimColor.from_hex('#b4bdc7'), fill_opacity=0, stroke_width=1)
+        stainless_pipe = Circle(radius=0.6, stroke_color=ManimColor.from_hex('#b4bdc7'), fill_opacity=0, stroke_width=10)
         sp2 = stainless_pipe.copy().next_to(stainless_pipe, DR, 0)
         sp3 = sp2.copy().next_to(sp2, LEFT, 0)
         sp4 = sp3.copy().next_to(sp3, LEFT, 0)
@@ -145,7 +145,7 @@ class stainless_steel_skyscraper(Scene):
         skyscraper_body = Polygon(*skyscraper_points, fill_color=ManimColor.from_hex('#CED2D7'), fill_opacity=0.75)
         self.play(ReplacementTransform(stainless_pipe, skyscraper_body), FadeOut(sp2, sp3, sp4, sp5, sp6, sp7, sp8, sp9))
         self.add(fullwindowarray)
-        self.wait(2)
+        self.wait(4)
         self.remove(fullwindowarray)
 class bighole(Scene):
     def construct(self):
@@ -350,7 +350,7 @@ class flotation(Scene):
         conveyor2=conveyor1.copy().move_to([5,-1,0])
         self.play(Create(Water),Create(Flotation),Create(FloatAgitate),Create(conveyor1),Create(conveyor2))
         self.add(hmoving_copper_slurry, hmoving_gangue_slurry)
-        hmoving_copper_slurry.add_updater(slurry_hupdater([-5, -0.7, 0], 0.3, 0.2, 1.5, 2.25, hmoving_copper_slurry)) # feel free to tweak parameters as needed, definitions are in shared.py
+        hmoving_copper_slurry.add_updater(slurry_hupdater([-5, -0.7, 0], 0.3, 0.2, 1.5, 2.5, hmoving_copper_slurry)) # feel free to tweak parameters as needed, definitions are in shared.py
         hmoving_gangue_slurry.add_updater(slurry_hupdater([-5, -0.7, 0], 0.3, 0.2, 10, -0.5, hmoving_gangue_slurry))
         #print(hmoving_copper_slurry.get_updaters())
         #print(hmoving_gangue_slurry.get_updaters())
@@ -428,12 +428,11 @@ class oxidizing(Scene):
         psconv_interior = Rectangle(width=3, height=1, fill_opacity=0.8).move_to([psconv.get_x()-0.3, psconv.get_y()+0.3, 0])
         copper_slag = Rectangle(width=3, height=0.15, fill_opacity=1, color=ccolor).move_to([psconv.get_x()-0.3, psconv.get_y()+0.05, 0])
         copper_blister = Rectangle(width=3, height=0.35, fill_opacity=1, color=ccolor).move_to([psconv.get_x()-0.3, psconv.get_y()-0.2, 0])
-        tuyere_pipe = Cylinder(0.15, 2, X_AXIS, color=WHITE, fill_color=WHITE, fill_opacity=0.8, checkerboard_colors=False, stroke_width=0, v_resolution=30).move_to([psconv.get_x()-2.5, psconv.get_y(), 0])
-        tuyere_pipe2 = tuyere_pipe.copy().set_y(psconv.get_y()+0.5)
+        tuyere = Cylinder(0.15, 2, X_AXIS, color=WHITE, fill_color=WHITE, fill_opacity=0.8, checkerboard_colors=False, stroke_width=0, v_resolution=30).move_to([psconv.get_x()-2.5, psconv.get_y(), 0])
+        tuyere2 = tuyere.copy().set_y(psconv.get_y()+0.5)
         self.play(Create(psconv))
-        self.add(tuyere_pipe, tuyere_pipe2, psconv, psconv_basic_lining, psconv_interior, copper_slag, copper_blister)
-        self.play(FadeToColor(copper_slag, '#5e574e'), FadeToColor(copper_blister, '#ce8946'))
-        self.wait(4)
+        self.add(tuyere, tuyere2, psconv, psconv_basic_lining, psconv_interior, copper_slag, copper_blister)
+        self.play(FadeToColor(copper_slag, '#5e574e', run_time=4), FadeToColor(copper_blister, '#ce8946', run_time=4))
 class refining(Scene):
     #ID: 10 (see doc for more info)
     #01 - Anode Furnace
