@@ -313,7 +313,7 @@ class flotation(Scene):
     #02 - Agitator, Slurry, and Stirring
     def construct(self):
         from shared import chalcopyriteslurry, slurry_hupdater, conveyora
-        Flotation_points = [
+        flotation_points = [
             [4,-3,0],
             [3,-3,0],
             [3,0,0],
@@ -343,32 +343,32 @@ class flotation(Scene):
         ]
         hmoving_copper_slurry = chalcopyriteslurry.copy()
         hmoving_gangue_slurry = chalcopyriteslurry.copy().set_color('#262112')
-        Flotation=Polygon(*Flotation_points,stroke_color='#a2aab7').move_to([0,0.5,0])
-        FloatAgitate=Polygon(*agitate_points,stroke_color="#384650").move_to([0,0.5,0]) 
-        Water=Rectangle(height=4.5,width=3).move_to([0,0.25,0]).set_color("#558cdf",opacity=1)
+        flotation=Polygon(*flotation_points,stroke_color='#a2aab7').move_to([0,0.5,0])
+        agitator=Polygon(*agitate_points,stroke_color="#384650").move_to([0,0.5,0]) 
+        water=Rectangle(height=4.5,width=3).move_to([0,0.25,0]).set_color("#558cdf",opacity=1)
         conveyor1=conveyora.copy().scale(1.75).move_to([-5,-1,0])
         conveyor2=conveyor1.copy().move_to([5,-1,0])
-        self.play(Create(Water),Create(Flotation),Create(FloatAgitate),Create(conveyor1),Create(conveyor2))
+        self.play(Create(water),Create(flotation),Create(agitator),Create(conveyor1),Create(conveyor2))
         self.add(hmoving_copper_slurry, hmoving_gangue_slurry)
         hmoving_copper_slurry.add_updater(slurry_hupdater([-5, -0.7, 0], 0.3, 0.2, 1.5, 2.5, hmoving_copper_slurry)) # feel free to tweak parameters as needed, definitions are in shared.py
         hmoving_gangue_slurry.add_updater(slurry_hupdater([-5, -0.7, 0], 0.3, 0.2, 10, -0.5, hmoving_gangue_slurry))
         #print(hmoving_copper_slurry.get_updaters())
         #print(hmoving_gangue_slurry.get_updaters())
-        self.play(Rotate(FloatAgitate,axis=[0,1,0],angle=720*PI/180,run_time=5, rate_func=rate_functions.ease_in_quad))
+        self.play(Rotate(agitator,axis=[0,1,0],angle=720*PI/180,run_time=5, rate_func=rate_functions.ease_in_quad))
 class smelting(Scene):
     #ID: 08 (see doc for more info)
     #01 - The flash furnace
     #02 - Input, oxygen tank, some sort of visualization of oxygen flow, slag separation (ideally of a different color than below)
     def construct(self):
         from shared import chalcopyriteslurry, slurry_vupdater
-        Furnaceexpoint=[
+        furnace_ex_points=[
             [0,3,0],
             [0,0,0],
             [3,0,0],
             [3,2.75,0],
             [3.25,3,0]
         ]
-        Firepoint=[
+        fire_points=[
             [0,0,0],
             [-1,1,0],
             [-1,2,0],
@@ -376,23 +376,23 @@ class smelting(Scene):
             [0,2,0],
             [1,1,0],
         ]
-        FurnaceEx=Polygon(*Furnaceexpoint,fill_color="#8e8e8e",stroke_color="#4f4f4f",stroke_width=30).move_to([0,1,0])
-        FurnaceInt1=Rectangle(width=2.75,height=0.01).move_to([-0.1,-0.5,0]).set_color("#b82500",1)
-        FurnaceInt2=Rectangle(width=2.75,height=2.5).move_to([-0.1,0.9,0]).set_color("#b82500",1)
+        furnaceex=Polygon(*furnace_ex_points,fill_color="#8e8e8e",stroke_color="#4f4f4f",stroke_width=30).move_to([0,1,0])
+        furnaceint1=Rectangle(width=2.75,height=0.01).move_to([-0.1,-0.5,0]).set_color("#b82500",1)
+        furnaceint2=Rectangle(width=2.75,height=2.5).move_to([-0.1,0.9,0]).set_color("#b82500",1)
         smelts=chalcopyriteslurry.copy().scale(0.8).add_updater(slurry_vupdater(-0.3, False, chalcopyriteslurry)).move_to([0, 10, 0])
-        fire1=Polygon(*Firepoint,stroke_color="#000000").set_fill("#fe4b20",1)
+        fire1=Polygon(*fire_points,stroke_color="#000000").set_fill("#fe4b20",1)
         fire2=fire1.copy().set_fill("#ffa034",1).scale(0.75)
         fire3=fire2.copy().set_fill("#ffdd58",1).scale(0.75)
         fire4=fire3.copy().set_fill("#fcfbcb",1).scale(0.75)
         fire=Group(fire1,fire2,fire3,fire4).to_edge(DOWN)
-        self.add(smelts,FurnaceEx,FurnaceInt1)
-        self.play(Transform(FurnaceInt1,FurnaceInt2))
+        self.add(smelts,furnaceex,furnaceint1)
+        self.play(Transform(furnaceint1,furnaceint2))
         self.wait(1)
         #self.play(GrowFromEdge(fire,DOWN,point_color="#3fc6f3"))
         # uh this is not how a flash furnace works, at least add an oxygen tank and intake - uno
-        self.play(FadeToColor(FurnaceInt2,color="#e97705"))
-        self.play(FadeToColor(FurnaceInt2,color="#ffd711"))
-        self.play(FadeToColor(FurnaceInt2,color="#ffffff"))
+        self.play(FadeToColor(furnaceint2,color="#e97705"))
+        self.play(FadeToColor(furnaceint2,color="#ffd711"))
+        self.play(FadeToColor(furnaceint2,color="#ffffff"))
 class oxidizing(Scene):
     #ID: 09 (see doc for more info)
     #The machine is called a 'Peirce-Smith Converter'
