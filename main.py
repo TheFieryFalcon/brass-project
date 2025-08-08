@@ -388,7 +388,7 @@ class smelting(Scene):
         self.add(smelts,furnaceex,furnaceint1)
         self.play(Transform(furnaceint1,furnaceint2))
         self.wait(1)
-        #self.play(GrowFromEdge(fire,DOWN,point_color="#3fc6f3"))
+        # self.play(GrowFromEdge(fire,DOWN,point_color="#3fc6f3")) this line is bugged please fix
         # uh this is not how a flash furnace works, at least add an oxygen tank and intake - uno
         self.play(FadeToColor(furnaceint2,color="#e97705"))
         self.play(FadeToColor(furnaceint2,color="#ffd711"))
