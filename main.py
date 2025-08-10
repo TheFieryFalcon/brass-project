@@ -387,7 +387,7 @@ class smelting(Scene):
         self.add(FurnaceEx,FurnaceInt1,smelts)
         self.play(Transform(FurnaceInt1,FurnaceInt2))
         self.wait(1)
-        self.play(GrowFromEdge(fire,DOWN,point_color="#3fc6f3"))
+        self.play(GrowFromPoint(fire,[0,-6,0],point_color="#21242b"))
         self.play(FadeToColor(FurnaceInt2,color="#e97705"))
         self.play(FadeToColor(FurnaceInt2,color="#ffd711"))
         self.play(FadeToColor(FurnaceInt2,color="#ffffff"))
