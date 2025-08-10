@@ -129,7 +129,7 @@ class stainless_steel_skyscraper(Scene):
         warray14 = warray13.copy().next_to(warray13, DOWN, buff=0.14)
         warray15 = warray14.copy().next_to(warray14, DOWN, buff=0.14)
         fullwindowarray = Group(warray, warray2, warray3, warray4, warray5, warray6, warray7, warray8, warray9, warray10, warray11, warray12, warray13, warray14, warray15)
-        stainless_pipe = Circle(radius=0.6, stroke_color=ManimColor.from_hex('#b4bdc7'), fill_opacity=0, stroke_width=1)
+        stainless_pipe = Circle(radius=0.6, stroke_color=ManimColor.from_hex('#b4bdc7'), fill_opacity=0, stroke_width=10)
         sp2 = stainless_pipe.copy().next_to(stainless_pipe, DR, 0)
         sp3 = sp2.copy().next_to(sp2, LEFT, 0)
         sp4 = sp3.copy().next_to(sp3, LEFT, 0)
@@ -139,12 +139,13 @@ class stainless_steel_skyscraper(Scene):
         sp8 = sp2.copy().next_to(sp4, DOWN, 0)
         sp9 = sp2.copy().next_to(sp4, DL, 0)
         spall = Group(stainless_pipe, sp2, sp3, sp4, sp5, sp6, sp7, sp8, sp9)
-        text2 = Text("Stainless Steel: In 1796, chromium was discovered and found to have\n anti-oxidant properties when added to metals. It was\n used throughout the 19th century, but the modern stainless\n steel was invented by Harry Brearley in 1913 and greatly aided\n the Allies in fighting World War I. Today, it is used in pretty much everything.", 0.5, 0.05, ManimColor.from_hex("#A7C7E7"), line_spacing=1.5).set_x(2).set_y(3).scale(0.25)
-        self.play(Create(spall), FadeIn(text2))
+        # text will be added in post due to Manim's extremely janky rendering
+        #text2 = Text("Stainless Steel: In 1796, chromium was discovered and found to have\n anti-oxidant properties when added to metals. It was\n used throughout the 19th century, but the modern stainless\n steel was invented by Harry Brearley in 1913 and greatly aided\n the Allies in fighting World War I. Today, it is used in pretty much everything.", 0.5, 0.05, ManimColor.from_hex("#A7C7E7"), line_spacing=1.5).set_x(2).set_y(3).scale(0.25)
+        self.play(Create(spall))
         skyscraper_body = Polygon(*skyscraper_points, fill_color=ManimColor.from_hex('#CED2D7'), fill_opacity=0.75)
-        self.play(ReplacementTransform(stainless_pipe, skyscraper_body), FadeOut(sp2, sp3, sp4, sp5, sp6, sp7, sp8, sp9, text2))
+        self.play(ReplacementTransform(stainless_pipe, skyscraper_body), FadeOut(sp2, sp3, sp4, sp5, sp6, sp7, sp8, sp9))
         self.add(fullwindowarray)
-        self.wait(2)
+        self.wait(4)
         self.remove(fullwindowarray)
 class bighole(Scene):
     def construct(self):
@@ -312,7 +313,7 @@ class flotation(Scene):
     #02 - Agitator, Slurry, and Stirring
     def construct(self):
         from shared import chalcopyriteslurry, slurry_hupdater, conveyora
-        Flotation_points = [
+        flotation_points = [
             [4,-3,0],
             [3,-3,0],
             [3,0,0],
@@ -342,32 +343,32 @@ class flotation(Scene):
         ]
         hmoving_copper_slurry = chalcopyriteslurry.copy()
         hmoving_gangue_slurry = chalcopyriteslurry.copy().set_color('#262112')
-        Flotation=Polygon(*Flotation_points,stroke_color='#a2aab7').move_to([0,0.5,0])
-        FloatAgitate=Polygon(*agitate_points,stroke_color="#384650").move_to([0,0.5,0]) 
-        Water=Rectangle(height=4.5,width=3).move_to([0,0.25,0]).set_color("#558cdf",opacity=1)
+        flotation=Polygon(*flotation_points,stroke_color='#a2aab7').move_to([0,0.5,0])
+        agitator=Polygon(*agitate_points,stroke_color="#384650").move_to([0,0.5,0]) 
+        water=Rectangle(height=4.5,width=3).move_to([0,0.25,0]).set_color("#558cdf",opacity=1)
         conveyor1=conveyora.copy().scale(1.75).move_to([-5,-1,0])
         conveyor2=conveyor1.copy().move_to([5,-1,0])
-        self.play(Create(Water),Create(Flotation),Create(FloatAgitate),Create(conveyor1),Create(conveyor2))
+        self.play(Create(water),Create(flotation),Create(agitator),Create(conveyor1),Create(conveyor2))
         self.add(hmoving_copper_slurry, hmoving_gangue_slurry)
-        hmoving_copper_slurry.add_updater(slurry_hupdater([-5, -0.7, 0], 0.3, 0.2, 1.5, 2.25, hmoving_copper_slurry)) # feel free to tweak parameters as needed, definitions are in shared.py
+        hmoving_copper_slurry.add_updater(slurry_hupdater([-5, -0.7, 0], 0.3, 0.2, 1.5, 2.5, hmoving_copper_slurry)) # feel free to tweak parameters as needed, definitions are in shared.py
         hmoving_gangue_slurry.add_updater(slurry_hupdater([-5, -0.7, 0], 0.3, 0.2, 10, -0.5, hmoving_gangue_slurry))
         #print(hmoving_copper_slurry.get_updaters())
         #print(hmoving_gangue_slurry.get_updaters())
-        self.play(Rotate(FloatAgitate,axis=[0,1,0],angle=720*PI/180,run_time=5, rate_func=rate_functions.ease_in_quad))
+        self.play(Rotate(agitator,axis=[0,1,0],angle=720*PI/180,run_time=5, rate_func=rate_functions.ease_in_quad))
 class smelting(Scene):
     #ID: 08 (see doc for more info)
     #01 - The flash furnace
-    #02 - Literally everything else
+    #02 - Input, oxygen tank, some sort of visualization of oxygen flow, slag separation (ideally of a different color than below)
     def construct(self):
-        from shared import chalcopyriteslurry, slurry_hupdater
-        Furnaceexpoint=[
+        from shared import chalcopyriteslurry, slurry_vupdater
+        furnace_ex_points=[
             [0,3,0],
             [0,0,0],
             [3,0,0],
             [3,2.75,0],
             [3.25,3,0]
         ]
-        Firepoint=[
+        fire_points=[
             [0,0,0],
             [-1,1,0],
             [-1,2,0],
@@ -375,19 +376,19 @@ class smelting(Scene):
             [0,2,0],
             [1,1,0],
         ]
-        FurnaceEx=Polygon(*Furnaceexpoint,fill_color="#8e8e8e",stroke_color="#4f4f4f",stroke_width=30).move_to([0,1,0])
-        FurnaceInt1=Rectangle(width=2.75,height=0.01).move_to([-0.1,-0.5,0]).set_color("#b82500",1)
-        FurnaceInt2=Rectangle(width=2.75,height=2.5).move_to([-0.1,0.9,0]).set_color("#b82500",1)
-        smelts=chalcopyriteslurry.copy()
-        fire1=Polygon(*Firepoint,stroke_color="#000000").set_fill("#fe4b20",1)
+        furnaceex=Polygon(*furnace_ex_points,fill_color="#8e8e8e",stroke_color="#4f4f4f",stroke_width=30).move_to([0,1,0])
+        furnaceint1=Rectangle(width=2.75,height=0.01).move_to([-0.1,-0.5,0]).set_color("#b82500",1)
+        furnaceint2=Rectangle(width=2.75,height=2.5).move_to([-0.1,0.9,0]).set_color("#b82500",1)
+        smelts=chalcopyriteslurry.copy().scale(0.8).add_updater(slurry_vupdater(-0.3, False, chalcopyriteslurry)).move_to([0, 10, 0])
+        fire1=Polygon(*fire_points,stroke_color="#000000").set_fill("#fe4b20",1)
         fire2=fire1.copy().set_fill("#ffa034",1).scale(0.75)
         fire3=fire2.copy().set_fill("#ffdd58",1).scale(0.75)
         fire4=fire3.copy().set_fill("#fcfbcb",1).scale(0.75)
         fire=Group(fire1,fire2,fire3,fire4).to_edge(DOWN)
-        self.add(FurnaceEx,FurnaceInt1,smelts)
-        self.play(Transform(FurnaceInt1,FurnaceInt2))
+        self.add(smelts,furnaceex,furnaceint1)
+        self.play(Transform(furnaceint1,furnaceint2))
         self.wait(1)
-        self.play(GrowFromPoint(fire,[0,-6,0],point_color="#21242b"))
+        
         self.play(FadeToColor(FurnaceInt2,color="#e97705"))
         self.play(FadeToColor(FurnaceInt2,color="#ffd711"))
         self.play(FadeToColor(FurnaceInt2,color="#ffffff"))
@@ -395,7 +396,43 @@ class oxidizing(Scene):
     #ID: 09 (see doc for more info)
     #The machine is called a 'Peirce-Smith Converter'
     def construct(self):
-        print('todo')
+        from shared import ccolor
+        psconv_points = [
+            [-4.7, 1.7, 0],
+            [-4.1, 1.7, 0],
+            [-4.1, 1.6, 0],
+            [-0.2, 1.6, 0],
+            [-0.2, 1.7, 0],
+            [0.1, 1.7, 0],
+            [0.9, 1.2, 0],
+            [0.9, 0.2, 0],
+            [0.1, -0.3, 0],
+            [-4.7, -0.3, 0] 
+        ]
+        psconv_foot_points = [
+            [-4.325, -0.3, 0],
+            [-4.175, -0.3, 0],
+            [-4.175, -0.5, 0],
+            [-4.0, -0.5, 0],
+            [-4.0, -0.9, 0],
+            [-4.5, -0.9, 0],
+            [-4.5, -0.5, 0],
+            [-4.325, -0.5, 0]
+        ]
+        psconv_hull = Polygon(*psconv_points, fill_opacity=0.8)
+        foot = Polygon(*psconv_foot_points, fill_opacity=1)
+        foot2 = foot.copy().set_x(-2.2)
+        foot3 = foot.copy().set_x(-0.2)
+        psconv = Group(psconv_hull, foot, foot2, foot3).set_color('#6e6d6b')
+        psconv_basic_lining = Rectangle(width=4, height=1.5, color='#7d7757', fill_opacity=0.8).move_to([psconv.get_x()-0.3, psconv.get_y()+0.3, 0])
+        psconv_interior = Rectangle(width=3, height=1, fill_opacity=0.8).move_to([psconv.get_x()-0.3, psconv.get_y()+0.3, 0])
+        copper_slag = Rectangle(width=3, height=0.15, fill_opacity=1, color=ccolor).move_to([psconv.get_x()-0.3, psconv.get_y()+0.05, 0])
+        copper_blister = Rectangle(width=3, height=0.35, fill_opacity=1, color=ccolor).move_to([psconv.get_x()-0.3, psconv.get_y()-0.2, 0])
+        tuyere = Cylinder(0.15, 2, X_AXIS, color=WHITE, fill_color=WHITE, fill_opacity=0.8, checkerboard_colors=False, stroke_width=0, v_resolution=30).move_to([psconv.get_x()-2.5, psconv.get_y(), 0])
+        tuyere2 = tuyere.copy().set_y(psconv.get_y()+0.5)
+        self.play(Create(psconv))
+        self.add(tuyere, tuyere2, psconv, psconv_basic_lining, psconv_interior, copper_slag, copper_blister)
+        self.play(FadeToColor(copper_slag, '#5e574e', run_time=4), FadeToColor(copper_blister, '#ce8946', run_time=4))
 class refining(Scene):
     #ID: 10 (see doc for more info)
     #01 - Anode Furnace
