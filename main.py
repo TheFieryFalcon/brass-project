@@ -368,30 +368,32 @@ class smelting(Scene):
             [3,2.75,0],
             [3.25,3,0]
         ]
-        fire_points=[
+        valve_points=[
             [0,0,0],
-            [-1,1,0],
-            [-1,2,0],
             [0,1,0],
-            [0,2,0],
             [1,1,0],
+            [1,4,0],
+            [2,4,0],
+            [2,3,0],
+            [3,3,0],
+            [3,2,0],
+            [2,2,0],
+            [2,1,0],
+            [3,1,0],
+            [3,0,0],
         ]
-        furnaceex=Polygon(*furnace_ex_points,fill_color="#8e8e8e",stroke_color="#4f4f4f",stroke_width=30).move_to([0,1,0])
-        furnaceint1=Rectangle(width=2.75,height=0.01).move_to([-0.1,-0.5,0]).set_color("#b82500",1)
-        furnaceint2=Rectangle(width=2.75,height=2.5).move_to([-0.1,0.9,0]).set_color("#b82500",1)
-        smelts=chalcopyriteslurry.copy().scale(0.8).add_updater(slurry_vupdater(-0.3, False, chalcopyriteslurry)).move_to([0, 10, 0])
-        fire1=Polygon(*fire_points,stroke_color="#000000").set_fill("#fe4b20",1)
-        fire2=fire1.copy().set_fill("#ffa034",1).scale(0.75)
-        fire3=fire2.copy().set_fill("#ffdd58",1).scale(0.75)
-        fire4=fire3.copy().set_fill("#fcfbcb",1).scale(0.75)
-        fire=Group(fire1,fire2,fire3,fire4).to_edge(DOWN)
-        self.add(smelts,furnaceex,furnaceint1)
-        self.play(Transform(furnaceint1,furnaceint2))
-        self.wait(1)
-        
-        self.play(FadeToColor(FurnaceInt2,color="#e97705"))
-        self.play(FadeToColor(FurnaceInt2,color="#ffd711"))
-        self.play(FadeToColor(FurnaceInt2,color="#ffffff"))
+        furnaceex=Polygon(*furnace_ex_points,fill_color="#8e8e8e",stroke_color="#4f4f4f",stroke_width=30).move_to([0,-1,0])
+        furnaceint1=Rectangle(width=2.75,height=0.01).move_to([-0.1,-2.4,0]).set_color("#b82500",1)
+        furnaceint2=Rectangle(width=2.75,height=2.5).move_to([-0.1,-1.1,0]).set_color("#b82500",1)
+        smelts=chalcopyriteslurry.copy().scale(0.8).add_updater(slurry_vupdater(-2.5, False, chalcopyriteslurry)).move_to([0, 10, 0])
+        Tank=RoundedRectangle(height=2.5,width=1,corner_radius=0.5,stroke_color="#42664a").set_fill("#93d990",1).move_to([-2.25,-1.5,0])
+        valve=Polygon(*valve_points).move_to([-2.25,0,0]).scale(0.25).set_color("#e09c47",1)
+        self.add(smelts,furnaceex,furnaceint1,Tank,valve)
+        self.wait(1.8)
+        self.play(Transform(furnaceint1,furnaceint2))        
+        self.play(FadeToColor(furnaceint2,color="#e97705"))
+        self.play(FadeToColor(furnaceint2,color="#ffd711"))
+        self.play(FadeToColor(furnaceint2,color="#ffffff"))
 class oxidizing(Scene):
     #ID: 09 (see doc for more info)
     #The machine is called a 'Peirce-Smith Converter'
