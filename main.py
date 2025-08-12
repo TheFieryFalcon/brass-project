@@ -429,22 +429,36 @@ class refining(Scene):
     #02 - Anode Casting Wheel
     #03 - Electrowinning (known as IsaKidd Technology for copper)
     def construct(self):
-        acwheel_base = Circle(2.2)
-        acwheel_gsquare = Rectangle(WHITE, 0.7, 0.5)
+        from shared import cucolor
+        acwheel_base = Circle(2.2, color=GRAY, fill_opacity=1)
+        acwheel_gsquare = Rectangle(LIGHT_GRAY, 0.7, 0.5, fill_opacity=1)
         nrect = 14
         dist = 1.7
         acwheel_indents = VGroup()
+        pipe = Rectangle(WHITE, 0.5, 5, fill_color=GRAY_A, fill_opacity=1)
+        cutter1 = Rectangle(WHITE, 0.4, 5).move_to([pipe.get_x()-0.3, pipe.get_y(), pipe.get_z()])
+        pipeoutline = Difference(pipe, cutter1, color=WHITE, fill_opacity=1)
+        fullpipe = VGroup(pipe, pipeoutline).rotate(1/14*PI).set_x(4).set_y(1)
+        pipepath = Line(pipe.get_right(), pipe.get_left()).rotate(1/14*PI).set_x(4).set_y(1)
+        ingot = Rectangle(cucolor, 0.4, 0.5, fill_opacity=1).rotate(1/14*PI).move_to(fullpipe.get_center())
+        anims = []
         for i in range(nrect):
             theta = (i/nrect)*2*PI
             irect = acwheel_gsquare.copy().move_to(acwheel_base.get_center()).set_y(dist)
             irect.rotate(theta, Z_AXIS, acwheel_base.get_center())
+            iingot = ingot.copy()
             acwheel_indents.add(irect)
+            anims.append(Rotate(acwheel_indents, 1/7*PI, acwheel_base.center(), rate_func=rate_functions.linear))
+            anims.append(MoveAlongPath(iingot, pipepath))
+            anims.append(ReplacementTransform(iingot, irect, color=cucolor))
         acwheel_base.set_x(acwheel_indents.get_x()-0.06) # no clue why I have to do this
-        self.add(acwheel_base, acwheel_indents)
+        self.add(acwheel_base, acwheel_indents, fullpipe)
+        self.play(Succession(*anims))
 class alloying(Scene):
     #ID: 11 (see doc for more info)
     #01: Alloyer (just reuse the flash furnace tbh)
-    #02: Casting (we will use ingot casting because it's easier to animate)
+    #02: Continuous Casting Apparatus
+    #03: Animation
     def construct(self):
         alloyer_points=[
             [0,3,0],
