@@ -430,30 +430,71 @@ class refining(Scene):
     #03 - Electrowinning (known as IsaKidd Technology for copper)
     def construct(self):
         from shared import cucolor
-        acwheel_base = Circle(2.2, color=GRAY, fill_opacity=1)
+        acwheel_base = Circle(2.2, color=GRAY, fill_opacity=1).set_x(-4)
         acwheel_gsquare = Rectangle(LIGHT_GRAY, 0.7, 0.5, fill_opacity=1)
         nrect = 14
         dist = 1.7
         acwheel_indents = VGroup()
+        acwheel_sindents = VGroup()
         pipe = Rectangle(WHITE, 0.5, 5, fill_color=GRAY_A, fill_opacity=1)
         cutter1 = Rectangle(WHITE, 0.4, 5).move_to([pipe.get_x()-0.3, pipe.get_y(), pipe.get_z()])
         pipeoutline = Difference(pipe, cutter1, color=WHITE, fill_opacity=1)
-        fullpipe = VGroup(pipe, pipeoutline).rotate(1/14*PI).set_x(4).set_y(1)
-        pipepath = Line(pipe.get_right(), pipe.get_left()).rotate(1/14*PI).set_x(4).set_y(1)
-        ingot = Rectangle(cucolor, 0.4, 0.5, fill_opacity=1).rotate(1/14*PI).move_to(fullpipe.get_center())
-        anims = []
+        fullpipe = VGroup(pipe, pipeoutline).rotate(1/14*PI).set_y(1)
+        pipepath = Line(pipe.get_right(), pipe.get_left()).rotate(1/14*PI).set_y(1)
+        #ingot = Rectangle(cucolor, 0.4, 0.5, fill_opacity=1).rotate(1/14*PI).move_to(fullpipe.get_center())
+        #anims = []
         for i in range(nrect):
             theta = (i/nrect)*2*PI
             irect = acwheel_gsquare.copy().move_to(acwheel_base.get_center()).set_y(dist)
-            irect.rotate(theta, Z_AXIS, acwheel_base.get_center())
-            iingot = ingot.copy()
+            irect.rotate(theta + 11/7*PI, Z_AXIS, acwheel_base.get_center())
             acwheel_indents.add(irect)
-            anims.append(Rotate(acwheel_indents, 1/7*PI, acwheel_base.center(), rate_func=rate_functions.linear))
-            anims.append(MoveAlongPath(iingot, pipepath))
-            anims.append(ReplacementTransform(iingot, irect, color=cucolor))
+            acwheel_sindents.add(irect)
+        # old code (really terrible and caused MANY undiagnosable bugs)
+        #for i in range(nrect):
+            #iingot = ingot.copy()
+            #srect = acwheel_sindents[i].copy().set_color(cucolor)
+            #anims.append(Create(iingot))
+            #anims.append(MoveAlongPath(iingot, pipepath))
+            #anims.append(ReplacementTransform(iingot, srect))
+            #anims.append(ApplyMethod(acwheel_sindents.remove, acwheel_indents[i], run_time=0))
+            #anims.append(ApplyMethod(acwheel_sindents.remove, srect, run_time=0))
+            #anims.append(ApplyMethod(acwheel_sindents.add, iingot, run_time=0))
+            #anims.append(ApplyMethod(acwheel_indents.remove, acwheel_indents[i], run_time=0))
+            #anims.append(FadeOut(iingot, run_time=0))
+            #anims.append(Rotate(acwheel_sindents, 1/7*PI, about_point=acwheel_base.get_center(), rate_func=rate_functions.linear))
         acwheel_base.set_x(acwheel_indents.get_x()-0.06) # no clue why I have to do this
         self.add(acwheel_base, acwheel_indents, fullpipe)
-        self.play(Succession(*anims))
+        #for i in acwheel_sindents:
+        #    print(i.get_color())
+        #print ("________________THIS IS A DIFFERENT LIST_____________________")
+        #print(f"LENGTH OF SINDENTS (INIT): {len(acwheel_sindents)}")
+        #print ("________________THIS IS A DIFFERENT LIST_____________________")
+        #for i in acwheel_indents:
+        #    print(i.get_color())
+        #print ("________________THIS IS A DIFFERENT LIST_____________________")
+        #print(f"LENGTH OF INDENTS (INIT): {len(acwheel_indents)}")
+        #self.wait(1)
+        # for i in acwheel_sindents:
+        #     print(i.get_color())
+        # print ("________________THIS IS A DIFFERENT LIST_____________________")
+        # print(f"LENGTH OF SINDENTS (BEFORE): {len(acwheel_sindents)}")
+        # print ("________________THIS IS A DIFFERENT LIST_____________________")
+        # for i in acwheel_indents:
+        #     print(i.get_color())
+        # print ("________________THIS IS A DIFFERENT LIST_____________________")
+        # print(f"LENGTH OF INDENTS (BEFORE): {len(acwheel_indents)}")
+        # print ("________________THIS IS A DIFFERENT LIST_____________________")
+        #self.play(Succession(*anims, run_time=20))
+
+        # migrate to just a LOT of self.play calls (much worse practice but much easier to work with because I don't need lag ratio)
+        # I can probably just speed this up in post
+        for i in range(nrect):
+            iingot = Rectangle(cucolor, 0.4, 0.5, fill_opacity=1)
+            iingot.rotate(1/14*PI).move_to(pipepath.get_start())
+            self.add(iingot)
+            self.play(MoveAlongPath(iingot, pipepath))
+            self.play(ReplacementTransform(acwheel_indents[i], acwheel_indents[i].copy().set_color(cucolor)), FadeOut(iingot))
+            self.play(Rotate(acwheel_indents, -1/7*PI, about_point=acwheel_base.get_center(), rate_func=rate_functions.linear))
 class alloying(Scene):
     #ID: 11 (see doc for more info)
     #01: Alloyer (just reuse the flash furnace tbh)
