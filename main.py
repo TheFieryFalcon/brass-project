@@ -480,8 +480,9 @@ class alloying(Scene):
         Tin=Group(alloy_tin,crucible_tin).move_to([2.5,2,0])
         Copper=Group(alloy_copper,crucible_copper).move_to([-2.5,2,0])
         self.add(alloyer,Tin,Copper)
-        self.play(Rotate(Tin,angle=PI*90/180),Rotate(Copper,angle=PI*-90/180))
-        #move crucibles so animation works
+        self.play(Tin.animate.move_to([2.5,3,0]),Copper.animate.move_to([-2.5,3,0]))
+        self.play(Tin.animate.move_to([1.5,3,0]),Copper.animate.move_to([-1.5,3,0]))
+        self.play(Rotate(Tin,angle=PI*135/180),Rotate(Copper,angle=PI*-135/180))
         #self.wait(0.125)
         self.play(Transform(alloy_tin,alloy_bronze1),Transform(alloy_copper,alloy_bronze2))
 class annealing(Scene):
