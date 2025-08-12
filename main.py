@@ -376,7 +376,7 @@ class smelting(Scene):
         Pipe=Rectangle(width=1,height=0.5).move_to([-2,-2.5,0]).set_color("#969998",1)
         Pipe2=Pipe.copy().move_to([-3,-0.5,0])
         FurnFuel=Group(Tank,Pipe,Pipe2).move_to([-2.5,-1.3,0])
-        self.add(FurnFuel,smelts,furnaceex,furnaceint1)
+        self.add(furnaceint1, FurnFuel,smelts,furnaceex)
         self.wait(1.8)
         #self.play(MoveAlongPath()) make heat waves if you'd like but imma move on & finish this later (Priority:Low)
         self.play(Transform(furnaceint1,furnaceint2,run_time=2))        
