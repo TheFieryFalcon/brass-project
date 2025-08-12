@@ -368,29 +368,18 @@ class smelting(Scene):
             [3,2.75,0],
             [3.25,3,0]
         ]
-        valve_points=[
-            [0,0,0],
-            [0,1,0],
-            [1,1,0],
-            [1,4,0],
-            [2,4,0],
-            [2,3,0],
-            [3,3,0],
-            [3,2,0],
-            [2,2,0],
-            [2,1,0],
-            [3,1,0],
-            [3,0,0],
-        ]
         furnaceex=Polygon(*furnace_ex_points,fill_color="#8e8e8e",stroke_color="#4f4f4f",stroke_width=30).move_to([0,-1,0])
         furnaceint1=Rectangle(width=2.75,height=0.01).move_to([-0.1,-2.4,0]).set_color("#b82500",1)
         furnaceint2=Rectangle(width=2.75,height=2.5).move_to([-0.1,-1.1,0]).set_color("#b82500",1)
         smelts=chalcopyriteslurry.copy().scale(0.8).add_updater(slurry_vupdater(-2.5, False, chalcopyriteslurry)).move_to([0, 10, 0])
-        Tank=RoundedRectangle(height=2.5,width=1,corner_radius=0.5,stroke_color="#42664a").set_fill("#93d990",1).move_to([-2.25,-1.5,0])
-        valve=Polygon(*valve_points).move_to([-2.25,0,0]).scale(0.25).set_color("#e09c47",1)
-        self.add(smelts,furnaceex,furnaceint1,Tank,valve)
+        Tank=RoundedRectangle(height=2.5,width=1,corner_radius=0.5).move_to([-2.5,-1.5,0]).set_color("#969998",1)
+        Pipe=Rectangle(width=1,height=0.5).move_to([-2,-2.5,0]).set_color("#969998",1)
+        Pipe2=Pipe.copy().move_to([-3,-0.5,0])
+        FurnFuel=Group(Tank,Pipe,Pipe2).move_to([-2.5,-1.3,0])
+        self.add(FurnFuel,smelts,furnaceex,furnaceint1)
         self.wait(1.8)
-        self.play(Transform(furnaceint1,furnaceint2))        
+        #self.play(MoveAlongPath()) make heat waves if you'd like but imma move on & finish this later (Priority:Low)
+        self.play(Transform(furnaceint1,furnaceint2,run_time=2))        
         self.play(FadeToColor(furnaceint2,color="#e97705"))
         self.play(FadeToColor(furnaceint2,color="#ffd711"))
         self.play(FadeToColor(furnaceint2,color="#ffffff"))
