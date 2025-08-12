@@ -398,7 +398,7 @@ class oxidizing(Scene):
     #ID: 09 (see doc for more info)
     #The machine is called a 'Peirce-Smith Converter'
     def construct(self):
-        from shared import ccolor
+        from shared import ccolor, cucolor
         psconv_points = [
             [-4.7, 1.7, 0],
             [-4.1, 1.7, 0],
@@ -434,14 +434,24 @@ class oxidizing(Scene):
         tuyere2 = tuyere.copy().set_y(psconv.get_y()+0.5)
         self.play(Create(psconv))
         self.add(tuyere, tuyere2, psconv, psconv_basic_lining, psconv_interior, copper_slag, copper_blister)
-        self.play(FadeToColor(copper_slag, '#5e574e', run_time=4), FadeToColor(copper_blister, '#ce8946', run_time=4))
+        self.play(FadeToColor(copper_slag, '#5e574e', run_time=4), FadeToColor(copper_blister, cucolor, run_time=4))
 class refining(Scene):
     #ID: 10 (see doc for more info)
-    #01 - Anode Furnace
     #02 - Anode Casting Wheel
     #03 - Electrowinning (known as IsaKidd Technology for copper)
     def construct(self):
-        print('todo')
+        acwheel_base = Circle(2.2)
+        acwheel_gsquare = Rectangle(WHITE, 0.7, 0.5)
+        nrect = 14
+        dist = 1.7
+        acwheel_indents = VGroup()
+        for i in range(nrect):
+            theta = (i/nrect)*2*PI
+            irect = acwheel_gsquare.copy().move_to(acwheel_base.get_center()).set_y(dist)
+            irect.rotate(theta, Z_AXIS, acwheel_base.get_center())
+            acwheel_indents.add(irect)
+        acwheel_base.set_x(acwheel_indents.get_x()-0.06) # no clue why I have to do this
+        self.add(acwheel_base, acwheel_indents)
 class alloying(Scene):
     #ID: 11 (see doc for more info)
     #01: Alloyer (just reuse the flash furnace tbh)

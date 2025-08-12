@@ -4,6 +4,7 @@
 from manim import *
 import numpy
 ccolor = ManimColor.from_hex('#b5a642') # c stands for chalcopyrite, this is the standard color we're using for all end products
+cucolor = ManimColor.from_hex('#ce8946')
 truck_head_points= [
     [2, 1, 0],
     [2, 2, 0],
