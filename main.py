@@ -440,7 +440,29 @@ class alloying(Scene):
 class annealing(Scene):
     #ID: 12 (see doc for more info)
     def construct(self):
-        print('todo')
+        from shared import conveyora
+        annealerpoints = [
+            [3, -1.5, 0],
+            [3, 1.5, 0],
+            [-3, 1.5, 0],
+            [-3, -1.5, 0]
+        ]
+        conveyor1 = conveyora.copy().set_x(-1.5).set_y(-1.34)
+        conveyor2 = conveyor1.copy().set_x(1.5).set_y(-1.34)
+        bronzeingotpoints = [
+            [-0.2, 0.2, 0],
+            [-0.25, -0.2, 0],
+            [0.25, -0.2, 0],
+            [0.2, 0.2, 0]
+        ]
+        bronzeingot = Polygon(*bronzeingotpoints, stroke_color="#CD7F32", fill_color="#CD7F32", fill_opacity=1).set_y(-1)
+        bi2= bronzeingot.copy().set_x(bronzeingot.get_x()+1)
+        annealingbox = Polygon(*annealerpoints, stroke_color="#999CA0", fill_color="#999CA0", fill_opacity=0.7)
+        annealer = Group(annealingbox, conveyor1, conveyor2)
+        annealingprocess = Group(annealer, bronzeingot, bi2)
+        self.play(Create(annealingprocess,run_time=2))
+        self.wait(3)
+
 
 # DEBUG ONLY
 #with tempconfig({"quality": "medium_quality", "disable_caching": True, "renderer": "opengl"}):
