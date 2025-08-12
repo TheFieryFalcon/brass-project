@@ -435,7 +435,7 @@ class refining(Scene):
         nrect = 14
         dist = 1.7
         acwheel_indents = VGroup()
-        acwheel_sindents = VGroup()
+        #acwheel_sindents = VGroup()
         pipe = Rectangle(WHITE, 0.5, 5, fill_color=GRAY_A, fill_opacity=1)
         cutter1 = Rectangle(WHITE, 0.4, 5).move_to([pipe.get_x()-0.3, pipe.get_y(), pipe.get_z()])
         pipeoutline = Difference(pipe, cutter1, color=WHITE, fill_opacity=1)
@@ -448,7 +448,7 @@ class refining(Scene):
             irect = acwheel_gsquare.copy().move_to(acwheel_base.get_center()).set_y(dist)
             irect.rotate(theta + 11/7*PI, Z_AXIS, acwheel_base.get_center())
             acwheel_indents.add(irect)
-            acwheel_sindents.add(irect)
+            #acwheel_sindents.add(irect)
         # old code (really terrible and caused MANY undiagnosable bugs)
         #for i in range(nrect):
             #iingot = ingot.copy()
