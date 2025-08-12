@@ -446,7 +446,15 @@ class alloying(Scene):
     #01: Alloyer (just reuse the flash furnace tbh)
     #02: Casting (we will use ingot casting because it's easier to animate)
     def construct(self):
-        print('todo')
+        alloyer_points=[
+            [0,3,0],
+            [0,0,0],
+            [3,0,0],
+            [3,2.75,0],
+            [3.25,3,0]
+        ]
+        alloyer=Polygon(*alloyer_points).set_color(BLUE)
+        self.add(alloyer)
 class annealing(Scene):
     #ID: 12 (see doc for more info)
     def construct(self):
