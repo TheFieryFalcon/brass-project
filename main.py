@@ -370,7 +370,7 @@ class smelting(Scene):
         ]
         furnaceex=Polygon(*furnace_ex_points,fill_color="#8e8e8e",stroke_color="#4f4f4f",stroke_width=30).move_to([0,-1,0])
         furnaceint1=Rectangle(width=2.75,height=0.01).move_to([-0.1,-2.4,0]).set_color("#b82500",1)
-        furnaceint2=Rectangle(width=2.75,height=2.5).move_to([-0.1,-1.1,0]).set_color("#b82500",1)
+        furnaceint2=Rectangle(width=2.65,height=2.5).move_to([-0.12,-1.1,0]).set_color("#b82500",1)
         smelts=chalcopyriteslurry.copy().scale(0.8).add_updater(slurry_vupdater(-2.5, False, chalcopyriteslurry)).move_to([0, 10, 0])
         Tank=RoundedRectangle(height=2.5,width=1,corner_radius=0.5).move_to([-2.5,-1.5,0]).set_color("#969998",1)
         Pipe=Rectangle(width=1,height=0.5).move_to([-2,-2.5,0]).set_color("#969998",1)
@@ -460,15 +460,30 @@ class alloying(Scene):
     #02: Continuous Casting Apparatus
     #03: Animation
     def construct(self):
-        alloyer_points=[
-            [0,3,0],
-            [0,0,0],
-            [3,0,0],
-            [3,2.75,0],
-            [3.25,3,0]
+        crucible_points = [
+            [-3, 3, 0],
+            [-3, -3, 0],
+            [3, -3, 0],
+            [3, 3, 0],
+            [2, 3, 0],
+            [2, -2, 0],
+            [-2, -2, 0],
+            [-2, 3, 0]
         ]
-        alloyer=Polygon(*alloyer_points).set_color(BLUE)
-        self.add(alloyer)
+        alloyer=Polygon(*crucible_points).set_color(GREY,1).scale(0.5)
+        crucible_copper=alloyer.copy().set_color(BLUE,1).scale(0.5).move_to([1,0,0])
+        crucible_tin=crucible_copper.copy().set_color(RED,1).move_to([-1,0,0])
+        alloy_bronze1=Rectangle(width=2,height=0.5).set_color("#c1a57e",1).move_to([0,-1,0])
+        alloy_bronze2=alloy_bronze1.copy().next_to(alloy_bronze1,UP,buff=0)
+        alloy_copper=Rectangle(width=4,height=2.25).scale(0.25).move_to([1,-0.25,0]).set_color("#e2886e",1)
+        alloy_tin=alloy_copper.copy().move_to([-1,-0.25,0]).set_color("#7b7074",1)
+        Tin=Group(alloy_tin,crucible_tin).move_to([2.5,2,0])
+        Copper=Group(alloy_copper,crucible_copper).move_to([-2.5,2,0])
+        self.add(alloyer,Tin,Copper)
+        self.play(Rotate(Tin,angle=PI*90/180),Rotate(Copper,angle=PI*-90/180))
+        #move crucibles so animation works
+        #self.wait(0.125)
+        self.play(Transform(alloy_tin,alloy_bronze1),Transform(alloy_copper,alloy_bronze2))
 class annealing(Scene):
     #ID: 12 (see doc for more info)
     def construct(self):
