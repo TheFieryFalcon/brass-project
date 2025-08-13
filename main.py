@@ -8,7 +8,7 @@ def fade_out(scene: Scene):
     scene.play(*animations)
 class main(Scene):
     def construct(self):
-        scene_order = [crucible, ziggurat, stainless_steel_skyscraper, bighole, sorting, comminution, flotation, smelting, oxidizing, refining, alloying, annealing]
+        scene_order = [crucible, ziggurat, stainless_steel_skyscraper, bighole, sorting, comminution, flotation, smelting, oxidizing, refining, electrorefining, alloying, annealing]
         for scene in scene_order:
             iscene = scene()
             iscene.construct()
@@ -427,7 +427,7 @@ class oxidizing(Scene):
 class refining(Scene):
     #ID: 10 (see doc for more info)
     #02 - Anode Casting Wheel
-    #03 - Electrowinning (known as IsaKidd Technology for copper)
+    #03 - Electrowinning (known as IsaKidd Technology for copper) (split into another scene)
     def construct(self):
         from shared import cucolor
         acwheel_base = Circle(2.2, color=GRAY, fill_opacity=1).set_x(-4)
@@ -495,6 +495,21 @@ class refining(Scene):
             self.play(MoveAlongPath(iingot, pipepath))
             self.play(ReplacementTransform(acwheel_indents[i], acwheel_indents[i].copy().set_color(cucolor)), FadeOut(iingot))
             self.play(Rotate(acwheel_indents, -1/7*PI, about_point=acwheel_base.get_center(), rate_func=rate_functions.linear))
+class electrorefining(Scene):
+    def construct(self):
+        from shared import cucolor
+        nfins = 20
+        starter_base = Rectangle(YELLOW, 1, 4, stroke_width=10)
+        cutter1 = starter_base.copy().set_y(-0.55).set_color(BLUE)
+        starter_base = Difference(starter_base, cutter1, color=YELLOW)
+        genfin = Rectangle(cucolor, 2, 0.1, fill_opacity=1).set_y(-0.55).set_x(-1.9)
+        fins = VGroup()
+        for i in range(nfins):
+            ifin = genfin.copy()
+            fins.add(ifin)
+        print(f'there are {len(fins)} fins in the group')
+        fins.arrange(buff=0.1).set_y(-0.55)
+        self.add(starter_base, fins, cutter1)
 class alloying(Scene):
     #ID: 11 (see doc for more info)
     #01: Alloyer (just reuse the flash furnace tbh)
