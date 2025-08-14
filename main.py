@@ -538,23 +538,63 @@ class alloying(Scene):
     #03: Animation
     def construct(self):
         from shared import crucible_points
+        Alloy_pourer_points=[
+            [0,2,0],
+            [1,2,0],
+            [1,0,0],
+            [1+pow(2,0.5),pow(2,0.5),0],
+            [1+pow(2,0.5)+pow(0.5,0.5),pow(2,0.5)-pow(0.5,0.5),0],
+            [1+pow(0.5,0.5),-pow(0.5,0.5),0],
+            [3+pow(0.5,0.5),-pow(0.5,0.5),0],
+            [3+pow(0.5,0.5),-1-pow(0.5,0.5),0],
+            [1+pow(0.5,0.5),-1-pow(0.5,0.5),0],
+            [1+pow(2,0.5)+pow(0.5,0.5),-1-pow(2,0.5)-pow(0.5,0.5),0],
+            [1+pow(2,0.5),-1-pow(2,0.5)-2*pow(0.5,0.5),0],
+            [1,-1-2*pow(0.5,0.5),0],
+            [1,-3-2*pow(0.5,0.5),0],
+            [0,-3-2*pow(0.5,0.5),0],
+            [0,-1-2*pow(0.5,0.5),0],
+            [-pow(2,0.5),-1-2*pow(0.5,0.5)-pow(2,0.5),0],
+            [-pow(2,0.5)-pow(0.5,0.5),-1-pow(0.5,0.5)-pow(2,0.5),0],
+            [-pow(0.5,0.5),-1-pow(0.5,0.5),0],
+            [-2-pow(0.5,0.5),-1-pow(0.5,0.5),0],
+            [-2-pow(0.5,0.5),-pow(0.5,0.5),0],
+            [-pow(0.5,0.5),-pow(0.5,0.5),0],
+            [-pow(2,0.5)-pow(0.5,0.5),-pow(0.5,0.5)+pow(2,0.5),0],
+            [-pow(2,0.5),pow(2,0.5),0],
+            [0,0,0],
+        ]
         alloyer=Polygon(*crucible_points).set_color(GREY,1).scale(0.5)
-        crucible_copper=alloyer.copy().set_color(BLUE,1).scale(0.5).move_to([1,0,0])
-        crucible_tin=crucible_copper.copy().set_color(RED,1).move_to([-1,0,0])
-        alloy_bronze1=Rectangle(width=2,height=0.5).set_color("#c1a57e",1).move_to([0,-0.75,0])
+        crucible_copper=alloyer.copy().set_color(GREY,1).scale(0.5).move_to([1,0,0])
+        crucible_tin=crucible_copper.copy().set_color(GREY,1).move_to([-1,0,0])
+        alloy_bronze1=Rectangle(width=2,height=0.5).set_color("#ce8946",1).move_to([0,-0.75,0])
         alloy_bronze2=alloy_bronze1.copy().next_to(alloy_bronze1,UP,buff=0)
-        alloy_copper=Rectangle(width=4,height=2.25).scale(0.25).move_to([1,-0.25,0]).set_color("#e2886e",1)
-        alloy_tin=alloy_copper.copy().move_to([-1,-0.25,0]).set_color("#7b7074",1)
-        bronze_pour=Rectangle(width=0.25,height=0.05).move_to([0,-1.4,0]).set_fill("#c1a57e",1).set_stroke("#000000")
+        alloy_copper=Rectangle(width=4,height=2.25).scale(0.25).move_to([1,-0.25,0]).set_color("#d37854",1)
+        alloy_tin=alloy_copper.copy().move_to([-1,-0.25,0]).set_color("#d5d5d5",1)
+        bronze_pour=Rectangle(width=0.25,height=0.05).move_to([0,-1.4,0]).set_fill("#ce8946",1).set_stroke("#000000")
         tin=Group(alloy_tin,crucible_tin).move_to([2.5,2,0])
         copper=Group(alloy_copper,crucible_copper).move_to([-2.5,2,0])
-        self.add(bronze_pour,alloyer,tin,copper)
+        Alloy_pourer=Polygon(*Alloy_pourer_points).set_fill(WHITE,1).set_stroke(DARK_GREY).scale(0.5).move_to([0,-6,0])
+        Cast_Funnel=Triangle(width=3,height=1.5).rotate(angle=PI*180/180).set_fill(WHITE,1).set_stroke(DARK_GREY).move_to([0,-6,0])
+        Caster=Group(Cast_Funnel,Alloy_pourer)
+        self.add(bronze_pour,alloyer,tin,copper,Alloy_pourer)
         self.play(tin.animate.move_to([2.5,3,0]),copper.animate.move_to([-2.5,3,0]))
         self.play(tin.animate.move_to([1.5,3,0]),copper.animate.move_to([-1.5,3,0]))
         self.play(Rotate(tin,angle=PI*135/180),Rotate(copper,angle=PI*-135/180))
         self.play(Transform(alloy_tin,alloy_bronze1),Transform(alloy_copper,alloy_bronze2))
-        self.play(bronze_pour.animate.stretch_to_fit_height(5).shift(DOWN*2))
-        self.wait(2)
+        alloy_bronze=Group(alloy_bronze1,alloy_bronze2)
+        self.play(bronze_pour.animate.stretch_to_fit_height(6).shift(DOWN*2))
+        self.play(alloyer.animate.move_to([0,6,0]),
+                  crucible_copper.animate.move_to([-1.5,9,0]),
+                  crucible_tin.animate.move_to([1.5,9,0]),
+                  alloy_bronze.animate.move_to([0,5.25,0]),
+                  alloy_tin.animate.move_to([0,5.25,0]),
+                  alloy_copper.animate.move_to([0,4.75,0]),
+                  bronze_pour.animate.move_to([0,2.6,0]),
+                  Caster.animate.move_to([0,0,0]))
+        
+        self.play(Rotate(Alloy_pourer,angle=PI*360/180,run_time=6,rate_func=linear))
+
 class annealing(Scene):
     #ID: 12 (see doc for more info)
     def construct(self):
