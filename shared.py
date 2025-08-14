@@ -99,5 +99,14 @@ def slurry_hupdater(spos, vx, vy, trgx, trgy, mobject:PMobject):
 
     return actual_updater2
 chalcopyriteslurry = DotCloud(radius=1.5, density=15, color=ccolor)
-
+crucible_points = [
+    [-3, 3, 0],
+    [-3, -3, 0],
+    [3, -3, 0],
+    [3, 3, 0],
+    [2, 3, 0],
+    [2, -2, 0],
+    [-2, -2, 0],
+    [-2, 3, 0]
+]
      

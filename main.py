@@ -497,35 +497,47 @@ class refining(Scene):
             self.play(Rotate(acwheel_indents, -1/7*PI, about_point=acwheel_base.get_center(), rate_func=rate_functions.linear))
 class electrorefining(Scene):
     def construct(self):
-        from shared import cucolor
+        from shared import cucolor, crucible_points
         nfins = 20
-        starter_base = Rectangle(YELLOW, 1, 4, stroke_width=10)
+        starter_base = Rectangle(YELLOW, 1, 4, stroke_width=20)
         cutter1 = starter_base.copy().set_y(-0.55).set_color(BLUE)
-        starter_base = Difference(starter_base, cutter1, color=YELLOW)
-        genfin = Rectangle(cucolor, 2, 0.1, fill_opacity=1).set_y(-0.55).set_x(-1.9)
+        crane = Difference(starter_base, cutter1, color=YELLOW, fill_opacity=0.5)
+        genfin = Rectangle(cucolor, 2, 0.05, fill_opacity=1).set_y(-0.55).set_x(-1.9)
+        tub = Polygon(*crucible_points, color=WHITE, fill_opacity=1).scale(0.5).stretch(2, 0).set_y(-3)
+        solvent = Rectangle(ManimColor('#141ad9', 0.4), 2, 4, fill_opacity=0.8, opacity=0.4).set_y(-3)
         fins = VGroup()
+        mgroup = VGroup(crane)
+        cgroup = VGroup(tub, solvent)
+        path1 = Line(crane.get_center(), solvent.get_center())
+        path2 = Line(solvent.get_center(), [crane.get_x() - 4, crane.get_y() + 1, 0])
+        path3 = VMobject().set_points_as_corners(points=[[crane.get_x() - 4, crane.get_y(), 0], crane.get_center(), solvent.get_center()])
+        cheatingpath = Line(solvent.get_center(), [solvent.get_x() - 0.075, solvent.get_y(), 0])
         for i in range(nfins):
             ifin = genfin.copy()
             fins.add(ifin)
-        print(f'there are {len(fins)} fins in the group')
-        fins.arrange(buff=0.1).set_y(-0.55)
-        self.add(starter_base, fins, cutter1)
+        fins.arrange(buff=0.15).set_y(-0.55)
+        anode_fins = fins.copy().set_x(fins.get_x()-4).set_y(fins.get_y()+1).set_color("#8e5f30")
+        self.add(crane, solvent, fins, anode_fins, tub)
+        mgroup.add(fins)
+        self.wait(1)
+        self.play(MoveAlongPath(mgroup, path1, rate_func=rate_functions.ease_in_out_quad))
+        mgroup.remove(fins)
+        self.add(fins)
+        cgroup.add(fins)
+        self.play(MoveAlongPath(mgroup, path2, rate_func=rate_functions.ease_in_out_quad), MoveAlongPath(cgroup, cheatingpath))
+        mgroup.add(anode_fins)
+        self.play(MoveAlongPath(mgroup, path3, rate_func=rate_functions.ease_in_out_quad), run_time=2)
+        mgroup.remove(anode_fins)
+        self.add(anode_fins)
+        self.play(crane.animate.set_y(0))
+        self.wait(3)
 class alloying(Scene):
     #ID: 11 (see doc for more info)
     #01: Alloyer (just reuse the flash furnace tbh)
     #02: Continuous Casting Apparatus
     #03: Animation
     def construct(self):
-        crucible_points = [
-            [-3, 3, 0],
-            [-3, -3, 0],
-            [3, -3, 0],
-            [3, 3, 0],
-            [2, 3, 0],
-            [2, -2, 0],
-            [-2, -2, 0],
-            [-2, 3, 0]
-        ]
+        from shared import crucible_points
         alloyer=Polygon(*crucible_points).set_color(GREY,1).scale(0.5)
         crucible_copper=alloyer.copy().set_color(BLUE,1).scale(0.5).move_to([1,0,0])
         crucible_tin=crucible_copper.copy().set_color(RED,1).move_to([-1,0,0])
