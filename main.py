@@ -626,10 +626,8 @@ class annealing(Scene):
         annealingprocess = Group(annealer, bronze, conveyor3, conveyor4)
         self.play(Create(annealingprocess,run_time=1.5))
         self.play(FadeToColor(bronze, color="#b82928", run_time=1))
-        self.wait(1)
         self.play(FadeToColor(bronze, color="#CD7F32", run_time=1))
-        self.wait(0.25)
-        self.play(bronze.animate.move_to([10, -0.95, 0]), run_time=0.25)
+        self.play(bronze.animate.move_to([10, -0.95, 0]), run_time=1)
         self.wait(3)
 
 
