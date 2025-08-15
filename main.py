@@ -606,18 +606,30 @@ class annealing(Scene):
         ]
         conveyor1 = conveyora.copy().set_x(-1.5).set_y(-1.34)
         conveyor2 = conveyor1.copy().set_x(1.5).set_y(-1.34)
+        conveyor3 = conveyor2.copy().set_x(4.5).set_y(-1.34)
+        conveyor4 = conveyor3.copy().set_x(7.5).set_y(-1.34)
         bronzeingotpoints = [
             [-0.2, 0.2, 0],
-            [-0.25, -0.2, 0],
-            [0.25, -0.2, 0],
+            [-0.35, -0.2, 0],
+            [0.35, -0.2, 0],
             [0.2, 0.2, 0]
         ]
-        bronzeingot = Polygon(*bronzeingotpoints, stroke_color="#CD7F32", fill_color="#CD7F32", fill_opacity=1).set_y(-1)
-        bi2= bronzeingot.copy().set_x(bronzeingot.get_x()+1)
+        bronzeingot = Polygon(*bronzeingotpoints, stroke_color="#CD7F32", fill_color="#CD7F32", fill_opacity=1).set_x(-2.5).set_y(-0.95)
+        bi2 = bronzeingot.copy().set_x(bronzeingot.get_x()+1)
+        bi3 = bi2.copy().set_x(bi2.get_x()+1)
+        bi4 = bi3.copy().set_x(bi3.get_x()+1)
+        bi5 = bi4.copy().set_x(bi4.get_x()+1)
+        bi6 = bi5.copy().set_x(bi5.get_x()+1)
         annealingbox = Polygon(*annealerpoints, stroke_color="#999CA0", fill_color="#999CA0", fill_opacity=0.7)
         annealer = Group(annealingbox, conveyor1, conveyor2)
-        annealingprocess = Group(annealer, bronzeingot, bi2)
-        self.play(Create(annealingprocess,run_time=2))
+        bronze = Group(bronzeingot, bi2, bi3, bi4, bi5, bi6)
+        annealingprocess = Group(annealer, bronze, conveyor3, conveyor4)
+        self.play(Create(annealingprocess,run_time=1.5))
+        self.play(FadeToColor(bronze, color="#b82928", run_time=1))
+        self.wait(1)
+        self.play(FadeToColor(bronze, color="#CD7F32", run_time=1))
+        self.wait(0.25)
+        self.play(bronze.animate.move_to([10, -0.95, 0]), run_time=0.25)
         self.wait(3)
 
 
