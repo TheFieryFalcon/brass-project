@@ -582,7 +582,8 @@ class alloying(Scene):
         alloy_pourer=Polygon(*alloy_pourer_points).set_fill(WHITE,1).set_stroke(DARK_GREY).scale(0.5).move_to([0,-6,0])
         cast_funnel=Triangle(width=3,height=1.5).rotate(angle=PI*180/180).set_fill(WHITE,1).set_stroke(DARK_GREY).move_to([0,-6,0])
         caster=Group(cast_funnel,alloy_pourer)
-        conveyor1=conveyora.copy().move_to([0,-8.1,0]).scale(2.2)
+        # please add a tundish for accuracy (see https://en.wikipedia.org/wiki/Continuous_casting#/media/File:Continuous_casting_(Tundish_and_Mold)-2_NT.PNG)
+        #conveyor1=conveyora.copy().move_to([0,-8.1,0]).scale(2.2) please note continuous casting DOES NOT use conveyors, it uses a bunch of rollers instead
         ingot_cast=Polygon(*ingot_cast_points).rotate(angle=PI*180/180).set_color(GREY,1)
         Bronze_Ingot=ingot_cast.copy().set_color("#cd7f32",1)
         cast_placex=-3
@@ -599,7 +600,7 @@ class alloying(Scene):
             self.add(iingot_cast)
             cast_place=cast_place+1
         
-        self.add(bronze_pour,alloyer,tin,copper,alloy_pourer,conveyor1)
+        self.add(bronze_pour,alloyer,tin,copper,alloy_pourer)
         self.play(tin.animate.move_to([2.5,3,0]),copper.animate.move_to([-2.5,3,0]))
         self.play(tin.animate.move_to([1.5,3,0]),copper.animate.move_to([-1.5,3,0]))
         self.play(Rotate(tin,angle=PI*135/180),Rotate(copper,angle=PI*-135/180))
@@ -614,7 +615,6 @@ class alloying(Scene):
                   alloy_copper.animate.move_to([0,4.75,0]),
                   bronze_pour.animate.move_to([0,2.6,0]),
                   caster.animate.move_to([0,0,0]),
-                  conveyor1.animate.move_to([0,-2.1,0]),
                   )
         self.play(Rotate(alloy_pourer,angle=PI*360/180,run_time=6,rate_func=linear))
 
