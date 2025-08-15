@@ -1,5 +1,4 @@
 from manim import *
-import numpy
 # manim -pql [file] [method]
 def fade_out(scene: Scene):
     animations = []
