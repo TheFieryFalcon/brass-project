@@ -537,7 +537,7 @@ class alloying(Scene):
     #03: Animation
     def construct(self):
         from shared import crucible_points,conveyora
-        Alloy_pourer_points=[
+        alloy_pourer_points=[
             [0,2,0],
             [1,2,0],
             [1,0,0],
@@ -563,7 +563,7 @@ class alloying(Scene):
             [-pow(2,0.5),pow(2,0.5),0],
             [0,0,0],
         ]
-        Ingot_cast_points=[
+        ingot_cast_points=[
             [-0.2,0.2,0],
             [-0.35,-0.2,0],
             [0.35,-0.2,0],
@@ -579,27 +579,27 @@ class alloying(Scene):
         bronze_pour=Rectangle(width=0.25,height=0.05).move_to([0,-1.4,0]).set_fill("#ce8946",1).set_stroke("#000000")
         tin=Group(alloy_tin,crucible_tin).move_to([2.5,2,0])
         copper=Group(alloy_copper,crucible_copper).move_to([-2.5,2,0])
-        Alloy_pourer=Polygon(*Alloy_pourer_points).set_fill(WHITE,1).set_stroke(DARK_GREY).scale(0.5).move_to([0,-6,0])
-        Cast_Funnel=Triangle(width=3,height=1.5).rotate(angle=PI*180/180).set_fill(WHITE,1).set_stroke(DARK_GREY).move_to([0,-6,0])
-        Caster=Group(Cast_Funnel,Alloy_pourer)
-        Conveyor1=conveyora.copy().move_to([0,-8.1,0]).scale(2.2)
-        Ingot_cast=Polygon(*Ingot_cast_points).rotate(angle=PI*180/180).set_color(GREY,1)
-        Bronze_Ingot=Ingot_cast.copy().set_color("#cd7f32",1)
+        alloy_pourer=Polygon(*alloy_pourer_points).set_fill(WHITE,1).set_stroke(DARK_GREY).scale(0.5).move_to([0,-6,0])
+        cast_funnel=Triangle(width=3,height=1.5).rotate(angle=PI*180/180).set_fill(WHITE,1).set_stroke(DARK_GREY).move_to([0,-6,0])
+        caster=Group(cast_funnel,alloy_pourer)
+        conveyor1=conveyora.copy().move_to([0,-8.1,0]).scale(2.2)
+        ingot_cast=Polygon(*ingot_cast_points).rotate(angle=PI*180/180).set_color(GREY,1)
+        Bronze_Ingot=ingot_cast.copy().set_color("#cd7f32",1)
         cast_placex=-3
         cast_placey1=-1.55
         cast_placey2=-2.65
         for i in range(7):
-            iIngot_cast=Ingot_cast.copy().move_to([cast_place,-7.55,0])
-            self.add(iIngot_cast)
+            iingot_cast=ingot_cast.copy().move_to([cast_place,-7.55,0])
+            self.add(iingot_cast)
             cast_place=cast_place+1
         cast_place=-3
-        Ingot_cast.rotate(angle=PI*180/180)
+        ingot_cast.rotate(angle=PI*180/180)
         for i in range(7):
-            iIngot_cast=Ingot_cast.copy().move_to([cast_place,-8.65,0])
-            self.add(iIngot_cast)
+            iingot_cast=ingot_cast.copy().move_to([cast_place,-8.65,0])
+            self.add(iingot_cast)
             cast_place=cast_place+1
         
-        self.add(bronze_pour,alloyer,tin,copper,Alloy_pourer,Conveyor1)
+        self.add(bronze_pour,alloyer,tin,copper,alloy_pourer,conveyor1)
         self.play(tin.animate.move_to([2.5,3,0]),copper.animate.move_to([-2.5,3,0]))
         self.play(tin.animate.move_to([1.5,3,0]),copper.animate.move_to([-1.5,3,0]))
         self.play(Rotate(tin,angle=PI*135/180),Rotate(copper,angle=PI*-135/180))
@@ -613,10 +613,10 @@ class alloying(Scene):
                   alloy_tin.animate.move_to([0,5.25,0]),
                   alloy_copper.animate.move_to([0,4.75,0]),
                   bronze_pour.animate.move_to([0,2.6,0]),
-                  Caster.animate.move_to([0,0,0]),
-                  Conveyor1.animate.move_to([0,-2.1,0]),
+                  caster.animate.move_to([0,0,0]),
+                  conveyor1.animate.move_to([0,-2.1,0]),
                   )
-        self.play(Rotate(Alloy_pourer,angle=PI*360/180,run_time=6,rate_func=linear))
+        self.play(Rotate(alloy_pourer,angle=PI*360/180,run_time=6,rate_func=linear))
 
         #self.add()
         self.wait(2)
