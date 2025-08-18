@@ -582,25 +582,40 @@ class alloying(Scene):
         alloy_pourer=Polygon(*alloy_pourer_points).set_fill(WHITE,1).set_stroke(DARK_GREY).scale(0.5).move_to([0,-6,0])
         cast_funnel=Triangle(width=3,height=1.5).rotate(angle=PI*180/180).set_fill(WHITE,1).set_stroke(DARK_GREY).move_to([0,-6,0])
         caster=Group(cast_funnel,alloy_pourer)
-        # please add a tundish for accuracy (see https://en.wikipedia.org/wiki/Continuous_casting#/media/File:Continuous_casting_(Tundish_and_Mold)-2_NT.PNG)
-        #conveyor1=conveyora.copy().move_to([0,-8.1,0]).scale(2.2) please note continuous casting DOES NOT use conveyors, it uses a bunch of rollers instead
-        ingot_cast=Polygon(*ingot_cast_points).rotate(angle=PI*180/180).set_color(GREY,1)
-        Bronze_Ingot=ingot_cast.copy().set_color("#cd7f32",1)
-        cast_placex=-3
-        cast_placey1=-1.55
-        cast_placey2=-2.65
-        for i in range(7):
-            iingot_cast=ingot_cast.copy().move_to([cast_place,-7.55,0])
-            self.add(iingot_cast)
-            cast_place=cast_place+1
-        cast_place=-3
-        ingot_cast.rotate(angle=PI*180/180)
-        for i in range(7):
-            iingot_cast=ingot_cast.copy().move_to([cast_place,-8.65,0])
-            self.add(iingot_cast)
-            cast_place=cast_place+1
-        
-        self.add(bronze_pour,alloyer,tin,copper,alloy_pourer)
+        conveyor1=conveyora.copy().move_to([0,-8.1,0]).scale(2.2)
+        conveyor2=conveyor1.copy().move_to([5.55,-9.55,0])
+        ingot_cast0=Polygon(*ingot_cast_points).rotate(angle=PI*180/180).set_color(GREY,1).move_to([-3,-7.55,0])
+        ingot_cast1=ingot_cast0.copy().move_to([-2,-7.55,0])
+        ingot_cast2=ingot_cast0.copy().move_to([-1,-7.55,0])
+        ingot_cast3=ingot_cast0.copy().move_to([0,-7.55,0])
+        ingot_cast4=ingot_cast0.copy().move_to([1,-7.55,0])
+        ingot_cast5=ingot_cast0.copy().move_to([2,-7.55,0])
+        ingot_cast6=ingot_cast0.copy().move_to([3,-7.55,0])
+        ingot_cast7=ingot_cast0.copy().move_to([-3,-8.65,0]).rotate(angle=PI*180/180)
+        ingot_cast8=ingot_cast7.copy().move_to([-2,-8.65,0])
+        ingot_cast9=ingot_cast7.copy().move_to([-1,-8.65,0])
+        ingot_cast10=ingot_cast7.copy().move_to([0,-8.65,0])
+        ingot_cast11=ingot_cast7.copy().move_to([1,-8.65,0])
+        ingot_cast12=ingot_cast7.copy().move_to([2,-8.65,0])
+        ingot_cast13=ingot_cast7.copy().move_to([3,-8.65,0])
+        ingot_cast14=ingot_cast7.copy().move_to([3.55,-8.1,0]).rotate(angle=PI*90/180)
+        ingot_cast15=ingot_cast7.copy().move_to([-3.55,-8.1,0]).rotate(angle=PI*270/180)
+        path0=Line(start=[0,0,0],end=[1,0,0]).move_to([-2.5,-1.55,0])
+        path00=Line(start=[1,0,0],end=[0,0,0]).move_to([-2.5,-2.65,0])
+        path=Line(start=[0,0,0],end=[4,0,0]).move_to([5.55,-3,0])
+        path1=path0.copy().move_to([-1.5,-1.55,0])
+        path2=path0.copy().move_to([-0.5,-1.55,0])
+        path3=path0.copy().move_to([0.5,-1.55,0])
+        path4=path0.copy().move_to([1.5,-1.55,0])
+        path5=path0.copy().move_to([2.5,-1.55,0])
+        path8=path00.copy().move_to([-2.5,-2.65,0])
+        path9=path00.copy().move_to([-1.5,-2.65,0])
+        path10=path00.copy().move_to([-0.5,-2.65,0])
+        path11=path00.copy().move_to([0.5,-2.65,0])
+        path12=path00.copy().move_to([1.5,-2.65,0])
+        path13=path00.copy().move_to([2.5,-2.65,0])
+        bronze_ingot=ingot_cast0.copy().set_color("#cd7f32",1).move_to([3.55,-8.1,0]).rotate(angle=PI*270/180)
+        self.add(bronze_pour,alloyer,tin,copper,alloy_pourer,conveyor1,conveyor2,bronze_ingot,caster,ingot_cast0,ingot_cast1,ingot_cast2,ingot_cast3,ingot_cast4,ingot_cast5,ingot_cast6,ingot_cast7,ingot_cast8,ingot_cast9,ingot_cast10,ingot_cast11,ingot_cast12,ingot_cast13,ingot_cast14,ingot_cast15)
         self.play(tin.animate.move_to([2.5,3,0]),copper.animate.move_to([-2.5,3,0]))
         self.play(tin.animate.move_to([1.5,3,0]),copper.animate.move_to([-1.5,3,0]))
         self.play(Rotate(tin,angle=PI*135/180),Rotate(copper,angle=PI*-135/180))
@@ -615,11 +630,50 @@ class alloying(Scene):
                   alloy_copper.animate.move_to([0,4.75,0]),
                   bronze_pour.animate.move_to([0,2.6,0]),
                   caster.animate.move_to([0,0,0]),
+                  conveyor1.animate.move_to([0,-2.1,0]),
+                  ingot_cast0.animate.move_to([-3,-1.55,0]),
+                  ingot_cast1.animate.move_to([-2,-1.55,0]),
+                  ingot_cast2.animate.move_to([-1,-1.55,0]),
+                  ingot_cast3.animate.move_to([0,-1.55,0]),
+                  ingot_cast4.animate.move_to([1,-1.55,0]),
+                  ingot_cast5.animate.move_to([2,-1.55,0]),
+                  ingot_cast6.animate.move_to([3,-1.55,0]),
+                  ingot_cast7.animate.move_to([-3,-2.65,0]),
+                  ingot_cast8.animate.move_to([-2,-2.65,0]),
+                  ingot_cast9.animate.move_to([-1,-2.65,0]),
+                  ingot_cast10.animate.move_to([0,-2.65,0]),
+                  ingot_cast11.animate.move_to([1,-2.65,0]),
+                  ingot_cast12.animate.move_to([2,-2.65,0]),
+                  ingot_cast13.animate.move_to([3,-2.65,0]),
+                  ingot_cast14.animate.move_to([3.55,-2.1,0]),
+                  ingot_cast15.animate.move_to([-3.55,-2.1,0]),
+                  bronze_ingot.animate.move_to([3.55,-2.1,0]),
+                  conveyor2.animate.move_to([5.55,-3.55,0])
                   )
-        self.play(Rotate(alloy_pourer,angle=PI*360/180,run_time=6,rate_func=linear))
-
-        #self.add()
-        self.wait(2)
+        conveyorspeed=2.5
+        for i in range(3): #the number in the range() is the amount of repeats
+            self.play(MoveAlongPath(ingot_cast0,path0,run_time=conveyorspeed),MoveAlongPath(ingot_cast1,path1,run_time=conveyorspeed),MoveAlongPath(ingot_cast2,path2,run_time=conveyorspeed),MoveAlongPath(ingot_cast3,path3,run_time=conveyorspeed),MoveAlongPath(ingot_cast4,path4,run_time=conveyorspeed),MoveAlongPath(ingot_cast5,path5,run_time=conveyorspeed),MoveAlongPath(ingot_cast8,path8,run_time=conveyorspeed),MoveAlongPath(ingot_cast9,path9,run_time=conveyorspeed),MoveAlongPath(ingot_cast10,path10,run_time=conveyorspeed),MoveAlongPath(ingot_cast11,path11,run_time=conveyorspeed),MoveAlongPath(ingot_cast12,path12,run_time=conveyorspeed),MoveAlongPath(ingot_cast13,path13,run_time=conveyorspeed)
+                      ,Rotate(alloy_pourer,angle=PI*45/180,run_time=conveyorspeed,rate_func=linear),Rotate(ingot_cast6,angle=PI*-90/180,run_time=conveyorspeed,about_point=[3,-2.1,0]),Rotate(ingot_cast14,angle=PI*-90/180,run_time=conveyorspeed,about_point=[3,-2.1,0]),Rotate(ingot_cast7,angle=PI*-90/180,run_time=conveyorspeed,about_point=[-3,-2.1,0]),Rotate(ingot_cast15,angle=PI*-90/180,run_time=conveyorspeed,about_point=[-3,-2.1,0])
+                      ,bronze_ingot.animate.rotate(angle=PI*270/180).move_to([3.55,-3,0])
+                      ,rate_func=linear)
+            self.play(MoveAlongPath(bronze_ingot,path,runtime=conveyorspeed))
+            ingot_cast0.move_to([-3,-1.55,0])
+            ingot_cast1.move_to([-2,-1.55,0])
+            ingot_cast2.move_to([-1,-1.55,0])
+            ingot_cast3.move_to([0,-1.55,0])
+            ingot_cast4.move_to([1,-1.55,0])
+            ingot_cast5.move_to([2,-1.55,0])
+            ingot_cast6.rotate(angle=PI*90/180,about_point=[3,-2.1,0])
+            ingot_cast7.rotate(angle=PI*90/180,about_point=[-3,-2.1,0])
+            ingot_cast8.move_to([-3,-2.65,0])
+            ingot_cast9.move_to([-2,-2.65,0])
+            ingot_cast10.move_to([-1,-2.65,0])
+            ingot_cast11.move_to([0,-2.65,0])
+            ingot_cast12.move_to([1,-2.65,0])
+            ingot_cast13.move_to([2,-2.65,0])
+            ingot_cast14.rotate(angle=PI*90/180,about_point=[3,-2.1,0])
+            ingot_cast15.rotate(angle=PI*90/180,about_point=[-3,-2.1,0])
+            bronze_ingot.move_to([3.55,-2.1,0]).rotate(angle=PI*90/180)
 class annealing(Scene):
     #ID: 12 (see doc for more info)
     def construct(self):
