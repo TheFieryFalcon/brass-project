@@ -651,7 +651,7 @@ class alloying(Scene):
                   conveyor2.animate.move_to([5.55,-3.55,0])
                   )
         conveyorspeed=2.5
-        for i in range(3): #the number in the range() is the amount of repeats
+        for i in range(6): #the number in the range() is the amount of repeats
             self.play(MoveAlongPath(ingot_cast0,path0,run_time=conveyorspeed),MoveAlongPath(ingot_cast1,path1,run_time=conveyorspeed),MoveAlongPath(ingot_cast2,path2,run_time=conveyorspeed),MoveAlongPath(ingot_cast3,path3,run_time=conveyorspeed),MoveAlongPath(ingot_cast4,path4,run_time=conveyorspeed),MoveAlongPath(ingot_cast5,path5,run_time=conveyorspeed),MoveAlongPath(ingot_cast8,path8,run_time=conveyorspeed),MoveAlongPath(ingot_cast9,path9,run_time=conveyorspeed),MoveAlongPath(ingot_cast10,path10,run_time=conveyorspeed),MoveAlongPath(ingot_cast11,path11,run_time=conveyorspeed),MoveAlongPath(ingot_cast12,path12,run_time=conveyorspeed),MoveAlongPath(ingot_cast13,path13,run_time=conveyorspeed)
                       ,Rotate(alloy_pourer,angle=PI*45/180,run_time=conveyorspeed,rate_func=linear),Rotate(ingot_cast6,angle=PI*-90/180,run_time=conveyorspeed,about_point=[3,-2.1,0]),Rotate(ingot_cast14,angle=PI*-90/180,run_time=conveyorspeed,about_point=[3,-2.1,0]),Rotate(ingot_cast7,angle=PI*-90/180,run_time=conveyorspeed,about_point=[-3,-2.1,0]),Rotate(ingot_cast15,angle=PI*-90/180,run_time=conveyorspeed,about_point=[-3,-2.1,0])
                       ,bronze_ingot.animate.rotate(angle=PI*270/180).move_to([3.55,-3,0])
