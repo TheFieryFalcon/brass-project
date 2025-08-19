@@ -31,7 +31,6 @@ class crucible(Scene):
         tin_fill_in = Rectangle(LIGHT_GRAY, 0.3, 3.2, fill_color=LIGHT_GRAY, fill_opacity=1).next_to(copper_fill, UP, buff=0)
         self.play(Create(shcrucible_copper), Create(shcrucible_tin), Create(copper_fill), Create(tin_fill))
         crucible_tin = Group(shcrucible_tin, tin_fill)
-        self.wait(3)
         self.play(crucible_tin.animate.move_to([shcrucible_tin.get_x()-1, 4, 0]))
         self.play(Rotate(crucible_tin, PI*0.5, Z_AXIS, shcrucible_tin.get_center(), rate_func=linear))
         self.play(ReplacementTransform(tin_fill, tin_fill_in))
@@ -349,11 +348,11 @@ class flotation(Scene):
         conveyor2=conveyor1.copy().move_to([5,-1,0])
         self.play(Create(water),Create(flotation),Create(agitator),Create(conveyor1),Create(conveyor2))
         self.add(hmoving_copper_slurry, hmoving_gangue_slurry)
-        hmoving_copper_slurry.add_updater(slurry_hupdater([-5, -0.7, 0], 0.3, 0.2, 1.5, 2.5, hmoving_copper_slurry)) # feel free to tweak parameters as needed, definitions are in shared.py
-        hmoving_gangue_slurry.add_updater(slurry_hupdater([-5, -0.7, 0], 0.3, 0.2, 10, -0.5, hmoving_gangue_slurry))
+        hmoving_copper_slurry.add_updater(slurry_hupdater([-5, -0.7, 0], 0.1, 0.03, 1.5, 2.5, hmoving_copper_slurry)) # feel free to tweak parameters as needed, definitions are in shared.py
+        hmoving_gangue_slurry.add_updater(slurry_hupdater([-5, -0.7, 0], 0.1, 0.1, 10, -0.5, hmoving_gangue_slurry))
         #print(hmoving_copper_slurry.get_updaters())
         #print(hmoving_gangue_slurry.get_updaters())
-        self.play(Rotate(agitator,axis=[0,1,0],angle=720*PI/180,run_time=5, rate_func=rate_functions.ease_in_quad))
+        self.play(Rotate(agitator,axis=[0,1,0],angle=7200*PI/180,run_time=5, rate_func=rate_functions.ease_in_quad))
 class smelting(Scene):
     #ID: 08 (see doc for more info)
     #01 - The flash furnace
@@ -577,8 +576,8 @@ class alloying(Scene):
         alloy_copper=Rectangle(width=4,height=2.25).scale(0.25).move_to([1,-0.25,0]).set_color("#d37854",1)
         alloy_tin=alloy_copper.copy().move_to([-1,-0.25,0]).set_color("#d5d5d5",1)
         bronze_pour=Rectangle(width=0.25,height=0.05).move_to([0,-1.4,0]).set_fill("#ce8946",1).set_stroke("#000000")
-        tin=Group(alloy_tin,crucible_tin).move_to([2.5,2,0])
-        copper=Group(alloy_copper,crucible_copper).move_to([-2.5,2,0])
+        tin=Group(alloy_tin,crucible_tin).move_to([1.5,3,0])
+        copper=Group(alloy_copper,crucible_copper).move_to([-1.5,3,0])
         alloy_pourer=Polygon(*alloy_pourer_points).set_fill(WHITE,1).set_stroke(DARK_GREY).scale(0.5).move_to([0,-6,0])
         cast_funnel=Triangle(width=3,height=1.5).rotate(angle=PI*180/180).set_fill(WHITE,1).set_stroke(DARK_GREY).move_to([0,-6,0])
         caster=Group(cast_funnel,alloy_pourer)
@@ -616,8 +615,6 @@ class alloying(Scene):
         path13=path00.copy().move_to([2.5,-2.65,0])
         bronze_ingot=ingot_cast0.copy().set_color("#cd7f32",1).move_to([3.55,-8.1,0]).rotate(angle=PI*270/180)
         self.add(bronze_pour,alloyer,tin,copper,alloy_pourer,conveyor1,conveyor2,bronze_ingot,caster,ingot_cast0,ingot_cast1,ingot_cast2,ingot_cast3,ingot_cast4,ingot_cast5,ingot_cast6,ingot_cast7,ingot_cast8,ingot_cast9,ingot_cast10,ingot_cast11,ingot_cast12,ingot_cast13,ingot_cast14,ingot_cast15)
-        self.play(tin.animate.move_to([2.5,3,0]),copper.animate.move_to([-2.5,3,0]), run_time=0.5)
-        self.play(tin.animate.move_to([1.5,3,0]),copper.animate.move_to([-1.5,3,0]), run_time=0.5)
         self.play(Rotate(tin,angle=PI*135/180, run_time=0.75),Rotate(copper,angle=PI*-135/180, run_time=0.75))
         self.play(Transform(alloy_tin,alloy_bronze1),Transform(alloy_copper,alloy_bronze2))
         alloy_bronze=Group(alloy_bronze1,alloy_bronze2)
